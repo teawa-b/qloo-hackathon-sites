@@ -11,7 +11,7 @@ Four small apps built on [Qloo](https://www.qloo.com)'s taste graph for the [Qlo
 | **Roomful** | Name a few things you love and walk into the room they make, with the music on | `/?demo=rain` | [docs/roomful.md](docs/roomful.md) |
 | **SmallTalk** | It hears what the other person mentions and tells you what to say next, on a phone, display glasses or a Quest headset | `/?demo=sample` | [docs/smalltalk.md](docs/smalltalk.md) |
 
-Each app has a short explainer video, built from real captures of the app: [Pitchprep](docs/video/pitchprep.mp4), [Openhere](docs/video/openhere.mp4), [Roomful](docs/video/roomful.mp4), [SmallTalk](docs/video/smalltalk.mp4).
+Each app has a short explainer video, built from real captures of the app: [Pitchprep](docs/video/pitchprep.mp4), [Openhere](docs/video/openhere.mp4), [Roomful](docs/video/roomful.mp4). SmallTalk is shown in a live demo on a Quest headset.
 
 Every app shows the same proof on screen: **with and without Qloo**. The same question goes to an LLM alone, and each of its picks is checked against what Qloo returned. Without Qloo, 0 of 8 picks hold up for the Openhere live-music room, 0 of 8 for the Roomful rain room, and 1 of 6 SmallTalk suggestions fit; for Pitchprep, an LLM alone names the three portfolio companies Qloo ranks lowest.
 

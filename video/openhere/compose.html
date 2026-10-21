@@ -5,62 +5,46 @@
 <title>Openhere explainer</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block">
 <style>
-  :root { --bg: #f4f5f7; --surface: #fff; --ink: #121418; --muted: #5a6070; --line: #e2e5eb; --accent: #1f4fff; --accent-soft: #e8edff; }
+  /* Openhere's film is cinematic: black, letterboxed, full-bleed footage, centred subtitles. */
+  :root { --accent: #3d6bff; --amber: #ffb547; }
   * { box-sizing: border-box; margin: 0; }
-  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); font-family: Outfit, system-ui, sans-serif; color: var(--ink); }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050608; font-family: Outfit, system-ui, sans-serif; color: #fff; }
   .layer { position: absolute; inset: 0; opacity: 0; }
-  .browser { position: absolute; left: 240px; top: 56px; width: 1440px; height: 838px; border-radius: 16px; background: #0d0f13; border: 1px solid var(--line); box-shadow: 0 2px 4px rgba(20,30,60,.06), 0 24px 64px rgba(20,30,60,.14); overflow: hidden; }
-  .bar { height: 28px; background: var(--surface); border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 14px; }
-  .bar span { flex: 1; height: 16px; max-width: 360px; margin: 0 auto; border-radius: 8px; background: var(--bg); font: 500 11px/16px 'JetBrains Mono', monospace; color: var(--muted); text-align: center; }
-  .viewport { position: absolute; left: 0; top: 28px; width: 1440px; height: 810px; overflow: hidden; }
+  .screen { position: absolute; left: 0; top: 70px; width: 1920px; height: 940px; overflow: hidden; background: #050608; }
+  .bar { position: absolute; left: 0; right: 0; height: 70px; background: #050608; z-index: 5; }
+  .bar.top { top: 0; } .bar.bot { bottom: 0; }
   .page { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
   .page img { display: block; width: 1440px; }
-  .spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 4000px rgba(8, 10, 14, .5), 0 0 0 3px var(--accent); pointer-events: none; opacity: 0; }
-  .caption { position: absolute; left: 240px; right: 240px; bottom: 54px; font-size: 52px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
-  .caption .w { display: inline-block; opacity: 0; transform: translateY(14px); margin-right: .24em; }
-  .caption .w.q { color: var(--accent); }
-  .card { display: grid; place-items: center; text-align: center; }
-  .card .inner { display: grid; justify-items: center; gap: 28px; }
-  .card img { width: 160px; height: 160px; border-radius: 36px; box-shadow: 0 24px 60px rgba(31,79,255,.25); }
-  .card h1 { font-size: 112px; font-weight: 700; letter-spacing: -0.045em; line-height: 1; }
+  .shade { position: absolute; inset: 0; background: radial-gradient(80% 80% at 50% 45%, transparent 40%, rgba(5,6,8,.55)); pointer-events: none; }
+  .ring { position: absolute; border: 3px solid var(--amber); border-radius: 18px; box-shadow: 0 0 0 4000px rgba(5,6,8,.5); opacity: 0; pointer-events: none; }
+  .sub { position: absolute; left: 0; right: 0; bottom: 110px; text-align: center; font-size: 48px; font-weight: 600; letter-spacing: -0.02em; text-shadow: 0 2px 18px rgba(0,0,0,.8), 0 1px 3px rgba(0,0,0,.9); z-index: 6; }
+  .sub b { color: var(--amber); font-weight: 600; }
+  .card { display: grid; place-items: center; text-align: center; z-index: 7; }
+  .card .inner { display: grid; justify-items: center; gap: 22px; }
+  .card img { width: 150px; height: 150px; }
+  .card h1 { font-size: 120px; font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
   .card h1 b { color: var(--accent); font-weight: 700; }
-  .card p { font-size: 40px; color: var(--muted); letter-spacing: -0.02em; }
-  .card .url { font: 500 30px 'JetBrains Mono', monospace; color: var(--accent); }
-  .card .by { font-size: 26px; color: var(--muted); }
-  .dia { display: grid; grid-template-columns: 440px 320px 1fr; align-items: center; gap: 70px; padding: 120px 160px 220px; }
-  .col h3 { font-size: 26px; font-weight: 600; color: var(--muted); margin-bottom: 18px; }
-  .pin { display: grid; gap: 10px; padding: 28px 30px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); opacity: 0; }
-  .pin b { font-size: 34px; letter-spacing: -0.02em; }
-  .pin code, .qbox code { font: 500 20px 'JetBrains Mono', monospace; color: var(--muted); }
-  .qbox { height: 300px; border-radius: 24px; background: var(--accent); color: #fff; display: grid; place-items: center; text-align: center; padding: 24px; opacity: 0; }
-  .qbox b { font-size: 64px; letter-spacing: -0.04em; }
-  .qbox code { display: block; margin-top: 12px; color: rgba(255,255,255,.9); font-size: 16px; line-height: 1.6; }
-  .rows { display: grid; gap: 10px; }
-  .row { display: grid; grid-template-columns: 170px 1fr; align-items: center; height: 58px; padding: 0 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-size: 25px; opacity: 0; }
-  .row span { color: var(--muted); font-size: 21px; }
-  .row b { font-weight: 600; }
-  .flow { position: absolute; height: 4px; background: var(--accent); border-radius: 2px; transform-origin: 0 50%; }
+  .card p { font-size: 38px; color: rgba(255,255,255,.7); }
+  .card .url { font: 500 28px 'JetBrains Mono', monospace; color: var(--amber); }
+  /* The pin that drops onto the city, and the labels that fan out around it. */
+  .pin { position: absolute; width: 90px; height: 90px; margin: -90px 0 0 -45px; }
+  .pin img { width: 90px; height: 90px; }
+  .pulse { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 3px solid var(--amber); opacity: 0; }
+  .label { position: absolute; padding: 14px 20px; border-radius: 14px; background: rgba(10,12,18,.82); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(6px); opacity: 0; white-space: nowrap; }
+  .label span { display: block; font: 500 16px 'JetBrains Mono', monospace; color: var(--amber); letter-spacing: .04em; margin-bottom: 4px; }
+  .label b { font-size: 28px; font-weight: 600; }
+  .coord { position: absolute; font: 500 20px 'JetBrains Mono', monospace; color: rgba(255,255,255,.8); opacity: 0; }
 </style>
 </head>
 <body>
+  <div class="bar top"></div><div class="bar bot"></div>
+  <div id="film" class="layer"><div class="screen"><div id="page" class="page"><img id="shot" alt=""></div><div class="shade"></div><div id="ring" class="ring"></div>
+    <div id="pin" class="pin" style="opacity:0"><img src="../../public/img/openhere-512.png" alt=""></div><div id="pulse" class="pulse"></div><div id="coord" class="coord"></div>
+    <div id="labels"></div>
+  </div></div>
   <div id="cardTitle" class="layer card"><div class="inner"><img src="../../public/img/openhere-512.png" alt=""><h1>open<b>here</b></h1><p>Design the place for the people around it.</p></div></div>
-
-  <div id="app" class="layer">
-    <div class="browser"><div class="bar"><span>openhere</span></div>
-      <div class="viewport"><div id="page" class="page"><img id="shot" alt=""></div><div id="spot" class="spot"></div></div>
-    </div>
-  </div>
-
-  <div id="dia" class="layer dia">
-    <div class="col"><h3>One point on the map</h3><div class="pin" id="pin"><b>Queen Street West, Parkdale</b><code id="point"></code><code>signal.location = POINT(lng lat)</code></div></div>
-    <div class="qbox" id="qbox"><div><b>Qloo</b><code>urn:tag (ambience, decor)<br>urn:entity:place, artist<br>urn:demographics<br>filter.popularity.max</code></div></div>
-    <div class="col"><h3>What the agent learns</h3><div id="rows" class="rows"></div></div>
-    <div id="flowA" class="flow"></div><div id="flowB" class="flow"></div>
-  </div>
-
-  <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/openhere-512.png" alt=""><h1>open<b>here</b></h1><p>Design the place for the people around it.</p><div class="url" id="endUrl"></div><div class="by">Built on Qloo's taste graph</div></div></div>
-
-  <div id="caption" class="caption"></div>
+  <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/openhere-512.png" alt=""><h1>open<b>here</b></h1><p>Design the place for the people around it.</p><div class="url" id="endUrl"></div></div></div>
+  <div id="sub" class="sub"></div>
   <script src="timeline.js"></script>
   <script src="compose.js"></script>
 </body>

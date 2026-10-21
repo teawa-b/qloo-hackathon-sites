@@ -16,7 +16,7 @@ Run it with `npm run start:talk` (port 3303), or deploy with `SITE=talk`.
 4. When it finishes, click **Without Qloo?**: an LLM alone, given the same conversation, and how many of its suggestions actually fit their taste.
 5. Click **Glasses view** for the one-nudge, white-on-black view for display glasses.
 
-[Watch the explainer](video/smalltalk.mp4)
+SmallTalk is shown in a live demo on a Quest headset rather than an edited video.
 
 ![SmallTalk during the sample conversation](img/smalltalk-live.png)
 

@@ -3,68 +3,65 @@
 <head>
 <meta charset="utf-8">
 <title>Pitchprep explainer</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=block">
 <style>
-  :root { --bg: #f5f6f8; --surface: #fff; --ink: #14161b; --muted: #5a6070; --line: #e2e5eb; --accent: #0052ff; --accent-soft: #e8efff; }
+  /* Pitchprep's film is a dossier: deep navy desk, the brief as paper pages, typed captions, a highlighter. */
+  :root { --desk: #0a1633; --desk-2: #10224d; --paper: #ffffff; --ink: #14161b; --muted: #8fa3cc; --accent: #0052ff; --mark: rgba(0, 82, 255, .22); }
   * { box-sizing: border-box; margin: 0; }
-  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); font-family: Geist, system-ui, sans-serif; color: var(--ink); }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: radial-gradient(120% 90% at 70% 40%, var(--desk-2), var(--desk)); font-family: Geist, system-ui, sans-serif; color: #fff; }
   .layer { position: absolute; inset: 0; opacity: 0; }
-  /* Browser frame around the real captures */
-  .browser { position: absolute; left: 240px; top: 56px; width: 1440px; height: 838px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 2px 4px rgba(20,30,60,.06), 0 24px 64px rgba(20,30,60,.12); overflow: hidden; }
-  .bar { height: 28px; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 14px; gap: 10px; }
-  .bar span { flex: 1; height: 16px; max-width: 360px; margin: 0 auto; border-radius: 8px; background: var(--bg); font: 500 11px/16px 'Geist Mono', monospace; color: var(--muted); text-align: center; }
-  .viewport { position: absolute; left: 0; top: 28px; width: 1440px; height: 810px; overflow: hidden; }
+  /* The caption column on the left: a file label, then the line being typed. */
+  .copy { position: absolute; left: 120px; top: 0; bottom: 0; width: 560px; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+  .file { font: 600 18px 'Geist Mono', monospace; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+  .typed { font-size: 56px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; min-height: 3.3em; }
+  .typed .cur { display: inline-block; width: .5em; height: .9em; margin-left: 4px; background: var(--accent); vertical-align: -0.1em; }
+  .typed .q { color: #7aa2ff; }
+  /* The brief as a sheet of paper on the desk. */
+  .sheet { position: absolute; left: 740px; top: 170px; width: 1060px; height: 740px; background: var(--paper); border-radius: 6px; overflow: hidden; transform: rotate(-1.2deg); box-shadow: 0 2px 0 rgba(255,255,255,.4) inset, 0 40px 80px rgba(0, 8, 30, .55), 0 8px 18px rgba(0, 8, 30, .4); }
+  .sheet.back { left: 770px; top: 196px; transform: rotate(1.6deg); opacity: .5; box-shadow: 0 30px 60px rgba(0, 8, 30, .4); }
   .page { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
   .page img { display: block; width: 1440px; }
-  .spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 4000px rgba(13, 15, 19, .42), 0 0 0 3px var(--accent); pointer-events: none; opacity: 0; }
-  /* Captions */
-  .caption { position: absolute; left: 240px; right: 240px; bottom: 54px; font-size: 52px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
-  .caption .w { display: inline-block; opacity: 0; transform: translateY(14px); margin-right: .24em; }
-  .caption .w.q { color: var(--accent); }
-  /* Title and end cards */
+  .mark { position: absolute; background: var(--mark); mix-blend-mode: multiply; border-radius: 4px; transform-origin: 0 50%; opacity: 0; }
   .card { display: grid; place-items: center; text-align: center; }
-  .card .inner { display: grid; justify-items: center; gap: 28px; }
-  .card img { width: 160px; height: 160px; border-radius: 36px; box-shadow: 0 24px 60px rgba(0,82,255,.25); }
-  .card h1 { font-size: 112px; font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
-  .card p { font-size: 40px; color: var(--muted); letter-spacing: -0.02em; }
-  .card .url { font: 500 30px 'Geist Mono', monospace; color: var(--accent); }
-  .card .by { font-size: 26px; color: var(--muted); }
-  /* Qloo diagram */
-  .dia { display: grid; grid-template-columns: 1fr 360px 1fr; align-items: center; gap: 0; padding: 120px 140px 220px; }
-  .col h3 { font-size: 26px; font-weight: 600; color: var(--muted); margin-bottom: 18px; letter-spacing: -0.01em; }
-  .chip { display: inline-flex; align-items: center; height: 64px; padding: 0 26px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-size: 30px; font-weight: 600; margin: 0 12px 14px 0; opacity: 0; }
-  .qbox { height: 300px; border-radius: 24px; background: var(--accent); color: #fff; display: grid; place-items: center; text-align: center; padding: 24px; position: relative; opacity: 0; }
-  .qbox b { font-size: 64px; letter-spacing: -0.04em; }
-  .qbox code { display: block; margin-top: 12px; font: 500 17px/1.5 'Geist Mono', monospace; opacity: .9; }
-  .rows { display: grid; gap: 12px; }
-  .row { display: grid; grid-template-columns: 1fr auto; align-items: center; height: 62px; padding: 0 24px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-size: 28px; font-weight: 600; opacity: 0; }
-  .row i { font: normal 500 28px 'Geist Mono', monospace; color: var(--accent); }
-  .row.dim i { color: var(--muted); }
-  .flow { position: absolute; height: 4px; background: var(--accent); border-radius: 2px; transform-origin: 0 50%; }
-  .dot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); }
-  .badge { position: absolute; padding: 18px 26px; border-radius: 14px; background: var(--ink); color: #fff; font-size: 30px; font-weight: 600; letter-spacing: -0.01em; box-shadow: 0 16px 40px rgba(0,0,0,.25); opacity: 0; }
+  .card .inner { display: grid; justify-items: center; gap: 26px; position: relative; }
+  .card img { width: 150px; height: 150px; border-radius: 34px; }
+  .card h1 { font-size: 110px; font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+  .card p { font-size: 38px; color: var(--muted); letter-spacing: -0.02em; }
+  .stamp { position: absolute; right: -150px; top: 70px; padding: 10px 22px; border: 5px solid #7aa2ff; color: #7aa2ff; font: 700 38px 'Geist Mono', monospace; letter-spacing: .12em; border-radius: 8px; transform: rotate(-12deg); opacity: 0; }
+  .card .url { font: 500 28px 'Geist Mono', monospace; color: #7aa2ff; }
+  /* Qloo, as three index cards on the desk joined by a dashed line. */
+  .cards { position: absolute; left: 740px; top: 250px; width: 1080px; height: 560px; }
+  .ix { position: absolute; width: 330px; padding: 26px 26px 22px; background: var(--paper); color: var(--ink); border-radius: 6px; box-shadow: 0 30px 60px rgba(0, 8, 30, .5); opacity: 0; }
+  .ix h4 { font: 600 15px 'Geist Mono', monospace; letter-spacing: .12em; color: #5a6070; text-transform: uppercase; margin-bottom: 14px; }
+  .ix .row { display: flex; justify-content: space-between; font-size: 24px; font-weight: 600; padding: 7px 0; border-top: 1px solid #e8ebf2; opacity: 0; }
+  .ix .row:first-of-type { border-top: 0; }
+  .ix .row i { font: normal 500 22px 'Geist Mono', monospace; color: var(--accent); }
+  .ix.qloo { background: var(--accent); color: #fff; }
+  .ix.qloo h4 { color: rgba(255,255,255,.75); }
+  .ix.qloo code { display: block; font: 500 17px/1.7 'Geist Mono', monospace; }
+  .dash { position: absolute; height: 0; border-top: 3px dashed #7aa2ff; transform-origin: 0 50%; }
 </style>
 </head>
 <body>
-  <div id="cardTitle" class="layer card"><div class="inner"><img src="../../public/img/pitchprep-512.png" alt=""><h1>Pitchprep</h1><p>Know your investor before you pitch.</p></div></div>
+  <div id="cardTitle" class="layer card"><div class="inner"><img src="../../public/img/pitchprep-512.png" alt=""><h1>Pitchprep</h1><p>Know your investor before you pitch.</p><div class="stamp" id="stamp">BRIEF</div></div></div>
 
-  <div id="app" class="layer">
-    <div class="browser"><div class="bar"><span id="url">pitchprep</span></div>
-      <div class="viewport"><div id="page" class="page"><img id="shot" alt=""></div><div id="spot" class="spot"></div></div>
+  <div id="desk" class="layer">
+    <div class="copy"><div class="file" id="file"></div><div class="typed" id="typed"></div></div>
+    <div class="sheet back"></div>
+    <div class="sheet" id="sheet"><div id="page" class="page"><img id="shot" alt=""></div><div id="mark" class="mark"></div></div>
+  </div>
+
+  <div id="dia" class="layer">
+    <div class="copy"><div class="file">How Qloo scores it</div><div class="typed" id="typed2"></div></div>
+    <div class="cards">
+      <div class="ix" id="ixA" style="left:0;top:40px"><h4>Your customers use</h4><div class="row"><span>Ticketmaster</span></div><div class="row"><span>Spotify</span></div><div class="row"><span>Uber</span></div></div>
+      <div class="ix qloo" id="ixQ" style="left:375px;top:0"><h4>Qloo</h4><code>signal.interests.entities<br>= your customers<br>filter.results.entities<br>= their portfolio<br>urn:demographics</code></div>
+      <div class="ix" id="ixB" style="left:750px;top:60px"><h4>Their portfolio, scored</h4><div id="rows"></div></div>
+      <div class="dash" id="dashA"></div><div class="dash" id="dashB"></div>
     </div>
-    <div id="badge" class="badge"></div>
   </div>
 
-  <div id="dia" class="layer dia">
-    <div class="col"><h3>Your customers use</h3><div id="chips"></div></div>
-    <div class="qbox" id="qbox"><div><b>Qloo</b><code>signal.interests.entities<br>filter.results.entities<br>urn:demographics</code></div></div>
-    <div class="col" style="padding-left:80px"><h3>Their portfolio, scored</h3><div id="rows" class="rows"></div></div>
-    <div id="flowA" class="flow"></div><div id="flowB" class="flow"></div>
-  </div>
-
-  <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/pitchprep-512.png" alt=""><h1>Pitchprep</h1><p>Know your investor before you pitch.</p><div class="url" id="endUrl"></div><div class="by">Built on Qloo's taste graph</div></div></div>
-
-  <div id="caption" class="caption"></div>
+  <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/pitchprep-512.png" alt=""><h1>Pitchprep</h1><p>Know your investor before you pitch.</p><div class="url" id="endUrl"></div></div></div>
   <script src="timeline.js"></script>
   <script src="compose.js"></script>
 </body>

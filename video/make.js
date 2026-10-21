@@ -52,7 +52,8 @@ await writeFile(new URL('timeline.js', dir), `window.TIMELINE = ${JSON.stringify
 console.log(`${scenes.length} scenes, ${total.toFixed(1)} s`);
 
 // 2. Frames.
-const chrome = await launch({ port: 9335 });
+// A port of its own, so two renders can run side by side.
+const chrome = await launch({ port: 9400 + Math.floor(Math.random() * 500) });
 const tab = await chrome.page({ width: 1920, height: 1080, scale: 1 });
 await tab.go(pathToFileURL(path(new URL('compose.html', dir))).href);
 await sleep(800);
