@@ -30,7 +30,7 @@ $('interest-form').addEventListener('submit', async event => {
   if (!apiKey && !hasServerKey) { $('settings').showModal(); $('api-key').focus(); return; }
   setBusy(true); message('Finding your interests in Qloo…');
   matches = []; selected = []; $('match-section').hidden = true; clearResults(); debug = {}; $('debug').hidden = true;
-  try { const data = await request('/api/resolve', { text: $('interests').value }); matches = data.matches; debug.lookups = data; showMatches(); showDebug(); message(selected.some(Boolean) ? 'Matches found. Check the selections, then explore connections.' : 'No matches found. Try specific titles, artists, brands, or simpler interests.'); }
+  try { const data = await request('/api/lab/resolve', { text: $('interests').value }); matches = data.matches; debug.lookups = data; showMatches(); showDebug(); message(selected.some(Boolean) ? 'Matches found. Check the selections, then explore connections.' : 'No matches found. Try specific titles, artists, brands, or simpler interests.'); }
   catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 });
@@ -61,7 +61,7 @@ function renderResults(entities) {
 }
 $('recommend').addEventListener('click', async () => {
   if (busy) return; setBusy(true); message(`Asking Qloo for ${categoryNames[category].toLowerCase()}…`); clearResults(); delete debug.insights; delete debug.error;
-  try { const signals = selected.filter(Boolean); const data = await request('/api/insights', { category, entities: [...new Set(signals.filter(s => s.kind === 'entity').map(s => s.id))], tags: [...new Set(signals.filter(s => s.kind === 'tag').map(s => s.id))], location: $('location').value }); debug.insights = data; showDebug(); renderResults(data.entities); message(''); }
+  try { const signals = selected.filter(Boolean); const data = await request('/api/lab/insights', { category, entities: [...new Set(signals.filter(s => s.kind === 'entity').map(s => s.id))], tags: [...new Set(signals.filter(s => s.kind === 'tag').map(s => s.id))], location: $('location').value }); debug.insights = data; showDebug(); renderResults(data.entities); message(''); }
   catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 });
@@ -69,5 +69,5 @@ $('connection').addEventListener('click', () => $('settings').showModal());
 $('close-settings').addEventListener('click', () => $('settings').close());
 $('settings-form').addEventListener('submit', event => { event.preventDefault(); apiKey = $('api-key').value.trim(); $('api-key').value = ''; $('connection').firstChild.textContent = apiKey || hasServerKey ? 'Connection set ' : 'Add API key '; $('settings').close(); matches = []; selected = []; $('match-section').hidden = true; setBusy(false); clearResults(); debug = {}; $('debug').hidden = true; message(apiKey || hasServerKey ? 'Connection saved. Find your interests to test it.' : 'Add a key to make a Qloo request.'); });
 $('download').addEventListener('click', () => { const url = URL.createObjectURL(new Blob([JSON.stringify(debug, null, 2)], { type: 'application/json' })); const link = el('a'); link.href = url; link.download = 'qloo-taste-results.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); });
-try { const config = await fetch('/api/config').then(r => r.json()); hasServerKey = config.hasKey; $('host').value = config.host; if (hasServerKey) { $('connection').firstChild.textContent = 'Server key ready '; $('api-key').disabled = true; $('key-note').textContent = 'Your local server uses QLOO_API_KEY from .env. The key is never returned to the browser.'; } }
+try { const config = await fetch('/api/lab/config').then(r => r.json()); hasServerKey = config.hasKey; $('host').value = config.host; if (hasServerKey) { $('connection').firstChild.textContent = 'Server key ready '; $('api-key').disabled = true; $('key-note').textContent = 'Your local server uses QLOO_API_KEY from .env. The key is never returned to the browser.'; } }
 catch { message('Could not reach the app. Refresh the page and try again.', true); }

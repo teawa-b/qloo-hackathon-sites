@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Taste room — Openhere</title>
+  <meta name="description" content="Name a few things you love. Qloo turns them into a room you can walk through, with the music on.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/room.js"></script>
+</head>
+<body class="room-page">
+  <div class="room-glow" aria-hidden="true"></div>
+  <header class="bar room-bar">
+    <a class="logo" href="/">open<b>here</b></a>
+    <nav class="modes"><a href="/">Venues</a><a href="/room" class="on">Taste room</a><a href="/lab">Lab</a></nav>
+  </header>
+
+  <main class="room">
+    <section id="intro" class="room-intro">
+      <p class="kicker">Taste room</p>
+      <h1>Name what you love.<br>Walk into the room it makes.</h1>
+      <p class="room-lead">Bands, films, books, brands, places. Qloo reads the taste behind them and designs a room for the person who has it, with the music already on.</p>
+      <form id="ask" class="room-ask">
+        <textarea id="text" rows="2" maxlength="600" placeholder="Khruangbin, Wong Kar-wai films, Murakami, Aesop, natural wine…" aria-label="Things you love"></textarea>
+        <div class="room-examples" id="examples">
+          <button type="button" data-ex="Phoebe Bridgers, Fleabag, Sally Rooney, Glossier, Dr. Martens">Phoebe Bridgers, Fleabag, Sally Rooney…</button>
+          <button type="button" data-ex="Kendrick Lamar, Nike, Jordan Peele films, Issa Rae, Lakers">Kendrick Lamar, Nike, Jordan Peele…</button>
+          <button type="button" data-ex="Radiohead, Blade Runner, Haruki Murakami, Muji, Monocle magazine">Radiohead, Blade Runner, Murakami…</button>
+        </div>
+        <button class="cta" id="go">Build my room →</button>
+      </form>
+    </section>
+
+    <section id="build" class="room-build" hidden>
+      <div class="room-stage">
+        <div id="hero" class="room-hero"><img id="hero-img" alt="Your room"><div id="hero-shimmer" class="shimmer"></div></div>
+        <ol id="steps" class="room-steps"></ol>
+      </div>
+      <aside class="room-side">
+        <p class="kicker" id="r-kicker">Reading your taste…</p>
+        <h2 id="r-name" class="c-name">One moment</h2>
+        <p id="r-tag" class="c-tag"></p>
+        <div id="r-body" hidden>
+          <p id="r-brief" class="room-brief"></p>
+          <div id="r-chips" class="chips"></div>
+          <div class="room-actions">
+            <button id="walk" class="cta" hidden>Walk inside →</button>
+            <form id="refine" class="refine" hidden><input id="refine-input" maxlength="300" placeholder="Change something… more plants, a bigger window"><button aria-label="Apply">↵</button></form>
+          </div>
+          <section class="player" id="player" hidden>
+            <h3>Now playing <small>picked by Qloo</small></h3>
+            <div id="tracks" class="tracks"></div>
+            <div id="yt" class="yt"></div>
+          </section>
+          <ul id="r-choices" class="choices"></ul>
+          <section id="r-charts" class="charts" hidden><h3 class="charts-title">Your taste, by Qloo</h3><div id="chart-list" class="chart-list"></div></section>
+          <button id="again" class="link">← Start over</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <footer class="credit">Taste data · <a href="https://www.qloo.com" target="_blank" rel="noreferrer">Qloo</a> · Images generated</footer>
+</body>
+</html>

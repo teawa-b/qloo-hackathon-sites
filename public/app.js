@@ -271,8 +271,8 @@ const say = {
 async function openStudio(space, photo = null) {
   if (running) return;
   if (!config.qloo) return toast('This server has no Qloo key yet, so the agent can’t run.');
-  running = true; render = null; concept = null; taste = {}; baseRender = null; todCache = {};
-  $('charts').hidden = true; $('timeline').hidden = true; $('handle').hidden = true;
+  running = true; render = null; concept = null; taste = {}; baseRender = null; todCache = {}; runId = null;
+  $('charts').hidden = true; $('timeline').hidden = true; $('handle').hidden = true; $('c-baseline')?.remove();
   $('sheet').hidden = true; $('drawer').hidden = true;
   const studio = $('studio'); studio.hidden = false; studio.classList.remove('enter'); void studio.offsetWidth; studio.classList.add('enter');
   $('studio-place').textContent = `${activation ? 'Activation · ' : ''}${bizLabel()} · ${space.neighborhood || space.city}`;
@@ -328,7 +328,35 @@ function handle(ev, pending) {
     concept = ev.concept; if (ev.render && !render) showRender(ev.render, { sweep: true }); showConcept(ev.concept); renderCharts();
     $('live').className = 'live done'; $('live-text').textContent = render ? 'Done — drag the image to compare' : 'Done (no image model on this server)';
   } else if (ev.type === 'error') { fail(ev.message); logItem('err', ev.message); }
-  else if (ev.type === 'done') logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`);
+  else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && runId && config.llm) offerBaseline(); }
+}
+
+// "Why not just ask a chatbot?": the same brief with no tools, each pick checked against Qloo.
+let runId = null;
+function offerBaseline() {
+  $('c-baseline')?.remove();
+  const box = el('section', 'baseline'); box.id = 'c-baseline';
+  const h = el('h3', '', 'Why not just ask a chatbot?'); h.append(el('small', '', 'same brief, no Qloo')); box.append(h);
+  const p = el('p', 'baseline-intro', `Ask an LLM alone for ${activation ? 'this activation' : `a ${typeLabel[business] || business} here`} and check each of its picks against what Qloo actually ranks for this crowd.`);
+  const run = el('button', 'cta ghost', 'Run the check');
+  box.append(p, run);
+  run.addEventListener('click', async () => {
+    run.disabled = true; run.textContent = 'Asking the chatbot…';
+    try {
+      const b = await api('/api/baseline', { runId });
+      run.remove(); p.remove();
+      const verdicts = { ranked: ['✓', 'In Qloo\'s top results for this crowd'], known: ['·', 'Real, but Qloo does not rank it for this crowd'], unknown: ['✗', 'Not in Qloo\'s graph'] };
+      box.append(el('p', 'baseline-score', `${b.counts.ranked} of ${b.total} chatbot picks hold up for this crowd`));
+      b.picks.forEach(c => {
+        const row = el('div', `check ${c.verdict}`), text = el('div');
+        row.append(el('b', '', verdicts[c.verdict][0]));
+        text.append(el('strong', '', `${c.name}`), el('p', '', `${c.kind} · ${verdicts[c.verdict][1]}${c.match && c.match !== c.name ? ` (Qloo: ${c.match})` : ''}`));
+        row.append(text); box.append(row);
+      });
+      box.append(el('p', 'baseline-foot', `Chatbot: ${b.model}. "Holds up" means the exact name appeared in Qloo's top results during this run.`));
+    } catch (error) { run.disabled = false; run.textContent = 'Run the check'; toast(error.message); }
+  });
+  $('c-choices').after(box);
 }
 function logItem(cls, text) { const li = el('li', cls); li.append(el('p', '', text)); $('log').append(li); return li; }
 

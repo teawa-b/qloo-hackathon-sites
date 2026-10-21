@@ -35,7 +35,7 @@ test('activation mode: resolves both audiences, measures overlap with explainabi
         assert.equal(p.get('a.signal.interests.entities'), ids.pb); assert.equal(p.get('b.signal.interests.entities'), ids.rb);
         return Response.json({ results: { tags: [], a: [{ tag_id: 'urn:tag:theme:qloo:heartbreak', name: 'Heartbreak', subtype: 'urn:tag:theme:qloo' }], b: [{ tag_id: 'urn:tag:genre:brand:energy_drink', name: 'Energy Drink', subtype: 'urn:tag:genre:brand' }] } });
       }
-      if (url.pathname === '/v2/tags') return Response.json({ results: { tags: [{ id: 'urn:tag:genre:place:bar', name: 'Bar', types: ['urn:tag:genre:place'] }] } });
+      if (url.pathname === '/v2/tags') return Response.json({ results: { tags: /neon/i.test(p.get('filter.query')) ? [] : [{ id: 'urn:tag:genre:place:bar', name: 'Bar', types: ['urn:tag:genre:place'] }] } });
       const type = p.get('filter.type'), signals = (p.get('signal.interests.entities') || '').split(',');
       if (type === 'urn:demographics') return Response.json({ results: { demographics: signals.map(id => ({ entity_id: id, query: { age: id === ids.pb ? { '24_and_younger': 0.3, '25_to_29': 0.3, '35_to_44': -0.6 } : { '24_and_younger': 0.4, '25_to_29': 0.2, '35_to_44': -0.5 }, gender: { male: 0, female: 0 } } })) } });
       if (type === 'urn:heatmap') { assert.equal(p.get('filter.location'), 'POINT(-79.433900 43.641060)'); return Response.json({ results: { heatmap: [{ location: { latitude: 43.65, longitude: -79.4 }, query: { affinity: 1, affinity_rank: 0.99, popularity: 0.5 } }, { location: { latitude: 43.7, longitude: -79.5 }, query: { affinity: 0.4, affinity_rank: 0.5, popularity: 0.9 } }] } }); }
@@ -49,6 +49,8 @@ test('activation mode: resolves both audiences, measures overlap with explainabi
     }
     if (url.host === 'api.anthropic.com') {
       const body = JSON.parse(options.body);
+      // The chatbot check: no tools, a JSON answer with one real Qloo name, one known-but-unranked brand, one invention.
+      if (!body.tools.length) return Response.json({ content: [{ type: 'text', text: '{"picks":[{"kind":"decor","name":"Industrial"},{"kind":"decor","name":"Neon Pink"},{"kind":"brand","name":"Gatorade"},{"kind":"artist","name":"Charli XCX"},{"kind":"place","name":"The Imaginary Lounge"}]}' }] });
       assert.ok(body.tools.some(t => t.name === 'audience_overlap'));
       assert.match(body.system, /Red Bull's activation for fans of Phoebe Bridgers/);
       const turns = [
@@ -87,4 +89,12 @@ test('activation mode: resolves both audiences, measures overlap with explainabi
   assert.deepEqual(final.activation, { event: ['Phoebe Bridgers'], brand: ['Red Bull'] });
   assert.equal(final.heatmap.cells.length, 2);
   assert.ok(log.some(l => l.params['feature.explainability'] === 'true'));
+
+  // The chatbot check reuses this run's Qloo results: a pick holds up only if Qloo ranked it for this crowd.
+  const { runId } = events.find(e => e.type === 'done');
+  assert.ok(runId);
+  const baseline = await fetch(`${base}/api/baseline`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ runId }) }).then(r => r.json());
+  assert.deepEqual(baseline.picks.map(c => [c.name, c.verdict]), [['Industrial', 'ranked'], ['Neon Pink', 'unknown'], ['Gatorade', 'ranked'], ['Charli XCX', 'ranked'], ['The Imaginary Lounge', 'unknown']]);
+  assert.deepEqual(baseline.counts, { ranked: 3, known: 0, unknown: 2 });
+  assert.equal((await fetch(`${base}/api/baseline`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ runId: 'nope' }) })).status, 404);
 });

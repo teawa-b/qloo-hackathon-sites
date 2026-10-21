@@ -12,11 +12,16 @@ import { demoSpaces, demoCities, matchDemo, geocode, reverseGeocode, distanceKm,
 import { createLimiter } from './lib/limits.js';
 import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
 import { createLive } from './lib/live.js';
+import { buildRoom } from './lib/room.js';
+import { parseInterests, entityList as labEntities, insightParams } from './lab/lib.js';
 
 const files = {
   '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'],
   '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
-  '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript']
+  '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
+  '/room': ['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'],
+  // Taste Lab, the raw Qloo explorer, mounted under /lab.
+  '/lab': ['../lab/public/index.html', 'text/html'], '/lab/app.js': ['../lab/public/app.js', 'text/javascript'], '/lab/style.css': ['../lab/public/style.css', 'text/css']
 };
 const cdn = 'https://cdn.jsdelivr.net';
 // The walkthrough's import map is inline, so it is allowed by hash rather than 'unsafe-inline'.
@@ -28,7 +33,10 @@ const csp = {
   app: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; worker-src 'self' blob:; child-src blob:; connect-src 'self' https://tiles.openfreemap.org; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
   // The live walkthrough plays a WebRTC stream; media flows peer-to-peer, signalling goes through this server.
   live: "default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
-  walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`
+  walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`,
+  // The taste room plays its playlist through YouTube's search embed.
+  room: "default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+  lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'"
 };
 
 // Time-of-day lighting, written per Pruna's edit formula ("Change X. Keep Y identical.").
@@ -45,7 +53,7 @@ function boundedMap(limit) {
 }
 
 export function createApp({ env = process.env, fetcher = fetch } = {}) {
-  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200);
+  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100);
   const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
@@ -53,6 +61,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
   const limit = createLimiter({
     agent: [Number(env.AGENT_RUNS_PER_HOUR || 8), 3600e3],
     refine: [Number(env.REFINES_PER_HOUR || 12), 3600e3],
+    baseline: [Number(env.BASELINES_PER_HOUR || 12), 3600e3],
     relight: [Number(env.RELIGHTS_PER_HOUR || 90), 3600e3],
     world: [Number(env.WORLDS_PER_HOUR || 3), 3600e3],
     upload: [20, 3600e3],
@@ -84,11 +93,12 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       const path = url.pathname;
       if (req.method === 'GET' && files[path]) {
         const [name, type] = files[path];
-        res.setHeader('Content-Security-Policy', path.startsWith('/walk') ? csp.walk : path.startsWith('/live') ? csp.live : csp.app);
+        res.setHeader('Content-Security-Policy', path.startsWith('/walk') ? csp.walk : path.startsWith('/live') ? csp.live : path.startsWith('/room') ? csp.room : path.startsWith('/lab') ? csp.lab : csp.app);
         res.writeHead(200, { 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-cache' });
         return res.end(await readFile(new URL(`./public/${name}`, import.meta.url)));
       }
       if (req.method === 'GET' && path === '/api/health') return send(200, { ok: true });
+      if (req.method === 'GET' && path === '/api/lab/config') return send(200, { hasKey: Boolean(env.QLOO_API_KEY), host: qlooHost });
       if (req.method === 'GET' && path === '/api/config') {
         return send(200, { qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
       }
@@ -230,8 +240,99 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
           if (llm) await runAgent({ llm, tools, business, listing: space, notes: String(body.notes || ''), emit, activation });
           else await runScripted({ tools, business, emit, hasImages: Boolean(imageModel) });
         } catch (error) { emit({ type: 'error', message: error.message }); }
+        finally {
+          clearInterval(heartbeat);
+          // Keep what Qloo returned in this run so the chatbot check can test a tool-less answer against it.
+          const runId = randomUUID();
+          runs.set(runId, { signals: tools.signals(), business, activation, listing: { title: space.title, address: space.address, neighborhood: space.neighborhood, city: space.city } });
+          emit({ type: 'done', qlooCalls: qloo.calls, runId }); res.end();
+        }
+        return;
+      }
+
+      // "Why not just ask a chatbot?": the same brief, answered by the LLM with no tools, then each pick
+      // checked against Qloo. A pick holds up when it is a real Qloo name that ranked in this crowd's
+      // top results during the run; it is merely plausible when Qloo knows it but did not rank it here.
+      if (path === '/api/baseline') {
+        const run = runs.get(String(body.runId || ''));
+        if (!run) return send(404, { error: 'That run has expired. Run the agent again.' });
+        if (!llm) return send(503, { error: 'No LLM key on the server.' });
+        if (run.baseline) return send(200, run.baseline);
+        if (!limit.take('baseline', ip)) return send(429, { error: 'Chatbot check limit reached. Try again later.' });
+        const { listing, business, activation } = run;
+        const where = [listing.neighborhood, listing.city].filter(Boolean).join(', ');
+        const brief = activation
+          ? `Design ${activation.brand}'s pop-up activation for fans of ${activation.event} inside "${listing.title}" (${listing.address}).`
+          : `Design a ${business} to open in "${listing.title}" (${listing.address}).`;
+        const session = llm.create({
+          system: 'You are a creative director. Answer from your own knowledge only. Reply with JSON only, no prose.',
+          tools: [],
+          user: `${brief} Give exactly 8 specific picks for ${activation ? 'these fans' : `the people who go out in ${where}`} as JSON: {"picks":[{"kind":"decor","name":"..."},...]} with kinds: three "decor" (short decor or ambience descriptors, e.g. "Exposed Brick", "Cozy"), two "brand" (brands to partner with), two "artist" (artists for the playlist), one "place" (a real venue near ${listing.address} to partner with). Names only, each 1–4 words.`
+        });
+        const { text } = await session.next();
+        let picks = [];
+        try { picks = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)).picks.slice(0, 8); } catch { return send(502, { error: 'The chatbot did not answer in the expected shape.' }); }
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+        const known = new Map(run.signals.map(s => [norm(s.name), s]));
+        const checks = await Promise.all(picks.map(async p => {
+          const name = String(p.name || '').slice(0, 60), kind = ['decor', 'brand', 'artist', 'place'].includes(p.kind) ? p.kind : 'decor';
+          const hit = known.get(norm(name));
+          let exists = Boolean(hit), match = hit?.name || null;
+          if (!exists) {
+            try {
+              const found = kind === 'decor' ? await qloo.tags(name) : await qloo.search(name, kind === 'place' ? 'place' : kind, 3);
+              const same = found.find(f => norm(f.name) === norm(name)) || found.find(f => norm(f.name).includes(norm(name)) || norm(name).includes(norm(f.name)));
+              if (same) { exists = true; match = same.name; }
+            } catch {}
+          }
+          return { kind, name, verdict: hit ? 'ranked' : exists ? 'known' : 'unknown', match, source: hit?.source || null };
+        }));
+        const counts = { ranked: checks.filter(c => c.verdict === 'ranked').length, known: checks.filter(c => c.verdict === 'known').length, unknown: checks.filter(c => c.verdict === 'unknown').length };
+        run.baseline = { model: session.model, picks: checks, counts, total: checks.length };
+        return send(200, run.baseline);
+      }
+
+      // Taste room: favourites → Qloo taste → a painted room, streamed step by step.
+      if (path === '/api/room') {
+        const text = String(body.text || '').trim().slice(0, 600);
+        if (!text) return send(400, { error: 'Name a few things you love.' });
+        if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
+        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
+        res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+        const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
+        const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        try { await buildRoom({ qloo, llm, imageModel, text, emit, saveRender }); }
+        catch (error) { emit({ type: 'error', message: error.message }); }
         finally { clearInterval(heartbeat); emit({ type: 'done', qlooCalls: qloo.calls }); res.end(); }
         return;
+      }
+
+      // Taste Lab: the plain Qloo explorer, served against the server's key with full request/response detail.
+      if (path === '/api/lab/resolve' || path === '/api/lab/insights') {
+        if (!env.QLOO_API_KEY) return send(401, { error: 'This server has no Qloo API key configured.' });
+        if (!limit.take('geocode', ip)) return send(429, { error: 'Too many lookups. Slow down a little.' });
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        const call = async (route, params) => { const data = await qloo.get(route, params); return { data, request: { method: 'GET', url: qloo.calls.at(-1).url } }; };
+        if (path === '/api/lab/resolve') {
+          const matches = [];
+          for (const phrase of parseInterests(body.text)) {
+            let search;
+            try { search = await call('/search', { query: phrase, take: '5' }); } catch (error) { if (error.status !== 404) throw error; search = { data: { results: [] }, request: { method: 'GET', url: `${qlooHost}/search?${new URLSearchParams({ query: phrase, take: '5' })}` } }; }
+            const candidates = labEntities(search.data).filter(e => e.entity_id).map(e => ({ id: e.entity_id, kind: 'entity', name: e.name, type: e.subtype || e.types?.[0] || e.type, detail: e.disambiguation || e.properties?.release_year || '' }));
+            let tagSearch;
+            if (!candidates.length) {
+              tagSearch = await call('/v2/tags', { 'filter.query': phrase, take: '5' });
+              const tags = Array.isArray(tagSearch.data.results) ? tagSearch.data.results : tagSearch.data.results?.tags || tagSearch.data.tags || [];
+              candidates.push(...tags.filter(t => t.id).map(t => ({ id: t.id, kind: 'tag', name: t.name, type: t.type, detail: 'Taste tag' })));
+            }
+            matches.push({ phrase, candidates, search, ...(tagSearch ? { tagSearch } : {}) });
+          }
+          return send(200, { matches });
+        }
+        const result = await call('/v2/insights', insightParams(body));
+        return send(200, { ...result, entities: labEntities(result.data) });
       }
 
       // Time-of-day variants of a render. The studio requests all three as soon as a redesign lands,
