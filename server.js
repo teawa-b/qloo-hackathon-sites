@@ -211,8 +211,13 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         // A live listing has a gallery; the user picks which room to redesign (only photos from that listing).
         const chosen = found && body.photo && found.photos?.includes(body.photo) ? { ...found, photo: body.photo } : found;
         const space = chosen && aspectRatios.includes(body.aspect) ? { ...chosen, aspect: body.aspect } : chosen;
-        const business = String(body.business || '').trim().replace(/\s+/g, ' ').slice(0, 60);
+        // Activation mode: a brand × event pair instead of a business type.
+        const clean = v => String(v || '').trim().replace(/\s+/g, ' ').slice(0, 80);
+        const activation = body.activation && typeof body.activation === 'object' ? { event: clean(body.activation.event), brand: clean(body.activation.brand) } : null;
+        const business = activation ? `${activation.brand} activation for ${activation.event} fans` : clean(body.business).slice(0, 60);
         if (!space) return send(400, { error: 'Choose a space first.' });
+        if (activation && (!activation.event || !activation.brand)) return send(400, { error: 'Name the event (a headliner, team or show) and the brand.' });
+        if (activation && !llm) return send(503, { error: 'Activations need an LLM key on the server (OPENROUTER_API_KEY, ANTHROPIC_API_KEY or OPENAI_API_KEY).' });
         if (!business) return send(400, { error: 'Choose a business type.' });
         if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
         if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'The agent is busy: run limit reached. Try again in a while.' });
@@ -220,9 +225,9 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
         const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
         const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
-        const tools = createTools({ qloo, listing: space, business, imageModel, saveRender, look: llm?.look });
+        const tools = createTools({ qloo, listing: space, business, imageModel, saveRender, look: llm?.look, activation });
         try {
-          if (llm) await runAgent({ llm, tools, business, listing: space, notes: String(body.notes || ''), emit });
+          if (llm) await runAgent({ llm, tools, business, listing: space, notes: String(body.notes || ''), emit, activation });
           else await runScripted({ tools, business, emit, hasImages: Boolean(imageModel) });
         } catch (error) { emit({ type: 'error', message: error.message }); }
         finally { clearInterval(heartbeat); emit({ type: 'done', qlooCalls: qloo.calls }); res.end(); }

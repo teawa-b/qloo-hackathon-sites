@@ -2,9 +2,11 @@ const $ = id => document.getElementById(id);
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
 const safeUrl = v => { try { const u = new URL(v, location.origin); return ['https:', 'http:'].includes(u.protocol) ? u.href : ''; } catch { return ''; } };
 const typeLabel = { restaurant: 'restaurant', cafe: 'café', bar: 'bar', 'live music venue': 'live music venue', 'comedy club': 'comedy club', 'sports bar': 'sports bar', "founders' café with a podcast studio": "founders' café" };
-const slateTitle = b => /music/i.test(b) ? 'Booking slate' : /comedy/i.test(b) ? 'Opening lineup' : /sport/i.test(b) ? 'Watch-party calendar' : /founder|podcast/i.test(b) ? 'Studio & stage calendar' : 'Programming';
+const slateTitle = b => activation ? 'Run of show' : /music/i.test(b) ? 'Booking slate' : /comedy/i.test(b) ? 'Opening lineup' : /sport/i.test(b) ? 'Watch-party calendar' : /founder|podcast/i.test(b) ? 'Studio & stage calendar' : 'Programming';
 let taste = {}, baseRender = null, todCache = {};
-let config = {}, spinning = true, map, dropMarker, point = null, business = null, render = null, concept = null, running = false;
+let config = {}, spinning = true, map, dropMarker, point = null, business = null, activation = null, render = null, concept = null, running = false;
+// What the studio calls this run: a business type, or "Brand × Event" for an activation.
+const bizLabel = () => activation ? `${activation.brand} × ${activation.event}` : (typeLabel[business] || business);
 
 function toast(text, ms = 4000) { $('toast').textContent = text; $('toast').hidden = !text; clearTimeout(toast.t); if (text) toast.t = setTimeout(() => { $('toast').hidden = true; }, ms); }
 async function api(path, body) {
@@ -93,9 +95,16 @@ function showAsk() {
 }
 document.querySelectorAll('[data-type]').forEach(b => b.addEventListener('click', () => pickType(b.dataset.type)));
 $('other').addEventListener('submit', e => { e.preventDefault(); const v = $('other-input').value.trim(); if (v) pickType(v); });
+$('activation').addEventListener('submit', e => {
+  e.preventDefault();
+  const brand = $('act-brand').value.trim(), event = $('act-event').value.trim();
+  if (!brand || !event) return toast('Name both the brand and the event.');
+  if (!config.llm) return toast('Activations need an LLM key on the server.');
+  pickType('activation', { brand, event });
+});
 
-function pickType(type) {
-  business = type; $('ask').hidden = true;
+function pickType(type, act = null) {
+  business = type; activation = act; $('ask').hidden = true;
   if (preselected) return openStudio(preselected);
   showSpaces();
 }
@@ -116,8 +125,8 @@ function fitOf(space) {
 let nearby = [], shown = 0, listingPins = new Map();
 async function showSpaces({ refetch = true } = {}) {
   const sheet = $('sheet'); sheet.hidden = false;
-  $('sheet-kicker').textContent = `${typeLabel[business] || business} · ${point.label || ''}`;
-  $('sheet-title').textContent = 'Pick a space';
+  $('sheet-kicker').textContent = `${bizLabel()} · ${point.label || ''}`;
+  $('sheet-title').textContent = activation ? 'Pick the venue' : 'Pick a space';
   if (refetch) {
     $('cards').replaceChildren(el('p', 'empty', 'Looking around…'));
     $('cards').scrollTo({ top: 0 });
@@ -240,6 +249,7 @@ async function downscale(file, max = 1600) {
 }
 
 // --- Step 3: the studio --------------------------------------------------------------------------
+const who = a => ({ brand: "the brand's followers", both: 'both audiences' }[a] || 'the fans');
 const say = {
   get_listing: () => 'Looking at the space',
   local_taste_tags: i => `Asking Qloo what locals love: ${String(i.facet || '').replaceAll('_', ' ')}`,
@@ -247,8 +257,14 @@ const say = {
   local_entities: i => `Finding the ${i.type}s this neighborhood loves`,
   search_tags: i => `Looking up “${i.query}”`,
   book_slate: () => 'Asking Qloo who to book for a room this size',
-  check_audience_fit: () => 'Checking each design idea against who actually lives here',
-  render_redesign: () => 'Redesigning the room',
+  check_audience_fit: () => activation ? 'Checking each design idea against who the fans are' : 'Checking each design idea against who actually lives here',
+  resolve_audience: () => 'Finding the fans and the brand in Qloo',
+  audience_overlap: () => 'Measuring how the brand fits this fanbase',
+  fan_taste_tags: i => `Asking Qloo what ${who(i.audience)} want a room to feel like: ${String(i.facet || '').replaceAll('_', ' ')}`,
+  fan_favourites: i => `Finding the ${i.type}s ${who(i.audience || 'both')} love`,
+  fan_places: i => `Finding the ${i.category || 'places'} fans rate near the venue`,
+  fan_heatmap: () => 'Mapping where the fans live around the venue',
+  render_redesign: () => activation ? 'Building the activation in the room' : 'Redesigning the room',
   finalize_concept: () => 'Writing it up'
 };
 
@@ -259,14 +275,14 @@ async function openStudio(space, photo = null) {
   $('charts').hidden = true; $('timeline').hidden = true; $('handle').hidden = true;
   $('sheet').hidden = true; $('drawer').hidden = true;
   const studio = $('studio'); studio.hidden = false; studio.classList.remove('enter'); void studio.offsetWidth; studio.classList.add('enter');
-  $('studio-place').textContent = `${typeLabel[business] || business} · ${space.neighborhood || space.city}`;
-  $('c-name').textContent = 'Reading the neighborhood…'; $('c-tag').textContent = space.title; $('c-body').hidden = true;
+  $('studio-place').textContent = `${activation ? 'Activation · ' : ''}${bizLabel()} · ${space.neighborhood || space.city}`;
+  $('c-name').textContent = activation ? 'Reading the fans…' : 'Reading the neighborhood…'; $('c-tag').textContent = space.title; $('c-body').hidden = true;
   $('before').src = safeUrl(photo || space.photo); $('after-wrap').hidden = true; $('slider').hidden = true; $('l-after').hidden = true; $('shimmer').hidden = false;
   $('live').className = 'live'; $('live-text').textContent = 'Starting the agent…'; $('steps').replaceChildren(); $('log').replaceChildren(); $('walk-status').hidden = true;
   const pending = new Map();
   try {
     const aspect = await photoAspect($('before'));
-    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(photo ? { photo } : {}) }) });
+    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}) }) });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The agent could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
@@ -372,9 +388,28 @@ document.querySelectorAll('[data-tod]').forEach(b => b.addEventListener('click',
 
 // --- Qloo charts ------------------------------------------------------------------------------
 function collectTaste(name, data) {
-  if (name === 'local_taste_tags' && data.tags?.length) taste[data.facet] = data;
-  else if (name === 'local_venues' && data.venues?.length) taste.venues = data;
-  else if (name === 'local_entities' && data.entities?.length) taste[data.type] = data;
+  if ((name === 'local_taste_tags' || name === 'fan_taste_tags') && data.tags?.length) taste[data.facet] = data;
+  else if ((name === 'local_venues' || name === 'fan_places') && data.venues?.length) taste.venues = data;
+  else if ((name === 'local_entities' || name === 'fan_favourites') && data.entities?.length) taste[data.type] = data;
+  else if (name === 'fan_heatmap' && data.cells?.length) taste.heatmap = data;
+  else if (name === 'audience_overlap') taste.overlap = data;
+}
+// A small map of where the fans over-index around the venue, from Qloo's heatmap grid.
+function heatChart(h) {
+  const box = el('div', 'chart wide'), head = el('h4', '', 'Where the fans are');
+  head.append(el('small', '', 'Qloo heatmap · 12 km')); box.append(head);
+  const holder = el('div', 'heat'); box.append(holder);
+  if (!window.maplibregl) return box;
+  requestAnimationFrame(() => {
+    const mini = new maplibregl.Map({ container: holder, style: 'https://tiles.openfreemap.org/styles/positron', center: [h.center.lng, h.center.lat], zoom: 10.2, interactive: false, attributionControl: false });
+    mini.on('load', () => {
+      const max = Math.max(...h.cells.map(c => c.affinity || 0)) || 1;
+      mini.addSource('heat', { type: 'geojson', data: { type: 'FeatureCollection', features: h.cells.map(c => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { w: (c.affinity || 0) / max } })) } });
+      mini.addLayer({ id: 'heat', type: 'heatmap', source: 'heat', paint: { 'heatmap-weight': ['get', 'w'], 'heatmap-radius': 22, 'heatmap-intensity': 1.1, 'heatmap-opacity': .8, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .3, '#cfe0ff', .6, '#0052ff', 1, '#ff5fa2'] } });
+      new maplibregl.Marker({ element: el('div', 'drop') }).setLngLat([h.center.lng, h.center.lat]).addTo(mini);
+    });
+  });
+  return box;
 }
 const palette = ['#0052ff', '#18b47b', '#ff5fa2', '#f5b700', '#7a5cff'];
 // Location affinities cluster near 1, so bars show each item relative to the strongest in its set.
@@ -406,17 +441,21 @@ function columns(title, items, note) {
 function renderCharts() {
   const share = d => d.method?.startsWith('tags of') ? 'share of top venues' : 'affinity';
   const val = x => x.affinity ?? x.score ?? x.venues ?? x.popularity;
+  const fans = Boolean(activation), aff = fans ? 'fan affinity' : 'local affinity';
   const charts = [
-    taste.customer_identity && bars('Who goes out here', taste.customer_identity.tags, val, { note: share(taste.customer_identity), color: 0 }),
+    taste.customer_identity && bars(fans ? 'Who the fans are' : 'Who goes out here', taste.customer_identity.tags, val, { note: share(taste.customer_identity), color: 0 }),
     taste.age_range && columns('Age', taste.age_range.tags, 'top local venues'),
     taste.ambience && bars('Mood they love', taste.ambience.tags, val, { note: share(taste.ambience), color: 2 }),
     taste.decor && bars('Decor', taste.decor.tags, val, { note: share(taste.decor), color: 3 }),
     (taste.beverage_offering || taste.cuisine || taste.menu_highlight) && bars(taste.beverage_offering ? 'Drinks' : 'Food', (taste.beverage_offering || taste.cuisine || taste.menu_highlight).tags, val, { note: 'share of top venues', color: 1 }),
     taste.interests && bars('Interests', taste.interests.tags, val, { note: share(taste.interests), color: 4 }),
-    taste.venues && bars(`Nearby ${taste.venues.tag?.name || 'favourites'}`, taste.venues.venues, v => v.popularity, { note: 'Qloo popularity', color: 0, wide: true, max: 5 }),
-    taste.artist && bars('On their playlists', taste.artist.entities, e => e.affinity ?? e.popularity, { note: 'local affinity', color: 2 }),
-    taste.brand && bars('Brands they rate', taste.brand.entities, e => e.affinity ?? e.popularity, { note: 'local affinity', color: 1 })
+    taste.heatmap && heatChart(taste.heatmap),
+    taste.venues && bars(fans ? `Fans' picks nearby${taste.venues.tag ? ` · ${taste.venues.tag.name}` : ''}` : `Nearby ${taste.venues.tag?.name || 'favourites'}`, taste.venues.venues, v => fans ? v.affinity ?? v.popularity : v.popularity, { note: fans ? 'fan affinity' : 'Qloo popularity', color: 0, wide: true, max: 5 }),
+    taste.artist && bars(fans ? 'The playlist' : 'On their playlists', taste.artist.entities, e => e.affinity ?? e.popularity, { note: aff, color: 2 }),
+    taste.brand && bars(fans ? 'Brands both love' : 'Brands they rate', taste.brand.entities, e => e.affinity ?? e.popularity, { note: aff, color: 1 }),
+    taste.podcast && bars('Podcasts', taste.podcast.entities, e => e.affinity ?? e.popularity, { note: aff, color: 4 })
   ].filter(Boolean);
+  $('charts').querySelector('.charts-title').textContent = fans ? 'The fans, by Qloo' : 'The neighborhood, by Qloo';
   $('chart-list').replaceChildren(...charts);
   $('charts').hidden = !charts.length;
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -434,11 +473,37 @@ function showConcept(c) {
     d.signals.forEach((s, i) => chips.append(el('span', `chip ${s.grounded ? `c${i % 4}` : 'no'}`, s.grounded ? s.name : `${s.name} · unverified`)));
     li.append(el('b', '', d.element), el('p', '', d.choice), chips); return li;
   }));
+  $('c-fit')?.remove();
+  if (c.overlap) {
+    const o = c.overlap, box = el('section', 'fit'); box.id = 'c-fit';
+    const ring = el('div', 'ring'); ring.style.setProperty('--p', `${o.score}%`); ring.append(el('b', '', String(o.score)), el('small', '', 'fit'));
+    const text = el('div');
+    text.append(el('h3', '', `${c.activation?.brand?.[0] || activation?.brand} × ${c.activation?.event?.[0] || activation?.event}`));
+    text.append(el('p', '', c.fit?.summary || `Fans skew ${o.fans.skew}; the brand's followers skew ${o.followers.skew}. Age profiles match ${Math.round(((o.demoFit + 1) / 2) * 100)}%.`));
+    if (o.overlap) text.append(el('p', 'fit-meta', `Age match ${Math.round(((o.demoFit + 1) / 2) * 100)}% · top brands overlap ${Math.round(o.overlap.brands * 100)}% · artists ${Math.round(o.overlap.artists * 100)}%`));
+    const chips = el('div', 'chips');
+    [...o.sharedBrands, ...o.sharedArtists].slice(0, 8).forEach((e, i) => chips.append(el('span', `chip c${i % 4}`, e.name)));
+    if (chips.children.length) { text.append(el('p', 'fit-note', 'Both audiences already love'), chips); }
+    box.append(ring, text);
+    $('walk').after(box);
+  }
+  $('c-partners')?.remove();
+  if (c.partners?.length) {
+    const box = el('section', 'slate partners'); box.id = 'c-partners';
+    const h = el('h3', '', 'Partners & playlist'); h.append(el('small', '', 'picked by Qloo')); box.append(h);
+    c.partners.forEach(p => {
+      const row = el('div', 'slot'), right = el('div');
+      right.append(el('strong', '', p.name), el('p', '', p.why));
+      if (!p.grounded) right.append(el('span', 'chip no', 'not from Qloo'));
+      row.append(el('b', '', p.role), right); box.append(row);
+    });
+    $('walk').after(box);
+  }
   $('c-audience')?.remove();
   if (c.audience?.checks?.length) {
     const box = el('section', 'audience'); box.id = 'c-audience';
     const h = el('h3', '', 'Audience check'); h.append(el('small', '', 'by Qloo')); box.append(h);
-    box.append(el('p', 'audience-area', `The venues locals rank highest here draw a crowd that skews ${c.audience.area.skew}.`));
+    box.append(el('p', 'audience-area', c.audience.area.crowd === 'fans' ? `Fans of ${c.audience.area.venues?.join(', ') || activation?.event} skew ${c.audience.area.skew} in Qloo's data.` : `The venues locals rank highest here draw a crowd that skews ${c.audience.area.skew}.`));
     for (const chk of c.audience.checks) {
       const row = el('div', `check ${chk.verdict}`);
       row.append(el('b', '', chk.verdict === 'fits' ? '✓' : chk.verdict === 'mismatch' ? '✗' : '·'));
