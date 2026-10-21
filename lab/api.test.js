@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseInterests, insightParams } from '../lib.js';
-import { createServer } from '../server.js';
+import { parseInterests, insightParams } from './lib.js';
+import { createServer } from './server.js';
 
 const id = '369D1544-628B-4C21-95A0-1488117A308A';
 test('sentences, repeated clauses and quoted titles retain useful search phrases', () => {
