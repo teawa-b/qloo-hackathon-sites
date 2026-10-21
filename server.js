@@ -33,7 +33,7 @@ const files = {
 // every page is served at its own path and "/" is Openhere.
 export const sites = {
   openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
-  room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
+  room: { name: 'Roomful', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
   pitch: { name: 'Pitchprep', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js', '/pitch.css', '/img/'], api: ['/api/pitch'] },
   talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }

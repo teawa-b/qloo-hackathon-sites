@@ -54,12 +54,22 @@
   {
    "type": "step_done",
    "id": "brief",
-   "summary": "Velvet Bistro Bedroom"
+   "summary": "Late Night Bistro"
+  },
+  {
+   "type": "step",
+   "id": "baseline",
+   "label": "Asking the same question without Qloo"
   },
   {
    "type": "step",
    "id": "paint",
    "label": "Painting the room"
+  },
+  {
+   "type": "step_done",
+   "id": "baseline",
+   "summary": "3 of 8 picks hold up for this taste"
   },
   {
    "type": "step_done",
@@ -69,47 +79,53 @@
   {
    "type": "final",
    "concept": {
-    "name": "Velvet Bistro Bedroom",
-    "tagline": "A candlelit Parisian corner for sad songs, good books, and feeling everything.",
-    "brief": "The room feels like a tiny after-hours bistro folded into a bedroom, with warm brass light, deep green velvet, and worn-in vintage comforts. You curl up with a novel, play records low, and let the evening soften into something intimate and a little theatrical.",
-    "image_prompt": "Photoreal eye-level interior of a small intimate bedroom-lounge styled like a Parisian bistro: deep bottle-green velvet banquette sofa with cream pillows, dark walnut paneling below cream plaster walls, art deco brass wall sconces with amber glow, a small marble bistro table with a taper candle, a vintage turntable on a low walnut cabinet with vinyl records leaning beside it, a pair of cherry-red Dr. Martens boots on a patterned rug, a yellow Kanken backpack hanging from a brass hook, an unlabeled framed film still on the wall, warm low evening light, rich textures, cozy and polished.",
+    "name": "Late Night Bistro",
+    "tagline": "A velvet corner for slow evenings, old records and unsent messages.",
+    "brief": "This is a small, candlelit room that feels like a Left Bank bistro after closing, with brass, walnut and deep green velvet holding you close. Spend your time reading on the banquette, flipping through Polaroids, and putting on one record after another while the city hums outside.",
+    "image_prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
     "design_choices": [
      {
       "element": "Lighting",
-      "choice": "Brass art deco sconces and a taper candle on the table create a low amber glow that feels like a speakeasy after closing.",
+      "choice": "Two amber wall sconces on a dimmer and a low opaline pendant keep the light warm and close to the table.",
       "signals": [
-       {
-        "name": "Art Deco",
-        "grounded": true
-       },
        {
         "name": "Speakeasy (decor)",
         "grounded": false
        },
        {
-        "name": "Intimate",
+        "name": "Romantic",
         "grounded": true
        },
        {
-        "name": "Romantic",
+        "name": "Intimate",
         "grounded": true
        }
       ]
      },
      {
       "element": "Seating",
-      "choice": "A bottle-green velvet banquette with cream cushions gives the bistro-corner feel while staying deeply cozy for long reading nights.",
+      "choice": "A deep emerald velvet banquette with bolsters runs along one wall, paired with a round bistro table for two.",
       "signals": [
        {
         "name": "Parisian Bistro",
         "grounded": true
        },
        {
-        "name": "High End",
+        "name": "Cozy",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Materials",
+      "choice": "Fluted walnut panelling, a marble tabletop and black and white hexagon tiles give the room a polished, Art Deco structure.",
+      "signals": [
+       {
+        "name": "Art Deco",
         "grounded": true
        },
        {
-        "name": "Cozy",
+        "name": "Polished",
         "grounded": true
        },
        {
@@ -119,41 +135,15 @@
       ]
      },
      {
-      "element": "Materials",
-      "choice": "Walnut paneling, marble, brass, and aged velvet blend polished finishes with old-school, lived-in character.",
-      "signals": [
-       {
-        "name": "Old School",
-        "grounded": true
-       },
-       {
-        "name": "Polished",
-        "grounded": true
-       },
-       {
-        "name": "Vintage",
-        "grounded": true
-       },
-       {
-        "name": "Professional",
-        "grounded": true
-       }
-      ]
-     },
-     {
       "element": "Objects",
-      "choice": "A yellow Kanken, cherry Dr. Martens, and a Polaroid camera on the table add youthful, personal touches without cluttering the room.",
+      "choice": "Polaroid prints pinned to a cork board and a Kanken backpack on a brass hook make the room feel personal and lived in.",
       "signals": [
-       {
-        "name": "Kanken",
-        "grounded": true
-       },
        {
         "name": "Polaroid",
         "grounded": true
        },
        {
-        "name": "Youthful",
+        "name": "Kanken",
         "grounded": true
        },
        {
@@ -163,88 +153,47 @@
       ]
      },
      {
-      "element": "Soundtrack",
-      "choice": "A turntable and a small stack of records anchor the room around confessional indie songwriting.",
-      "signals": [
-       {
-        "name": "Phoebe Bridgers",
-        "grounded": true
-       },
-       {
-        "name": "Lucy Dacus",
-        "grounded": true
-       },
-       {
-        "name": "Mitski",
-        "grounded": true
-       },
-       {
-        "name": "Big Thief",
-        "grounded": true
-       }
-      ]
-     },
-     {
       "element": "Shelf",
-      "choice": "A narrow shelf holds well-loved paperbacks and a few vibrant accents, making the room feel curated and community-minded.",
+      "choice": "A short oak shelf holds well-worn copies of Shuggie Bain and Conversations on Love beside a small vinyl stack.",
       "signals": [
-       {
-        "name": "Conversations on Love",
-        "grounded": true
-       },
        {
         "name": "Shuggie Bain",
         "grounded": true
        },
        {
-        "name": "Mayflies",
+        "name": "Conversations on Love",
         "grounded": true
        },
        {
-        "name": "Community Focused",
-        "grounded": true
-       },
-       {
-        "name": "Vibrant",
+        "name": "Vintage",
         "grounded": true
        }
       ]
      }
     ],
-    "first_track": "Lucy Dacus"
+    "first_track": "Julien Baker"
    },
    "render": {
-    "id": "5cc62e6c-9ffa-470f-9c0f-f11106c9468c",
+    "id": "b37e61b3-306c-4097-9a77-9c7920b96803",
     "url": "/img/demo-room-heartbreak-1.jpg",
     "model": "gpt-image-2.5/flare",
-    "prompt": "Photoreal eye-level interior of a small intimate bedroom-lounge styled like a Parisian bistro: deep bottle-green velvet banquette sofa with cream pillows, dark walnut paneling below cream plaster walls, art deco brass wall sconces with amber glow, a small marble bistro table with a taper candle, a vintage turntable on a low walnut cabinet with vinyl records leaning beside it, a pair of cherry-red Dr. Martens boots on a patterned rug, a yellow Kanken backpack hanging from a brass hook, an unlabeled framed film still on the wall, warm low evening light, rich textures, cozy and polished.",
+    "prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
     "aspect": "3:2",
     "signals": [
-     "Art Deco",
      "Speakeasy (decor)",
-     "Intimate",
      "Romantic",
+     "Intimate",
      "Parisian Bistro",
-     "High End",
      "Cozy",
-     "Luxury",
-     "Old School",
+     "Art Deco",
      "Polished",
-     "Vintage",
-     "Professional",
-     "Kanken",
+     "Luxury",
      "Polaroid",
-     "Youthful",
+     "Kanken",
      "Artistic",
-     "Phoebe Bridgers",
-     "Lucy Dacus",
-     "Mitski",
-     "Big Thief",
-     "Conversations on Love",
      "Shuggie Bain",
-     "Mayflies",
-     "Community Focused",
-     "Vibrant"
+     "Conversations on Love",
+     "Vintage"
     ]
    },
    "taste": {
@@ -1157,74 +1106,158 @@
      "id": "4247D725-751A-4723-9CC8-1ED972A8DD5C",
      "affinity": 0.868
     }
-   ]
+   ],
+   "baseline": {
+    "model": "anthropic/claude-haiku-5.5",
+    "picks": [
+     {
+      "kind": "decor",
+      "name": "Moody Warm Lighting",
+      "verdict": "known",
+      "match": "Warm Lighting"
+     },
+     {
+      "kind": "decor",
+      "name": "Overstuffed Bookshelf",
+      "verdict": "unknown",
+      "match": null
+     },
+     {
+      "kind": "decor",
+      "name": "Rumpled Linen Bedding",
+      "verdict": "unknown",
+      "match": null
+     },
+     {
+      "kind": "artist",
+      "name": "Lucy Dacus",
+      "verdict": "ranked",
+      "match": "Lucy Dacus"
+     },
+     {
+      "kind": "artist",
+      "name": "Big Thief",
+      "verdict": "ranked",
+      "match": "Big Thief"
+     },
+     {
+      "kind": "artist",
+      "name": "Julien Baker",
+      "verdict": "ranked",
+      "match": "Julien Baker"
+     },
+     {
+      "kind": "brand",
+      "name": "Glossier Products",
+      "verdict": "known",
+      "match": "Glossier"
+     },
+     {
+      "kind": "brand",
+      "name": "Dr. Martens Boots",
+      "verdict": "known",
+      "match": "Dr. Martens"
+     }
+    ],
+    "counts": {
+     "ranked": 3,
+     "known": 3,
+     "unknown": 2
+    },
+    "total": 8
+   }
   },
   {
    "type": "done",
    "qlooCalls": [
     {
      "url": "https://hackathon.api.qloo.com/search?query=Phoebe+Bridgers&take=3",
-     "ms": 474,
+     "ms": 494,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Fleabag&take=3",
-     "ms": 147,
+     "ms": 154,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Sally+Rooney&take=3",
-     "ms": 228,
+     "ms": 158,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Glossier&take=3",
-     "ms": 137,
+     "ms": 178,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Dr.+Martens&take=3",
-     "ms": 222,
+     "ms": 302,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=10",
-     "ms": 878,
+     "ms": 880,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=8",
-     "ms": 1123,
+     "ms": 1152,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=10",
-     "ms": 1123,
+     "ms": 1154,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 368,
+     "ms": 371,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 828,
+     "ms": 832,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 1549,
+     "ms": 1660,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 3332,
+     "ms": 3372,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 154,
+     "ms": 141,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Rumpled+Linen+Bedding&take=8",
+     "ms": 410,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Dr.+Martens+Boots&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 427,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Glossier+Products&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 428,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Overstuffed+Bookshelf&take=8",
+     "ms": 444,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Moody+Warm+Lighting&take=8",
+     "ms": 469,
      "ok": true
     }
    ]
@@ -1232,41 +1265,30 @@
  ],
  "renders": [
   {
-   "id": "5cc62e6c-9ffa-470f-9c0f-f11106c9468c",
+   "id": "b37e61b3-306c-4097-9a77-9c7920b96803",
    "url": "/img/demo-room-heartbreak-1.jpg",
-   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4aa1/G_K7Q0CsZmeiE2Cx7-eh8_9jMjdpKa.jpg",
-   "prompt": "Photoreal eye-level interior of a small intimate bedroom-lounge styled like a Parisian bistro: deep bottle-green velvet banquette sofa with cream pillows, dark walnut paneling below cream plaster walls, art deco brass wall sconces with amber glow, a small marble bistro table with a taper candle, a vintage turntable on a low walnut cabinet with vinyl records leaning beside it, a pair of cherry-red Dr. Martens boots on a patterned rug, a yellow Kanken backpack hanging from a brass hook, an unlabeled framed film still on the wall, warm low evening light, rich textures, cozy and polished.",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4dea/ADpMyzclLJlHSdYqb2jzS_m7bl4Kde.jpg",
+   "prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
    "aspect": "3:2",
    "model": "gpt-image-2.5/flare",
    "signals": [
-    "Art Deco",
     "Speakeasy (decor)",
-    "Intimate",
     "Romantic",
+    "Intimate",
     "Parisian Bistro",
-    "High End",
     "Cozy",
-    "Luxury",
-    "Old School",
+    "Art Deco",
     "Polished",
-    "Vintage",
-    "Professional",
-    "Kanken",
+    "Luxury",
     "Polaroid",
-    "Youthful",
+    "Kanken",
     "Artistic",
-    "Phoebe Bridgers",
-    "Lucy Dacus",
-    "Mitski",
-    "Big Thief",
-    "Conversations on Love",
     "Shuggie Bain",
-    "Mayflies",
-    "Community Focused",
-    "Vibrant"
+    "Conversations on Love",
+    "Vintage"
    ]
   }
  ],
  "baseline": null,
- "recorded": "2026-10-21T16:37:51.561Z"
+ "recorded": "2026-10-21T18:58:01.802Z"
 }

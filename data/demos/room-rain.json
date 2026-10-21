@@ -54,12 +54,22 @@
   {
    "type": "step_done",
    "id": "brief",
-   "summary": "Rain Hour Study"
+   "summary": "Quiet Signal Room"
+  },
+  {
+   "type": "step",
+   "id": "baseline",
+   "label": "Asking the same question without Qloo"
   },
   {
    "type": "step",
    "id": "paint",
    "label": "Painting the room"
+  },
+  {
+   "type": "step_done",
+   "id": "baseline",
+   "summary": "0 of 8 picks hold up for this taste"
   },
   {
    "type": "step_done",
@@ -69,19 +79,15 @@
   {
    "type": "final",
    "concept": {
-    "name": "Rain Hour Study",
-    "tagline": "A dim, warm, wood-lined room for listening, reading and watching the city blur.",
-    "brief": "The room feels hushed, intimate and quietly luxurious, mixing Japanese restraint with dark wood, vintage warmth and a faint neon melancholy. You listen to records, read on the low sofa, and watch films late at night with rain on the window.",
-    "image_prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+    "name": "Quiet Signal Room",
+    "tagline": "A small, warm place to listen, read and drift between worlds.",
+    "brief": "The room is calm and low-lit, with pale wood, plaster and soft linen that let the mind wander after dark. You spend your evenings here with a record on the turntable, a book on the shelf and a film playing quietly on the wall.",
+    "image_prompt": "Photoreal interior photograph at eye level of a quiet room with pale oak floorboards and exposed grey concrete on one wall, warm plaster on the others. A low charcoal linen sofa sits beside a walnut shelf with hardback books and a ceramic vase. A Japanese paper lantern shade glows beside it, casting soft amber light. Across the room a turntable rests on a wooden sideboard, and a framed print hangs above. A camel wool coat hangs on a brass hook by the door. Late light through a sheer curtain falls on a woven rug in muted ivory and indigo.",
     "design_choices": [
      {
       "element": "Lighting",
-      "choice": "Warm paper lanterns and one brass lamp provide low amber light, while a teal-orange glow from the window nods to neon-soaked night cities.",
+      "choice": "A paper lantern lamp with a dimmer keeps the room amber and low after dusk.",
       "signals": [
-       {
-        "name": "Blade Runner",
-        "grounded": true
-       },
        {
         "name": "Japanese",
         "grounded": true
@@ -89,38 +95,12 @@
        {
         "name": "Romantic",
         "grounded": true
-       },
-       {
-        "name": "Lost in Translation",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Materials",
-      "choice": "Dark walnut paneling is paired with matte black steel and natural linen for an industrial-chic, Japanese-minimal feel.",
-      "signals": [
-       {
-        "name": "Dark Wood",
-        "grounded": true
-       },
-       {
-        "name": "Industrial Chic",
-        "grounded": true
-       },
-       {
-        "name": "Japanese",
-        "grounded": true
-       },
-       {
-        "name": "Muji",
-        "grounded": true
        }
       ]
      },
      {
       "element": "Seating",
-      "choice": "A low, deep linen sofa with a wool throw keeps the room comfortable and understated yet elegant.",
+      "choice": "A low charcoal linen sofa with a firm cushion gives a place to sit, listen and read for hours.",
       "signals": [
        {
         "name": "Comfortable",
@@ -129,83 +109,61 @@
        {
         "name": "Elegant",
         "grounded": true
-       },
+       }
+      ]
+     },
+     {
+      "element": "Materials",
+      "choice": "Pale oak floors and one exposed concrete wall add warmth against a raw, modern edge.",
+      "signals": [
        {
-        "name": "Homey",
+        "name": "Dark Wood",
         "grounded": true
        },
        {
-        "name": "Muji",
+        "name": "Industrial Chic",
         "grounded": true
        }
       ]
      },
      {
-      "element": "Soundtrack",
-      "choice": "A turntable on a walnut sideboard holds alt-rock and post-punk records, and the sound is the room's focal point.",
+      "element": "Objects",
+      "choice": "A turntable on a sideboard and a camel coat on a brass hook keep the room personal and lived in.",
       "signals": [
        {
-        "name": "Radiohead",
+        "name": "Burberry",
         "grounded": true
        },
        {
-        "name": "The Cure",
-        "grounded": true
-       },
-       {
-        "name": "The Smiths",
-        "grounded": true
-       },
-       {
-        "name": "Interpol",
+        "name": "MoMA, the Museum of Modern Art",
         "grounded": true
        }
       ]
      },
      {
       "element": "Shelf",
-      "choice": "A small, edited shelf and side table hold novels and fashion magazines, styled like a curated gallery rather than clutter.",
+      "choice": "A walnut shelf holds hardback books and a few ceramic pieces, chosen for reading rather than display.",
       "signals": [
        {
-        "name": "Haruki Murakami",
-        "grounded": true
-       },
-       {
-        "name": "Elle Magazine",
-        "grounded": true
-       },
-       {
-        "name": "Queer",
+        "name": "Fleabag: The Scriptures",
         "grounded": true
        },
        {
         "name": "How Music Works",
         "grounded": true
-       },
-       {
-        "name": "MoMA",
-        "grounded": false
        }
       ]
      },
      {
       "element": "Screen",
-      "choice": "There is no TV on display. A concealed projector throws moody, slow films onto a plain wall for late-night viewing.",
+      "choice": "A projector on the plaster wall plays slow, melancholy films with the sound kept low.",
       "signals": [
        {
-        "name": "Melancholia",
-        "grounded": true
-       },
-       {
-        "name": "Synecdoche, New York",
-        "grounded": true
-       },
-       {
-        "name": "Magnolia",
-        "grounded": true
-       },
-       {
         "name": "Lost in Translation",
+        "grounded": true
+       },
+       {
+        "name": "Melancholia",
         "grounded": true
        }
       ]
@@ -214,37 +172,24 @@
     "first_track": "The Cure"
    },
    "render": {
-    "id": "5603b7b5-1e7f-4a1b-9490-6a4d9d7f71c1",
+    "id": "7af33a1f-e1a3-4d8d-a8e2-8882ec1c84df",
     "url": "/img/demo-room-rain-1.jpg",
     "model": "gpt-image-2.5/flare",
-    "prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+    "prompt": "Photoreal interior photograph at eye level of a quiet room with pale oak floorboards and exposed grey concrete on one wall, warm plaster on the others. A low charcoal linen sofa sits beside a walnut shelf with hardback books and a ceramic vase. A Japanese paper lantern shade glows beside it, casting soft amber light. Across the room a turntable rests on a wooden sideboard, and a framed print hangs above. A camel wool coat hangs on a brass hook by the door. Late light through a sheer curtain falls on a woven rug in muted ivory and indigo.",
     "aspect": "3:2",
     "signals": [
-     "Blade Runner",
      "Japanese",
      "Romantic",
-     "Lost in Translation",
-     "Dark Wood",
-     "Industrial Chic",
-     "Japanese",
-     "Muji",
      "Comfortable",
      "Elegant",
-     "Homey",
-     "Muji",
-     "Radiohead",
-     "The Cure",
-     "The Smiths",
-     "Interpol",
-     "Haruki Murakami",
-     "Elle Magazine",
-     "Queer",
+     "Dark Wood",
+     "Industrial Chic",
+     "Burberry",
+     "MoMA, the Museum of Modern Art",
+     "Fleabag: The Scriptures",
      "How Music Works",
-     "MoMA",
-     "Melancholia",
-     "Synecdoche, New York",
-     "Magnolia",
-     "Lost in Translation"
+     "Lost in Translation",
+     "Melancholia"
     ]
    },
    "taste": {
@@ -1157,74 +1102,173 @@
      "id": "08427760-8D25-4ECE-8036-535707B64838",
      "affinity": 0.826
     }
-   ]
+   ],
+   "baseline": {
+    "model": "anthropic/claude-haiku-5.5",
+    "picks": [
+     {
+      "kind": "decor",
+      "name": "Neon Noir",
+      "verdict": "known",
+      "match": "Noir"
+     },
+     {
+      "kind": "decor",
+      "name": "Minimalist Calm",
+      "verdict": "known",
+      "match": "Minimalist"
+     },
+     {
+      "kind": "decor",
+      "name": "Japanese Serenity",
+      "verdict": "known",
+      "match": "Japanese"
+     },
+     {
+      "kind": "artist",
+      "name": "Vangelis",
+      "verdict": "known",
+      "match": "Vangelis"
+     },
+     {
+      "kind": "artist",
+      "name": "Boards of Canada",
+      "verdict": "known",
+      "match": "Boards of Canada"
+     },
+     {
+      "kind": "artist",
+      "name": "Nick Drake",
+      "verdict": "known",
+      "match": "Nick Drake"
+     },
+     {
+      "kind": "brand",
+      "name": "Muji Desk Lamp",
+      "verdict": "known",
+      "match": "Muji"
+     },
+     {
+      "kind": "brand",
+      "name": "Eames Lounge Chair",
+      "verdict": "unknown",
+      "match": null
+     }
+    ],
+    "counts": {
+     "ranked": 0,
+     "known": 7,
+     "unknown": 1
+    },
+    "total": 8
+   }
   },
   {
    "type": "done",
    "qlooCalls": [
     {
      "url": "https://hackathon.api.qloo.com/search?query=Radiohead&take=3",
-     "ms": 409,
+     "ms": 1465,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Blade+Runner&take=3",
-     "ms": 161,
+     "ms": 182,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Haruki+Murakami&take=3",
-     "ms": 174,
+     "ms": 207,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Muji&take=3",
-     "ms": 172,
+     "ms": 242,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Monocle+magazine&take=3",
-     "ms": 162,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=10",
-     "ms": 1902,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=8",
-     "ms": 1982,
+     "ms": 244,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=10",
-     "ms": 3390,
+     "ms": 2006,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=10",
+     "ms": 2092,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=8",
+     "ms": 2170,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
-     "ms": 374,
+     "ms": 370,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
-     "ms": 838,
+     "ms": 856,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
-     "ms": 1505,
+     "ms": 1781,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
-     "ms": 3439,
+     "ms": 3312,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
-     "ms": 148,
+     "ms": 174,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Vangelis&types=urn%3Aentity%3Aartist&take=3",
+     "ms": 415,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Japanese+Serenity&take=8",
+     "ms": 423,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Muji+Desk+Lamp&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 422,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Boards+of+Canada&types=urn%3Aentity%3Aartist&take=3",
+     "ms": 428,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Minimalist+Calm&take=8",
+     "ms": 438,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Eames+Lounge+Chair&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 435,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Nick+Drake&types=urn%3Aentity%3Aartist&take=3",
+     "ms": 446,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Neon+Noir&take=8",
+     "ms": 541,
      "ok": true
     }
    ]
@@ -1232,41 +1276,28 @@
  ],
  "renders": [
   {
-   "id": "5603b7b5-1e7f-4a1b-9490-6a4d9d7f71c1",
+   "id": "7af33a1f-e1a3-4d8d-a8e2-8882ec1c84df",
    "url": "/img/demo-room-rain-1.jpg",
-   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4aa7/mVujdJUQFKNG5G5u2-Kc-_XGQzmcCX.jpg",
-   "prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4df2/OM9ojhfmEo_9CTCQ2UiG2_cXzTkkH0.jpg",
+   "prompt": "Photoreal interior photograph at eye level of a quiet room with pale oak floorboards and exposed grey concrete on one wall, warm plaster on the others. A low charcoal linen sofa sits beside a walnut shelf with hardback books and a ceramic vase. A Japanese paper lantern shade glows beside it, casting soft amber light. Across the room a turntable rests on a wooden sideboard, and a framed print hangs above. A camel wool coat hangs on a brass hook by the door. Late light through a sheer curtain falls on a woven rug in muted ivory and indigo.",
    "aspect": "3:2",
    "model": "gpt-image-2.5/flare",
    "signals": [
-    "Blade Runner",
     "Japanese",
     "Romantic",
-    "Lost in Translation",
-    "Dark Wood",
-    "Industrial Chic",
-    "Japanese",
-    "Muji",
     "Comfortable",
     "Elegant",
-    "Homey",
-    "Muji",
-    "Radiohead",
-    "The Cure",
-    "The Smiths",
-    "Interpol",
-    "Haruki Murakami",
-    "Elle Magazine",
-    "Queer",
+    "Dark Wood",
+    "Industrial Chic",
+    "Burberry",
+    "MoMA, the Museum of Modern Art",
+    "Fleabag: The Scriptures",
     "How Music Works",
-    "MoMA",
-    "Melancholia",
-    "Synecdoche, New York",
-    "Magnolia",
-    "Lost in Translation"
+    "Lost in Translation",
+    "Melancholia"
    ]
   }
  ],
  "baseline": null,
- "recorded": "2026-10-21T16:38:47.804Z"
+ "recorded": "2026-10-21T18:59:20.822Z"
 }

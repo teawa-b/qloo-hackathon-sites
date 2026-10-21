@@ -54,12 +54,22 @@
   {
    "type": "step_done",
    "id": "brief",
-   "summary": "Court Side Lounge"
+   "summary": "Deco Court Lounge"
+  },
+  {
+   "type": "step",
+   "id": "baseline",
+   "label": "Asking the same question without Qloo"
   },
   {
    "type": "step",
    "id": "paint",
    "label": "Painting the room"
+  },
+  {
+   "type": "step_done",
+   "id": "baseline",
+   "summary": "3 of 8 picks hold up for this taste"
   },
   {
    "type": "step_done",
@@ -69,21 +79,21 @@
   {
    "type": "final",
    "concept": {
-    "name": "Court Side Lounge",
-    "tagline": "Where the fourth quarter meets the vinyl crate.",
-    "brief": "A warm, low-lit listening and screening room that blends Art Deco polish with sneaker-culture ease, built for slow evenings of albums, films and reading. You sink into the sofa to play records, watch a Jordan Peele or Issa Rae favourite, or flip through a book on sport and justice with friends.",
-    "image_prompt": "Eye-level photograph of a cozy Art Deco inspired lounge, walls in deep oxblood lacquer with brass trim and a purple and gold accent stripe, a curved caramel leather sofa with velvet cushions, walnut record console with a turntable and vinyl sleeves, a pair of red and white high-top Air Jordan sneakers displayed on a lit glass shelf, a framed abstract film poster without text, Beats headphones on a brass hook, warm amber sconces and a fluted glass floor lamp, a low smoked-glass coffee table, plush rug, hardwood floor, soft evening glow.",
+    "name": "Deco Court Lounge",
+    "tagline": "A posh, after-hours den where classic glamour meets street-level cool.",
+    "brief": "The room feels like a warm, velvet-lined lounge where polished Art Deco lines sit easily beside quiet Japanese restraint. Here you settle into the deep sectional, put on a record or a playlist, watch a film on the screen, and let the evening unwind.",
+    "image_prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
     "design_choices": [
      {
       "element": "Lighting",
-      "choice": "Warm amber Art Deco wall sconces and a fluted glass floor lamp keep the room glowing and intimate after dark.",
+      "choice": "Warm amber pendant lamps on a dimmer over a brass floor lamp keep the room glowing low and intimate after dark.",
       "signals": [
        {
-        "name": "Art Deco (decor)",
-        "grounded": false
+        "name": "Cozy",
+        "grounded": true
        },
        {
-        "name": "Cozy",
+        "name": "Chill",
         "grounded": true
        },
        {
@@ -94,28 +104,10 @@
      },
      {
       "element": "Seating",
-      "choice": "A deep curved caramel leather sofa with velvet cushions gives a posh yet casual spot to settle in for long sessions.",
+      "choice": "A deep emerald velvet sectional with geometric Art Deco stitching anchors the room as the main place to sit, lounge, and linger.",
       "signals": [
        {
         "name": "Posh",
-        "grounded": true
-       },
-       {
-        "name": "Casual",
-        "grounded": true
-       },
-       {
-        "name": "Chill",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Walls",
-      "choice": "Oxblood lacquer walls with brass trim and a thin purple and gold stripe nod to the Lakers without turning into a theme room.",
-      "signals": [
-       {
-        "name": "Los Angeles Lakers",
         "grounded": true
        },
        {
@@ -129,19 +121,33 @@
       ]
      },
      {
-      "element": "Objects",
-      "choice": "A lit glass shelf shows a pair of Air Jordans like gallery pieces, with Beats headphones hung beside them.",
+      "element": "Walls",
+      "choice": "Walnut paneling on one wall paired with cream lacquer on the others blends Traditional Japanese calm with an eclectic mix of finishes.",
       "signals": [
        {
-        "name": "Nike",
+        "name": "Traditional Japanese",
+        "grounded": true
+       },
+       {
+        "name": "Eclectic",
+        "grounded": true
+       },
+       {
+        "name": "Vintage",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Objects",
+      "choice": "A vinyl record player and a Beats Electronics headphone set on the credenza, with a sneaker displayed like a collectible, give the room a personal, sneaker-culture edge.",
+      "signals": [
+       {
+        "name": "Beats Electronics",
         "grounded": true
        },
        {
         "name": "Air Jordan Product Line",
-        "grounded": true
-       },
-       {
-        "name": "Beats Electronics",
         "grounded": true
        },
        {
@@ -152,14 +158,14 @@
      },
      {
       "element": "Soundtrack",
-      "choice": "A walnut console holds a turntable and a crate of hip-hop vinyl, making the music the centrepiece.",
+      "choice": "A rotating playlist of J. Cole, Mac Miller, and Vince Staples plays through a hidden speaker system at a moderate, conversational volume.",
       "signals": [
        {
-        "name": "Kendrick Lamar",
+        "name": "J. Cole",
         "grounded": true
        },
        {
-        "name": "J. Cole",
+        "name": "Mac Miller",
         "grounded": true
        },
        {
@@ -167,29 +173,7 @@
         "grounded": true
        },
        {
-        "name": "Vintage",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Shelf",
-      "choice": "A low bookshelf stacks books on sport business and incarceration next to framed film art that references socially sharp cinema.",
-      "signals": [
-       {
-        "name": "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
-        "grounded": true
-       },
-       {
-        "name": "Halfway Home: Race, Punishment, and the Afterlife of Mass Incarceration",
-        "grounded": true
-       },
-       {
-        "name": "Jordan Peele",
-        "grounded": true
-       },
-       {
-        "name": "Blindspotting",
+        "name": "Lively",
         "grounded": true
        }
       ]
@@ -198,33 +182,28 @@
     "first_track": "J. Cole"
    },
    "render": {
-    "id": "ba854a20-02b9-4776-9a6d-3b314814d1e5",
+    "id": "769beb48-7ddf-493c-ac7f-54657ed6977f",
     "url": "/img/demo-room-courtside-1.jpg",
     "model": "gpt-image-2.5/flare",
-    "prompt": "Eye-level photograph of a cozy Art Deco inspired lounge, walls in deep oxblood lacquer with brass trim and a purple and gold accent stripe, a curved caramel leather sofa with velvet cushions, walnut record console with a turntable and vinyl sleeves, a pair of red and white high-top Air Jordan sneakers displayed on a lit glass shelf, a framed abstract film poster without text, Beats headphones on a brass hook, warm amber sconces and a fluted glass floor lamp, a low smoked-glass coffee table, plush rug, hardwood floor, soft evening glow.",
+    "prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
     "aspect": "3:2",
     "signals": [
-     "Art Deco (decor)",
      "Cozy",
+     "Chill",
      "Inviting",
      "Posh",
-     "Casual",
-     "Chill",
-     "Los Angeles Lakers",
      "Art Deco (decor)",
      "Chic",
-     "Nike",
-     "Air Jordan Product Line",
-     "Beats Electronics",
-     "Hip",
-     "Kendrick Lamar",
-     "J. Cole",
-     "Vince Staples",
+     "Traditional Japanese",
+     "Eclectic",
      "Vintage",
-     "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
-     "Halfway Home: Race, Punishment, and the Afterlife of Mass Incarceration",
-     "Jordan Peele",
-     "Blindspotting"
+     "Beats Electronics",
+     "Air Jordan Product Line",
+     "Hip",
+     "J. Cole",
+     "Mac Miller",
+     "Vince Staples",
+     "Lively"
     ]
    },
    "taste": {
@@ -1133,74 +1112,158 @@
      "id": "0DAE0006-2618-4ACB-8463-1B5B5FBABBE5",
      "affinity": 0.893
     }
-   ]
+   ],
+   "baseline": {
+    "model": "anthropic/claude-haiku-5.5",
+    "picks": [
+     {
+      "kind": "decor",
+      "name": "Lakers Purple and Gold",
+      "verdict": "unknown",
+      "match": null
+     },
+     {
+      "kind": "decor",
+      "name": "Street Art Gallery Wall",
+      "verdict": "known",
+      "match": "Art gallery"
+     },
+     {
+      "kind": "decor",
+      "name": "Urban Modern Cozy",
+      "verdict": "known",
+      "match": "Urban Modern"
+     },
+     {
+      "kind": "artist",
+      "name": "Kendrick Lamar",
+      "verdict": "ranked",
+      "match": "Kendrick Lamar"
+     },
+     {
+      "kind": "artist",
+      "name": "J. Cole",
+      "verdict": "ranked",
+      "match": "J. Cole"
+     },
+     {
+      "kind": "artist",
+      "name": "Tyler, The Creator",
+      "verdict": "known",
+      "match": "Tyler, the Creator"
+     },
+     {
+      "kind": "brand",
+      "name": "Nike",
+      "verdict": "ranked",
+      "match": "Nike"
+     },
+     {
+      "kind": "brand",
+      "name": "Air Jordan",
+      "verdict": "known",
+      "match": "Air Jordan Product Line"
+     }
+    ],
+    "counts": {
+     "ranked": 3,
+     "known": 4,
+     "unknown": 1
+    },
+    "total": 8
+   }
   },
   {
    "type": "done",
    "qlooCalls": [
     {
      "url": "https://hackathon.api.qloo.com/search?query=Kendrick+Lamar&take=3",
-     "ms": 465,
+     "ms": 538,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Nike&take=3",
-     "ms": 161,
+     "ms": 174,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Jordan+Peele+films&take=3",
-     "ms": 186,
+     "ms": 248,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Issa+Rae&take=3",
-     "ms": 242,
+     "ms": 259,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Lakers&take=3",
-     "ms": 146,
+     "ms": 147,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=10",
-     "ms": 893,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=8",
-     "ms": 1140,
+     "ms": 890,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=10",
-     "ms": 1143,
+     "ms": 1193,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=8",
+     "ms": 1196,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 393,
+     "ms": 360,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 830,
+     "ms": 1386,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 1626,
+     "ms": 2299,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 3165,
+     "ms": 3246,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 161,
+     "ms": 137,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Tyler%2C+The+Creator&types=urn%3Aentity%3Aartist&take=3",
+     "ms": 399,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Air+Jordan&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 406,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Lakers+Purple+and+Gold&take=8",
+     "ms": 423,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Urban+Modern+Cozy&take=8",
+     "ms": 444,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Street+Art+Gallery+Wall&take=8",
+     "ms": 603,
      "ok": true
     }
    ]
@@ -1208,37 +1271,32 @@
  ],
  "renders": [
   {
-   "id": "ba854a20-02b9-4776-9a6d-3b314814d1e5",
+   "id": "769beb48-7ddf-493c-ac7f-54657ed6977f",
    "url": "/img/demo-room-courtside-1.jpg",
-   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4aa4/zksZt_NVoL7x6jdWXqUXG_5ETQQoh2.jpg",
-   "prompt": "Eye-level photograph of a cozy Art Deco inspired lounge, walls in deep oxblood lacquer with brass trim and a purple and gold accent stripe, a curved caramel leather sofa with velvet cushions, walnut record console with a turntable and vinyl sleeves, a pair of red and white high-top Air Jordan sneakers displayed on a lit glass shelf, a framed abstract film poster without text, Beats headphones on a brass hook, warm amber sconces and a fluted glass floor lamp, a low smoked-glass coffee table, plush rug, hardwood floor, soft evening glow.",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4dee/B6l_nAxSp-4ZTf3dqJ10a_DvRalZ8U.jpg",
+   "prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
    "aspect": "3:2",
    "model": "gpt-image-2.5/flare",
    "signals": [
-    "Art Deco (decor)",
     "Cozy",
+    "Chill",
     "Inviting",
     "Posh",
-    "Casual",
-    "Chill",
-    "Los Angeles Lakers",
     "Art Deco (decor)",
     "Chic",
-    "Nike",
-    "Air Jordan Product Line",
-    "Beats Electronics",
-    "Hip",
-    "Kendrick Lamar",
-    "J. Cole",
-    "Vince Staples",
+    "Traditional Japanese",
+    "Eclectic",
     "Vintage",
-    "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
-    "Halfway Home: Race, Punishment, and the Afterlife of Mass Incarceration",
-    "Jordan Peele",
-    "Blindspotting"
+    "Beats Electronics",
+    "Air Jordan Product Line",
+    "Hip",
+    "J. Cole",
+    "Mac Miller",
+    "Vince Staples",
+    "Lively"
    ]
   }
  ],
  "baseline": null,
- "recorded": "2026-10-21T16:38:18.154Z"
+ "recorded": "2026-10-21T18:58:42.068Z"
 }

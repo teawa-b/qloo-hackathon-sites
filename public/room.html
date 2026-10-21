@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Taste Room</title>
+  <title>Roomful</title>
   <meta name="description" content="Name a few things you love. Qloo reads the taste, designs the room, paints it and plays the music.">
   <meta name="color-scheme" content="light dark">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/img/roomful-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/img/roomful-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
@@ -15,7 +16,7 @@
 </head>
 <body>
   <header class="nav">
-    <a class="wordmark" href="/">Taste Room</a>
+    <a class="wordmark" href="/"><img src="/img/roomful-180.png" alt="" width="28" height="28"><span>Roomful</span></a>
     <span class="nav-note">Taste data by Qloo</span>
   </header>
 
@@ -101,10 +102,17 @@
           <h2>Every choice, and the taste behind it</h2>
           <ul id="r-choices" class="choices"></ul>
         </section>
-        <section id="r-charts" class="taste" hidden>
-          <h2>Your taste, according to Qloo</h2>
-          <div id="chart-list" class="taste-cols"></div>
+        <section id="r-compare" class="compare" hidden>
+          <h2>With and without Qloo</h2>
+          <p class="compare-intro">The same favourites, given to an LLM alone. Each of its picks is checked against what Qloo returned for this taste.</p>
+          <p id="cmp-score" class="compare-score"></p>
+          <ul id="cmp-list" class="cmp"></ul>
+          <p id="cmp-foot" class="compare-foot"></p>
         </section>
+        <details id="r-charts" class="taste" hidden>
+          <summary><h2>Your taste, according to Qloo</h2><span class="toggle"></span></summary>
+          <div id="chart-list" class="taste-cols"></div>
+        </details>
         <button id="again" class="btn quiet again">Build another room</button>
       </div>
     </div>

@@ -101,6 +101,7 @@ function show(ev) {
   $('hero-actions').replaceChildren(...actions); $('hero-actions').hidden = !actions.length;
   playlist();
   charts();
+  compare(ev.baseline);
   $('build').classList.add('complete');
   $('r-body').hidden = false;
 }
@@ -126,6 +127,19 @@ async function play(name) {
     f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.referrerPolicy = 'strict-origin-when-cross-origin'; f.title = `${name} on YouTube`;
     $('yt').replaceChildren(f);
   } catch (error) { $('yt').replaceChildren(el('p', 'yt-status', `Couldn't load ${name}. ${error.message}`)); }
+}
+
+// With and without Qloo: an LLM's own picks for the same favourites, each placed against Qloo's results.
+function compare(b) {
+  $('r-compare').hidden = !b?.picks?.length; if (!b?.picks?.length) return;
+  const label = { ranked: 'Holds up', known: 'Real, not ranked for this taste', unknown: 'Not in Qloo' };
+  $('cmp-score').textContent = `Without Qloo, ${b.counts.ranked} of ${b.total} picks hold up for this taste`;
+  $('cmp-list').replaceChildren(...b.picks.map(p => {
+    const li = el('li', p.verdict);
+    li.append(el('span', 'cmp-name', p.name), el('span', 'cmp-kind', p.kind), el('span', 'cmp-verdict', label[p.verdict] + (p.match && p.match !== p.name ? ` (Qloo: ${p.match})` : '')));
+    return li;
+  }));
+  $('cmp-foot').textContent = `LLM alone: ${b.model}. Everything in the room above came from Qloo's results; anything that didn't is marked unverified.`;
 }
 
 // Qloo's ranked lists, plainly: the name and its affinity score, strongest first.
