@@ -22,10 +22,12 @@ const duration = file => Number(execFileSync('ffprobe', ['-v', 'error', '-show_e
 const path = u => decodeURIComponent(u.pathname).replace(/^\/([A-Za-z]:)/, '$1');
 
 // 1. Narration.
+// ElevenLabs on fal; script.json picks the model ("eleven-v3" is the more expressive one) and the voice.
+const ttsModel = `fal-ai/elevenlabs/tts/${script.model || 'multilingual-v2'}`;
 async function speak(text) {
-  const file = new URL(`audio/${createHash('sha1').update(script.voice + text).digest('hex').slice(0, 12)}.mp3`, dir);
+  const file = new URL(`audio/${createHash('sha1').update(ttsModel + script.voice + text).digest('hex').slice(0, 12)}.mp3`, dir);
   if (await exists(file)) return file;
-  const res = await fetch('https://fal.run/fal-ai/elevenlabs/tts/multilingual-v2', { method: 'POST', headers: { authorization: `Key ${process.env.FAL_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ text, voice: script.voice, stability: 0.5, similarity_boost: 0.75, speed: 1.0 }) });
+  const res = await fetch(`https://fal.run/${ttsModel}`, { method: 'POST', headers: { authorization: `Key ${process.env.FAL_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ text, voice: script.voice, stability: 0.5, similarity_boost: 0.75, speed: 1.0 }) });
   if (!res.ok) throw new Error(`TTS failed: ${res.status}`);
   const { audio } = await res.json();
   await writeFile(file, Buffer.from(await (await fetch(audio.url)).arrayBuffer()));
@@ -42,7 +44,9 @@ for (const s of script.scenes) {
   t += dur;
 }
 const total = t;
-const boxes = JSON.parse(await readFile(new URL('assets/boxes.json', dir), 'utf8'));
+// Whatever the app's capture measured: boxes.json (page parts), shots.json (studio shots), build.json (frame counts).
+const readJson = name => readFile(new URL(`assets/${name}`, dir), 'utf8').then(JSON.parse, () => null);
+const boxes = { ...(await readJson('boxes.json')), shots: await readJson('shots.json'), build: await readJson('build.json') };
 const extra = script.data ? JSON.parse(await readFile(new URL(script.data, dir), 'utf8')) : {};
 await writeFile(new URL('timeline.js', dir), `window.TIMELINE = ${JSON.stringify({ scenes: scenes.map(({ audio, ...s }) => s), boxes: { ...boxes, ...extra }, url: script.url || '' }, null, 2)};\n`);
 console.log(`${scenes.length} scenes, ${total.toFixed(1)} s`);

@@ -1,0 +1,62 @@
+{
+  "app": "openhere",
+  "voice": "Sarah",
+  "data": "data.json",
+  "scenes": [
+    {
+      "id": "title",
+      "say": "Openhere. Pick an empty space anywhere on the map, and design it for the people who actually live around it.",
+      "caption": ""
+    },
+    {
+      "id": "globe",
+      "say": "Pick a spot, and Openhere finds real spaces nearby. Here, a cleared-out Dollarama in Parkdale, Toronto.",
+      "caption": "Pick a real space on the map"
+    },
+    {
+      "id": "build",
+      "say": "An agent asks Qloo about the neighbourhood: the moods and decor locals rate, the venues they love, and the artists they would pay to see. Fifteen calls, adapting as it goes.",
+      "caption": "An agent asks Qloo who goes out here"
+    },
+    {
+      "id": "qloo",
+      "say": "Every question starts from that point on the map. Qloo's demographics check each design idea against the local crowd, and its popularity filter sizes the bookings to a six hundred and fifty person room.",
+      "caption": "Qloo, from one point on the map"
+    },
+    {
+      "id": "reveal",
+      "say": "Then it redesigns the real photo, keeping the walls, the windows and the camera, so the before and after is believable. This is Dollar Store Sessions.",
+      "caption": "The real photo, redesigned"
+    },
+    {
+      "id": "slate",
+      "say": "It books the room from what locals already love: Yukon Blonde, Matt Mays and Jenn Grant, acts small enough to fill it.",
+      "caption": "Booked from what locals love"
+    },
+    {
+      "id": "choices",
+      "say": "Every design choice cites the Qloo signal behind it, and ideas that draw a different crowd, like cozy or energetic, are dropped.",
+      "caption": "Every choice cites Qloo"
+    },
+    {
+      "id": "baseline",
+      "say": "Ask a language model alone for the same room, and none of its eight picks hold up for this crowd. Three, like salvaged aisle shelving, are not in Qloo at all.",
+      "caption": "Without Qloo, 0 of 8 hold up"
+    },
+    {
+      "id": "fit",
+      "say": "For a brand, it measures the fit with a fanbase. Red Bull and Phoebe Bridgers fans score thirty six out of a hundred, so the room leans on what both already love: Fender, Vans and Big Red Machine.",
+      "caption": "Brand meets fanbase, measured"
+    },
+    {
+      "id": "walk",
+      "say": "And then you walk inside. A live world model streams the redesign in real time, from the same photo.",
+      "caption": "Walk inside"
+    },
+    {
+      "id": "end",
+      "say": "Openhere. Design the place for the people around it.",
+      "caption": ""
+    }
+  ]
+}

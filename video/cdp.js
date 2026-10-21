@@ -25,7 +25,15 @@ export async function launch({ port = 9334 } = {}) {
     return {
       go: async url => { await send('Page.navigate', { url }, sessionId); },
       evaluate,
-      shot: async ({ format = 'png', quality, clip, beyond = false } = {}) => Buffer.from((await send('Page.captureScreenshot', { format, quality, clip, captureBeyondViewport: beyond, fromSurface: true }, sessionId)).result.data, 'base64'),
+      // A page that is mid-navigation has nothing to capture yet; retry briefly before giving up.
+      shot: async ({ format = 'png', quality, clip, beyond = false } = {}) => {
+        for (let i = 0; ; i++) {
+          const r = await send('Page.captureScreenshot', { format, quality, clip, captureBeyondViewport: beyond, fromSurface: true }, sessionId);
+          if (r.result?.data) return Buffer.from(r.result.data, 'base64');
+          if (i >= 10) throw new Error(`Screenshot failed: ${r.error?.message || 'no data'}`);
+          await sleep(300);
+        }
+      },
       resize: async (w, h) => send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: scale, mobile: false }, sessionId),
       close: () => send('Target.closeTarget', { targetId })
     };

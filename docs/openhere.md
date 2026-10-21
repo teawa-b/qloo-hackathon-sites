@@ -1,10 +1,23 @@
 # Openhere
 
+<img src="../public/img/openhere-180.png" width="64" alt="Openhere logo">
+
 **Pick a real space on the globe. Say who it's for. An agent designs it from what those people actually love, paints it into the real photo, and lets you walk inside.**
 
 ![Openhere home: the globe and three instant examples](img/openhere-home.png)
 
 Run it with `npm run start:openhere` (port 3300), or deploy with `SITE=openhere`.
+
+## Judge in 60 seconds
+
+1. Open the site and click **A live-music room in an empty Dollarama**. It is a recorded real run, so it opens in seconds.
+2. Drag the wipe across the photo: the real empty room on the left, the redesign on the right.
+3. Read **With and without Qloo** under the concept: an LLM's picks for the same brief, checked against what Qloo ranks for this crowd.
+4. Scroll to **Why it looks like this**: every design choice names the Qloo signal behind it. Unverified names are flagged.
+5. Click **Walk inside** to explore the redesign live (fal's real-time world model).
+6. Open **How the agent decided** for every tool call and Qloo request.
+
+[Watch the explainer](video/openhere.mp4)
 
 ## Try it in 10 seconds
 
@@ -14,7 +27,11 @@ Run it with `npm run start:openhere` (port 3300), or deploy with `SITE=openhere`
 | A live-music room in a cleared Dollarama, Parkdale | `/?demo=live-music-parkdale` |
 | A café in the Empire Diner car, Chelsea, New York | `/?demo=cafe-chelsea` |
 
-Each one is a recorded real run. The studio opens with the before/after wipe, the concept, every design choice with the Qloo signal behind it, and the evidence trail.
+Each one is a recorded real run. The studio opens with the before/after wipe, the concept, the with/without-Qloo check, and every design choice with the Qloo signal behind it. The seven Qloo data views behind the design sit under one Show toggle.
+
+## With and without Qloo
+
+The studio asks an LLM for the same brief with no tools, then checks each pick against Qloo's top results for that crowd. In the recorded Red Bull × Phoebe Bridgers run, **4 of the LLM's 8 picks hold up**; 2 are real but not ranked for these fans, and 2 are not in Qloo at all ("Fluorescent Aisle Nostalgia", "Glow-in-Dark Skeletons"). Everything Openhere itself picked came from Qloo's results, and anything that did not is flagged.
 
 ![Openhere studio detail: design choices, each with its Qloo evidence](img/openhere-studio-detail.png)
 
@@ -42,10 +59,6 @@ Type a brand and an event (a headliner, a team, a show) and pick the room. The a
 2. Measures the overlap: each side's demographics, how alike their age profiles are, how much their top-15 brands and artists overlap (Jaccard), and the combined-signal picks with `feature.explainability`, so each shared pick shows how much the fans and the followers each drove it. That becomes a **fit score out of 100** with the arithmetic shown.
 3. Profiles the fans the way venue mode profiles a neighbourhood: ambience, decor, drinks, co-sponsors, playlist, places near the venue the fans rate, and a heatmap of where the fans live around the venue (drawn on the globe).
 4. Checks the design tags against the fans' own skew, renders the room with the brand unmistakable in it, and finalises: concept, design choices, partners, playlist, run of show and fit. Partners and acts must be names Qloo returned; anything else is sent back once and then flagged.
-
-## Why not just ask a chatbot?
-
-Every run has a panel that answers the same brief with no tools, then checks each of its picks against what Qloo actually ranks for that crowd. The difference is visible on every run.
 
 ## How the agent works
 
@@ -79,3 +92,33 @@ Without an LLM key, venue mode runs the same tools in a fixed order and labels t
 - **Live listings (`REALTYAPI_KEY`):** LoopNet spaces for lease within about 1.5 miles of the point, with the full gallery (interiors first), rent, size and traffic counts. Each card credits LoopNet and links back.
 - **Sample spaces:** five real rooms that are vacant or closed, with openly licensed Wikimedia Commons photos, credited in [`data/spaces.json`](../data/spaces.json). Their rents are illustrative.
 - **Your own photo:** upload the space you're touring, pinned where you clicked.
+
+## Tests
+
+```bash
+npm test
+```
+
+They run against fake Qloo, LLM, image and world-model services, so they need no keys. For Openhere they check:
+
+```
+✔ Qloo client sends documented taste-analysis and place parameters
+✔ location signals use WKT points (longitude first) and tag responses normalise
+✔ agent loop drives Qloo, image and finalize tools end to end and never leaks keys
+✔ finalize_concept flags cited signals that Qloo never returned
+✔ event venues get a booking brief, and slate acts are checked against Qloo results
+✔ book_slate sizes the room, caps Qloo popularity and seeds with similar local venues
+✔ check_audience_fit compares design tags with the crowd the top local venues draw
+✔ activation mode: resolves both audiences, measures overlap with explainability, maps fans and grounds partners
+✔ live walkthrough signals through fal WMA bridge, hides the key and enforces the time cap
+✔ scripted mode runs without an LLM and is labelled as such
+✔ API guards: origin, missing keys, validation and limits
+✔ recorded examples replay without any API keys, with local images
+```
+
+## Known limitations
+
+- Redesigns are generated images. They keep the room's structure but are not architectural drawings.
+- The live walkthrough is a real-time world model: it improvises beyond the photo, and sessions are capped (`LIVE_MAX_SECONDS`) to bound cost.
+- Sample-space rents are illustrative; live listings need a RealtyAPI key.
+- Qloo describes crowds, not individuals; a fit score is a taste overlap, not a sales forecast.

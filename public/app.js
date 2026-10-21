@@ -312,7 +312,7 @@ async function openStudio(space, photo = null, demo = null) {
     // Image edits can take a minute; the server pings every 15 s, so three missed pings means the stream is dead.
     const stall = new AbortController();
     let watchdog = setTimeout(() => stall.abort(), 50000);
-    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}), ...(demo ? { demo } : {}) }), signal: stall.signal });
+    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}), ...(demo ? { demo, pace: new URLSearchParams(location.search).get('pace') } : {}) }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The agent could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';

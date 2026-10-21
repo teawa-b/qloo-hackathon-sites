@@ -1,0 +1,30 @@
+{
+  "point": "43.6411, -79.4339",
+  "outputs": [
+    [
+      "Mood",
+      "Stylish, Intimate"
+    ],
+    [
+      "Decor",
+      "Modern, Industrial"
+    ],
+    [
+      "Venues",
+      "The Baby G, Sneaky Dee's"
+    ],
+    [
+      "Artists",
+      "Yukon Blonde, Matt Mays"
+    ],
+    [
+      "Crowd age",
+      "skews 35-44"
+    ],
+    [
+      "Room size",
+      "popularity at most 0.94, about 650"
+    ]
+  ],
+  "walkFrames": 140
+}
