@@ -37,29 +37,47 @@ addEventListener('resize', resize); resize();
 
 const status = text => { $('w3-load').querySelector('p').textContent = text; };
 const progress = e => { if (e.total) $('w3-progress').style.width = `${Math.round(100 * e.loaded / e.total)}%`; };
-// Build a room from a painting: send a small copy (the mesh has one point per pixel), then put the full painting
-// back on the mesh.
-async function fromPainting(src) {
-  const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; await img.decode();
-  const c = document.createElement('canvas'); c.width = 448; c.height = Math.round(448 * img.naturalHeight / img.naturalWidth);
-  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  status('Building the room in 3D. This takes a few seconds.');
-  const res = await fetch('/api/room3d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: c.toDataURL('image/jpeg', 0.9) }) });
+const post = async (url, body) => {
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || 'The 3D room could not be built.');
+  return data;
+};
+const loadImage = async src => { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; await img.decode(); return img; };
+// Put the full painting on a mesh that was built from a small copy of it.
+function sharpen(gltf, img) {
+  const tex = new THREE.Texture(img); tex.flipY = false; tex.colorSpace = THREE.SRGBColorSpace; tex.needsUpdate = true;
+  gltf.scene.traverse(o => { if (o.isMesh) o.material.map = tex; });
+}
+// Build a room from a painting: widen it to 21:9, send a small copy for depth (the mesh has one point per pixel),
+// then put the full wide painting back on the mesh.
+async function fromPainting(src) {
+  status('Painting the room out to the sides…');
+  const u = new URL(src);
+  const { image } = await post('/api/room3d/widen', { painting: u.origin === location.origin ? u.pathname : src });
+  const img = await loadImage(image);
+  const c = document.createElement('canvas'); c.width = 640; c.height = Math.round(640 * img.naturalHeight / img.naturalWidth);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  status('Building it in 3D…');
+  const data = await post('/api/room3d', { image: c.toDataURL('image/jpeg', 0.9) });
   const gltf = await new GLTFLoader().loadAsync(data.glb, progress);
-  const sharp = new THREE.Texture(img); sharp.flipY = false; sharp.colorSpace = THREE.SRGBColorSpace; sharp.needsUpdate = true;
-  gltf.scene.traverse(o => { if (o.isMesh) o.material.map = sharp; });
+  sharpen(gltf, img);
   return gltf;
 }
 let gltf;
 try {
   if (painting) gltf = await fromPainting(painting);
-  else if (file) gltf = await new GLTFLoader().loadAsync(file, progress);
+  else if (file) {
+    gltf = await new GLTFLoader().loadAsync(file, progress);
+    // A saved depth room ships its full painting beside it.
+    const full = depth && await loadImage(`/img/${name}.jpg`).catch(() => null);
+    if (full) sharpen(gltf, full);
+  }
   else throw new Error('No 3D room here yet.');
 } catch (error) { status(error.message); throw error; }
+let spread = 0.46;
 if (depth) {
-  let map = null, spread = 0;
+  let map = null; spread = 0;
   gltf.scene.traverse(o => {
     if (!o.isMesh) return;
     map = o.material.map; o.material = new THREE.MeshBasicMaterial({ map, side: THREE.DoubleSide });
@@ -92,9 +110,12 @@ canvas.addEventListener('pointerup', () => { drag = null; });
 // The room is reconstructed around where the painting was "taken"; stay close to it so it holds together. A depth
 // room only exists in front of you, so you can step into it but not turn far away from it.
 const RADIUS = 0.35, SPEED = 0.45, TURN = depth ? 0.5 : 1.1;
-const LOOK = depth ? { yaw: 0.12, pitch: 0.1 } : { yaw: Infinity, pitch: 1.2 };
+// A wider painting (see lib/depth3d.js) leaves more room to turn and to step sideways before its edges show.
+const edge = Math.atan(spread);
+const LOOK = depth ? { yaw: Math.max(0.1, edge - 0.45), pitch: 0.1 } : { yaw: Infinity, pitch: 1.2 };
+const SIDE = 0.4 * spread / 0.46;
 const keepIn = p => {
-  if (depth) { p.x = Math.max(-0.4, Math.min(0.4, p.x)); p.z = Math.max(-1.1, Math.min(0.2, p.z)); return; }
+  if (depth) { p.x = Math.max(-SIDE, Math.min(SIDE, p.x)); p.z = Math.max(-1.1, Math.min(0.2, p.z)); return; }
   const r = Math.hypot(p.x, p.z); if (r > RADIUS) p.multiplyScalar(RADIUS / r);
 };
 const clock = new THREE.Clock(), fwd = new THREE.Vector3(), side = new THREE.Vector3();

@@ -62,6 +62,11 @@ test('roomful: a painting becomes a 3D room through MoGe-2, streamed back throug
   const FKEY = 'fal-secret-key', calls = [];
   const fetcher = async (url, options = {}) => {
     url = new URL(url); calls.push({ host: url.host, auth: options.headers?.authorization });
+    if (url.host === 'fal.run' && url.pathname === '/fal-ai/luma-photon/flash/reframe') {
+      const body = JSON.parse(options.body);
+      assert.equal(body.aspect_ratio, '21:9'); assert.match(body.image_url, /^data:image\/jpeg;base64,/);
+      return Response.json({ images: [{ url: 'https://v3b.fal.media/files/wide.jpg' }] });
+    }
     if (url.host === 'fal.run') {
       assert.equal(url.pathname, '/fal-ai/moge-2');
       assert.match(JSON.parse(options.body).image_url, /^data:image\/jpeg;base64,/);
@@ -72,6 +77,11 @@ test('roomful: a painting becomes a 3D room through MoGe-2, streamed back throug
   };
   const base = await serve(t, { SITE: 'room', FAL_KEY: FKEY }, fetcher);
   assert.equal((await (await fetch(`${base}/api/config`)).json()).room3d, true);
+  // Widen: a site image is sent inline; anything that isn't this site's or fal's is refused.
+  const wide = await (await fetch(`${base}/api/room3d/widen`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ painting: '/img/demo-room-rain-1.jpg' }) })).json();
+  assert.equal(wide.image, 'https://v3b.fal.media/files/wide.jpg');
+  const foreign = await fetch(`${base}/api/room3d/widen`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ painting: 'https://example.com/x.jpg' }) });
+  assert.equal(foreign.status, 404);
   const bad = await fetch(`${base}/api/room3d`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: 'https://example.com/x.jpg' }) });
   assert.equal(bad.status, 400);
   const res = await fetch(`${base}/api/room3d`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: 'data:image/jpeg;base64,/9j/AAAA' }) });

@@ -100,7 +100,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     talkTurn: [Number(env.TALK_TURNS_PER_HOUR || 400), 3600e3],
     talkDaily: [Number(env.TALK_SESSIONS_PER_DAY || 100), 86400e3, true],
     liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 20), 86400e3, true],
-    room3d: [Number(env.ROOMS_3D_PER_HOUR || 10), 3600e3],
+    room3d: [Number(env.ROOMS_3D_PER_HOUR || 20), 3600e3],
     room3dDaily: [Number(env.ROOMS_3D_PER_DAY || 300), 86400e3, true]
   });
 
@@ -545,6 +545,20 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         return send(404, { error: 'Not found' });
       }
 
+      // A painting widened to 21:9 first, so its 3D room has more to walk into. The painting is one of this site's
+      // images, a render made here, or a fal image.
+      if (path === '/api/room3d/widen') {
+        if (!depth3d) return send(503, { error: '3D rooms need a fal key on the server.' });
+        const src = String(body.painting || '');
+        let image = null;
+        const local = src.match(/^\/img\/([a-z0-9-]+)\.(jpg|png)$/), made = src.match(/^\/api\/render\/([\w-]+)$/);
+        if (local) { const bytes = await readFile(new URL(`./public/img/${local[1]}.${local[2]}`, import.meta.url)).catch(() => null); if (bytes) image = `data:image/${local[2] === 'jpg' ? 'jpeg' : 'png'};base64,${bytes.toString('base64')}`; }
+        else if (made) { const r = renders.get(made[1]); image = r?.remoteUrl || (r?.bytes ? `data:${r.type};base64,${Buffer.from(r.bytes).toString('base64')}` : null); }
+        else if (/^https:\/\/[\w.-]+\.fal\.media\/[\w./-]+$/.test(src)) image = src;
+        if (!image) return send(404, { error: 'That painting has expired. Build the room again.' });
+        if (!limit.take('room3d', ip) || !limit.take('room3dDaily', 'all')) return send(429, { error: '3D room limit reached. Try again later.' });
+        return send(200, { image: await depth3d.widen(image) });
+      }
       if (path === '/api/room3d') {
         if (!depth3d) return send(503, { error: '3D rooms need a fal key on the server.' });
         if (!limit.take('room3d', ip) || !limit.take('room3dDaily', 'all')) return send(429, { error: '3D room limit reached. Try again later.' });
