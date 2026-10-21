@@ -47,6 +47,7 @@ img { display: block; }
 .bar > * { pointer-events: auto; }
 .logo { height: 50px; display: inline-flex; align-items: center; padding: 0 18px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); font-weight: 700; font-size: 19px; letter-spacing: -.03em; text-decoration: none; }
 .logo b { font-weight: 700; color: var(--accent); }
+.logo img { width: 26px; height: 26px; border-radius: 7px; margin-right: 9px; margin-left: -6px; }
 .search { flex: 0 1 460px; min-width: 0; margin-left: auto; height: 50px; display: flex; align-items: center; gap: 2px; padding: 5px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); border: 1px solid transparent; transition: border-color .2s; }
 .search:focus-within { border-color: var(--accent); }
 .search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; padding: 0 14px; font-size: 15px; }
@@ -229,7 +230,14 @@ img { display: block; }
 .baseline-score { font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
 .baseline .check { padding-left: 16px; padding-right: 16px; }
 .charts { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.charts-title { margin: 0; font-size: 16px; font-weight: 600; }
+.charts-title { margin: 0; font-size: 16px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.charts-title::-webkit-details-marker { display: none; }
+.charts-title small { font-size: 12.5px; font-weight: 400; color: var(--faint); margin-right: auto; }
+.charts-title::after { content: 'Show'; font-size: 13px; font-weight: 500; color: var(--accent); }
+.charts[open] .charts-title::after { content: 'Hide'; }
+.charts:not([open]) { gap: 0; }
+.choices-title { margin: 4px 0 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 16px; font-weight: 600; }
+.choices-title small { font-size: 12.5px; font-weight: 400; color: var(--faint); }
 .chart-list { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
 .chart { min-width: 0; }
 .chart.wide { grid-column: 1 / -1; }

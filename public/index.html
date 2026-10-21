@@ -6,7 +6,8 @@
   <title>Openhere</title>
   <meta name="description" content="Pick any spot. Qloo profiles who goes out there, an agent redesigns a real listing, and you walk inside.">
   <meta name="color-scheme" content="light dark">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/img/openhere-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/img/openhere-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -20,7 +21,7 @@
   <div id="map" class="map" aria-label="Map. Click a place to start."></div>
 
   <header class="bar">
-    <a class="logo" href="/">open<b>here</b></a>
+    <a class="logo" href="/"><img src="/img/openhere-180.png" alt="" width="26" height="26">open<b>here</b></a>
     <form id="search" class="search" role="search">
       <input id="q" placeholder="Search a city or street" autocomplete="off" maxlength="160" aria-label="Search a place">
       <button type="button" id="locate" class="locate" aria-label="Use my location" title="Use my location"><i class="ph ph-crosshair"></i></button>
@@ -119,8 +120,8 @@
         <button id="walk" class="cta">Walk inside <i class="ph ph-arrow-right"></i></button>
         <p id="walk-status" class="walk-status" hidden></p>
         <form id="refine" class="refine"><input id="refine-input" maxlength="400" placeholder="Change something" aria-label="Change something"><button aria-label="Apply"><i class="ph ph-arrow-right"></i></button></form>
-        <section id="charts" class="charts" hidden><h3 class="charts-title">The neighborhood, by Qloo</h3><div id="chart-list" class="chart-list"></div></section>
-        <ul id="c-choices" class="choices"></ul>
+        <section class="choices-box"><h3 class="choices-title">Why it looks like this <small>each choice cites Qloo</small></h3><ul id="c-choices" class="choices"></ul></section>
+        <details id="charts" class="charts" hidden><summary class="charts-title">The neighborhood, by Qloo</summary><div id="chart-list" class="chart-list"></div></details>
         <button id="why" class="link">How the agent decided</button>
       </div>
     </div>

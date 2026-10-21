@@ -367,32 +367,34 @@ function handle(ev, pending) {
   else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && (demoSlug || (runId && config.llm))) offerBaseline(); }
 }
 
-// "Why not just ask a chatbot?": the same brief with no tools, each pick checked against Qloo.
+// With and without Qloo: the same brief to an LLM with no tools, each pick checked against Qloo. It sits right under
+// the concept; recorded examples run it straight away (it is recorded too, so it costs nothing).
 let runId = null;
 function offerBaseline() {
   $('c-baseline')?.remove();
   const box = el('section', 'baseline'); box.id = 'c-baseline';
-  const h = el('h3', '', 'Why not just ask a chatbot?'); h.append(el('small', '', 'same brief, no Qloo')); box.append(h);
+  const h = el('h3', '', 'With and without Qloo'); h.append(el('small', '', 'same brief, an LLM alone')); box.append(h);
   const p = el('p', 'baseline-intro', `Ask an LLM alone for ${activation ? 'this activation' : `a ${typeLabel[business] || business} here`} and check each of its picks against what Qloo actually ranks for this crowd.`);
   const run = el('button', 'cta ghost', 'Run the check');
   box.append(p, run);
   run.addEventListener('click', async () => {
-    run.disabled = true; run.textContent = 'Asking the chatbot…';
+    run.disabled = true; run.textContent = 'Asking an LLM alone…';
     try {
       const b = await api('/api/baseline', demoSlug ? { demo: demoSlug } : { runId });
       run.remove(); p.remove();
       const verdicts = { ranked: ['✓', 'In Qloo\'s top results for this crowd'], known: ['·', 'Real, but Qloo does not rank it for this crowd'], unknown: ['✗', 'Not in Qloo\'s graph'] };
-      box.append(el('p', 'baseline-score', `${b.counts.ranked} of ${b.total} chatbot picks hold up for this crowd`));
+      box.append(el('p', 'baseline-score', `Without Qloo, ${b.counts.ranked} of ${b.total} picks hold up for this crowd`));
       b.picks.forEach(c => {
         const row = el('div', `check ${c.verdict}`), text = el('div');
         row.append(el('b', '', verdicts[c.verdict][0]));
         text.append(el('strong', '', `${c.name}`), el('p', '', `${c.kind} · ${verdicts[c.verdict][1]}${c.match && c.match !== c.name ? ` (Qloo: ${c.match})` : ''}`));
         row.append(text); box.append(row);
       });
-      box.append(el('p', 'baseline-foot', `Chatbot: ${b.model}. "Holds up" means the exact name appeared in Qloo's top results during this run.`));
+      box.append(el('p', 'baseline-foot', `LLM alone: ${b.model}. "Holds up" means the exact name appeared in Qloo's top results for this crowd during the run. Everything Openhere picked above came from those results.`));
     } catch (error) { run.disabled = false; run.textContent = 'Run the check'; toast(error.message); }
   });
-  $('c-choices').after(box);
+  $('walk').after(box);
+  if (demoSlug) run.click();
 }
 function logItem(cls, text) { const li = el('li', cls); li.append(el('p', '', text)); $('log').append(li); return li; }
 
@@ -535,7 +537,8 @@ function renderCharts() {
     taste.brand && bars(fans ? 'Brands both love' : 'Brands they rate', taste.brand.entities, e => e.affinity ?? e.popularity, { note: aff, color: 1 }),
     taste.podcast && bars('Podcasts', taste.podcast.entities, e => e.affinity ?? e.popularity, { note: aff, color: 4 })
   ].filter(Boolean);
-  $('charts').querySelector('.charts-title').textContent = fans ? 'The fans, by Qloo' : 'The neighborhood, by Qloo';
+  // Collapsed by default: the full Qloo data behind the design, for anyone who wants to check it.
+  $('charts').querySelector('.charts-title').replaceChildren(document.createTextNode(fans ? 'The fans, by Qloo ' : 'The neighborhood, by Qloo '), el('small', '', `${charts.length} views`));
   $('chart-list').replaceChildren(...charts);
   $('charts').hidden = !charts.length;
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -553,6 +556,7 @@ function showConcept(c) {
     d.signals.forEach((s, i) => chips.append(el('span', `chip ${s.grounded ? `c${i % 4}` : 'no'}`, s.grounded ? s.name : `${s.name} (unverified)`)));
     li.append(el('b', '', d.element), el('p', '', d.choice), chips); return li;
   }));
+  const placed = {};
   $('c-fit')?.remove();
   if (c.overlap) {
     const o = c.overlap, box = el('section', 'fit'); box.id = 'c-fit';
@@ -565,7 +569,7 @@ function showConcept(c) {
     [...o.sharedBrands, ...o.sharedArtists].slice(0, 8).forEach((e, i) => chips.append(el('span', `chip c${i % 4}`, e.name)));
     if (chips.children.length) { text.append(el('p', 'fit-note', 'Both audiences already love'), chips); }
     box.append(ring, text);
-    $('walk').after(box);
+    placed.fit = box;
   }
   $('c-partners')?.remove();
   if (c.partners?.length) {
@@ -577,7 +581,7 @@ function showConcept(c) {
       if (!p.grounded) right.append(el('span', 'chip no', 'not from Qloo'));
       row.append(el('b', '', p.role), right); box.append(row);
     });
-    $('walk').after(box);
+    placed.partners = box;
   }
   $('c-audience')?.remove();
   if (c.audience?.checks?.length) {
@@ -590,7 +594,7 @@ function showConcept(c) {
       const text = el('div'); text.append(el('strong', '', chk.tag), el('p', '', chk.verdict === 'mismatch' ? `Dropped: ${chk.reason}.` : chk.verdict === 'fits' ? 'Fits: closer to the locals’ age mix than most design options here.' : 'In range for this crowd.'));
       row.append(text); box.append(row);
     }
-    $('walk').after(box);
+    $('c-choices').closest('section').after(box);
   }
   $('c-slate')?.remove();
   if (c.programming?.length) {
@@ -604,8 +608,10 @@ function showConcept(c) {
       if (!p.grounded) right.append(el('span', 'chip no', 'not from Qloo'));
       row.append(el('b', '', p.slot), right); slate.append(row);
     });
-    $('walk').after(slate);
+    placed.slate = slate;
   }
+  // Most important first: the fit, then the programme, then partners.
+  $('walk').after(...[placed.fit, placed.slate, placed.partners].filter(Boolean));
   $('c-body').hidden = false;
   $('refine').hidden = !render; $('walk').hidden = !render || !(config.liveWorld || config.world);
 }
