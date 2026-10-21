@@ -5,22 +5,30 @@
 <title>Roomful explainer</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=block">
 <style>
-  /* Roomful's film is soft and warm: a dusk-plum room, the painting as the hero, polaroids and slow dissolves. */
-  :root { --dusk: #1d1218; --dusk-2: #2a1922; --cream: #f6ece4; --rose: #ef5c8c; --rose-deep: #c42d61; }
+  /* Roomful's film is soft and warm: a dusk-plum room, the painting as the hero, labelled cards over a blurred room. */
+  :root { --dusk: #1d1218; --dusk-2: #2a1922; --cream: #f6ece4; --rose: #ef5c8c; --rose-deep: #c42d61; --ok: #ef5c8c; }
   * { box-sizing: border-box; margin: 0; }
   html, body { width: 1920px; height: 1080px; overflow: hidden; background: radial-gradient(90% 80% at 50% 40%, var(--dusk-2), var(--dusk)); font-family: Geist, system-ui, sans-serif; color: var(--cream); }
   .layer { position: absolute; inset: 0; opacity: 0; }
   .bleed { position: absolute; inset: 0; overflow: hidden; }
   .bleed img { position: absolute; left: 50%; top: 50%; width: 1920px; transform-origin: 50% 50%; will-change: transform; }
   .bleed::after { content: ''; position: absolute; inset: 0; background: radial-gradient(75% 70% at 50% 45%, transparent 45%, rgba(29,18,24,.75)); }
-  .soft { filter: blur(18px) brightness(.45) saturate(1.1); }
+  .soft { filter: blur(18px) brightness(.4) saturate(1.1); }
   .polaroid { position: absolute; background: #fbf7f3; padding: 22px 22px 70px; border-radius: 6px; box-shadow: 0 40px 90px rgba(10,4,8,.6); will-change: transform; }
   .polaroid img { display: block; width: 100%; border-radius: 2px; }
-  .polaroid .note { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; color: #3a2a30; font-size: 26px; font-weight: 600; letter-spacing: -0.01em; }
-  .float { position: absolute; border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 40px 90px rgba(10,4,8,.6); will-change: transform; }
+  .polaroid .note { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; color: #3a2a30; font-size: 26px; font-weight: 600; }
+  /* A screen of the app, framed as a card, with a label above it. */
+  .float { position: absolute; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 40px 90px rgba(10,4,8,.6); will-change: transform; }
   .float .page { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
   .float .page img { display: block; width: 1440px; }
-  .cap { position: absolute; left: 0; right: 0; bottom: 90px; text-align: center; font-size: 54px; font-weight: 600; letter-spacing: -0.03em; }
+  .label { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px 12px 14px; border-radius: 999px; background: var(--cream); color: var(--dusk); font-size: 26px; font-weight: 600; letter-spacing: -0.01em; box-shadow: 0 16px 40px rgba(10,4,8,.45); opacity: 0; white-space: nowrap; }
+  .label i { width: 34px; height: 34px; border-radius: 50%; background: var(--rose-deep); color: #fff; display: grid; place-items: center; font: normal 600 18px 'Geist Mono', monospace; }
+  /* Highlights inside a card: a ring on the exact element, and a callout tag beside it. */
+  .ring { position: absolute; border: 4px solid var(--rose); border-radius: 12px; box-shadow: 0 0 0 6px rgba(239,92,140,.25); opacity: 0; }
+  .ring.flag { border-color: #f2b14b; box-shadow: 0 0 0 6px rgba(242,177,75,.25); }
+  .callout { position: absolute; padding: 10px 16px; border-radius: 10px; background: var(--rose-deep); color: #fff; font-size: 22px; font-weight: 600; white-space: nowrap; opacity: 0; box-shadow: 0 10px 24px rgba(10,4,8,.4); }
+  .callout.flag { background: #f2b14b; color: #2a1a20; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font-size: 50px; font-weight: 600; letter-spacing: -0.03em; }
   .cap .w { display: inline-block; margin: 0 .12em; opacity: 0; filter: blur(8px); }
   .cap .w.q { color: var(--rose); }
   .card { display: grid; place-items: center; text-align: center; }
@@ -34,6 +42,21 @@
   .pinned span { display: block; font: 500 15px 'Geist Mono', monospace; color: var(--rose-deep); letter-spacing: .06em; margin-bottom: 6px; text-transform: uppercase; }
   .pinned b { font-size: 25px; font-weight: 600; line-height: 1.25; }
   .center-logo { position: absolute; left: 50%; top: 46%; width: 300px; height: 300px; margin: -150px 0 0 -150px; opacity: 0; }
+  /* With and without Qloo, side by side. */
+  .vs { position: absolute; left: 150px; right: 150px; top: 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; opacity: 0; }
+  .col { border-radius: 22px; padding: 30px 34px 26px; background: #fbf7f3; color: #2a1a20; box-shadow: 0 40px 90px rgba(10,4,8,.6); }
+  .col.without { background: rgba(246,236,228,.08); color: var(--cream); border: 2px dashed rgba(246,236,228,.35); box-shadow: none; }
+  .col h2 { font-size: 38px; letter-spacing: -0.02em; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .col h2 small { font-size: 20px; font-weight: 500; opacity: .7; }
+  .col .score { font-size: 28px; font-weight: 600; margin: 8px 0 18px; color: var(--rose-deep); }
+  .col.without .score { color: #f2b14b; }
+  .col ul { list-style: none; padding: 0; display: grid; gap: 10px; }
+  .col li { display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 25px; font-weight: 600; padding: 8px 0; border-top: 1px solid rgba(42,26,32,.1); opacity: 0; }
+  .col.without li { border-top-color: rgba(246,236,228,.12); }
+  .col li em { font-style: normal; font-size: 17px; font-weight: 600; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+  .col li em.ok { background: var(--rose-deep); color: #fff; }
+  .col li em.known { background: rgba(242,177,75,.2); color: #f2b14b; }
+  .col li em.unknown { background: rgba(246,236,228,.12); color: var(--cream); text-decoration: line-through; }
 </style>
 </head>
 <body>
@@ -41,9 +64,15 @@
   <div id="scene" class="layer">
     <div class="bleed"><img id="bg" alt=""></div>
     <div id="pol" class="polaroid" style="display:none"><img id="polImg" alt=""><div class="note" id="polNote"></div></div>
-    <div id="flo" class="float" style="display:none"><div id="page" class="page"><img id="shot" alt=""></div></div>
+    <div id="flo" class="float" style="display:none"><div id="page" class="page"><img id="shot" alt=""></div><div id="ringA" class="ring"></div><div id="ringB" class="ring flag"></div></div>
+    <div id="calloutA" class="callout"></div><div id="calloutB" class="callout flag"></div>
+    <div id="label" class="label"><i id="labelN"></i><span id="labelT"></span></div>
     <img id="clogo" class="center-logo" src="../../public/img/roomful-512.png" alt="">
     <div id="chips"></div><div id="notes"></div>
+    <div id="vs" class="vs">
+      <div class="col"><h2>With Qloo <small>what Roomful used</small></h2><div class="score">Every pick comes from Qloo's results for this taste</div><ul id="withList"></ul></div>
+      <div class="col without"><h2>Without Qloo <small>an LLM alone</small></h2><div class="score" id="withoutScore"></div><ul id="withoutList"></ul></div>
+    </div>
   </div>
   <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/roomful-512.png" alt=""><h1>Roomful</h1><p>A room full of what you love.</p><div class="url" id="endUrl"></div></div></div>
   <div id="cap" class="cap"></div>

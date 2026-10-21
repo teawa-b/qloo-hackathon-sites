@@ -86,6 +86,7 @@ label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
 .stage.ready img { opacity: 1; transform: none; }
 /* Skeleton: the shape of the picture, with a light sweep while it is being made. */
 .skeleton { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--surface) 70%, transparent) 50%, transparent 70%) 0 0 / 250% 100%, var(--raised); animation: sweep 1.8s linear infinite; }
+.skeleton::after { content: "Your room is being designed"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 17px; font-weight: 500; color: var(--muted); letter-spacing: -.01em; }
 .panel { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 20px; animation: enter .7s var(--ease) both; }
 .status { margin: 0; font-size: 14px; color: var(--accent); font-weight: 500; }
 .panel h1 { font-size: clamp(32px, 3.2vw, 44px); line-height: 1.05; }
@@ -189,3 +190,22 @@ label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
   .choices li[class] { grid-column: auto; }
   #r-body { gap: 48px; padding-top: 40px; }
 }
+
+/* Walk inside in 3D: a full-screen canvas with a small heads-up layer. */
+.walk3d { background: #1d1218; color: #f6ece4; overflow: hidden; }
+.walk3d #view { position: fixed; inset: 0; width: 100vw; height: 100dvh; display: block; touch-action: none; cursor: grab; }
+.w3-top { position: fixed; top: 16px; left: 16px; right: 16px; display: flex; align-items: center; gap: 14px; z-index: 2; }
+.w3-top .wordmark { color: #f6ece4; padding: 8px 14px; border-radius: 999px; background: rgba(29, 18, 24, .7); }
+.w3-name { margin: 0; padding: 8px 14px; border-radius: 999px; background: rgba(29, 18, 24, .7); font-weight: 600; }
+.w3-btn { margin-left: auto; height: 40px; padding: 0 18px; border-radius: 999px; border: 0; background: #ef5c8c; color: #1d1218; font-weight: 600; }
+.w3-load { position: fixed; inset: 0; display: grid; place-content: center; gap: 14px; text-align: center; z-index: 3; background: #1d1218; }
+.w3-load p { margin: 0; font-size: 18px; }
+.w3-bar { width: 260px; height: 4px; border-radius: 2px; background: rgba(246, 236, 228, .15); overflow: hidden; }
+.w3-bar i { display: block; height: 100%; width: 0; background: #ef5c8c; transition: width .2s; }
+.w3-keys { position: fixed; left: 24px; bottom: 24px; z-index: 2; display: grid; gap: 6px; justify-items: start; }
+.w3-row { display: flex; gap: 6px; }
+.w3-row:first-child { padding-left: 46px; }
+.w3-keys span { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 9px; border: 1px solid rgba(246, 236, 228, .35); background: rgba(29, 18, 24, .6); font: 600 16px 'Geist Mono', monospace; transition: background .08s, transform .08s; }
+.w3-keys span.on { background: #ef5c8c; color: #1d1218; border-color: #ef5c8c; transform: translateY(1px); }
+.w3-keys p { margin: 6px 0 0; font-size: 13px; color: rgba(246, 236, 228, .75); }
+.w3-note { position: fixed; right: 24px; bottom: 24px; max-width: 320px; margin: 0; font-size: 12px; color: rgba(246, 236, 228, .6); text-align: right; z-index: 2; }

@@ -19,10 +19,14 @@ $('ask').addEventListener('submit', e => { e.preventDefault(); const t = $('text
 $('again').addEventListener('click', () => { $('build').hidden = true; $('intro').hidden = false; scrollTo({ top: 0, behavior: 'smooth' }); $('text').focus(); });
 $('change').addEventListener('click', () => { $('refine').hidden = !$('refine').hidden; if (!$('refine').hidden) $('refine-input').focus(); });
 
+// Examples whose room has been built in 3D (Hunyuan World, see scripts/world-to-glb.js): walk them with WASD.
+const worlds = { rain: 'room-rain' };
+let world = null;
+
 async function build(text, demo = null) {
   if (!text || running) return;
   if (!demo && !config.qloo) return toast('This server has no Qloo key yet.');
-  running = true; render = null; concept = null; taste = null;
+  running = true; render = null; concept = null; taste = null; world = worlds[demo] || null;
   $('demo-note').hidden = !demo;
   $('intro').hidden = true; $('build').hidden = false; $('build').classList.remove('complete');
   scrollTo({ top: 0 });
@@ -91,9 +95,10 @@ function show(ev) {
   if (render?.url) {
     const img = $('hero-img'); img.src = safeUrl(render.url);
     img.decode().catch(() => {}).finally(() => { $('hero').classList.add('ready'); $('hero-shimmer').hidden = true; });
-    if (config.liveWorld) actions.push($('walk'));
+    if (world || config.liveWorld) actions.push($('walk'));
     actions.push($('change'));
-    $('walk').hidden = !config.liveWorld;
+    $('walk').hidden = !(world || config.liveWorld);
+    $('walk').textContent = world ? 'Walk inside in 3D' : 'Walk inside';
   } else {
     $('hero-shimmer').hidden = true;
     $('hero').classList.add('ready');
@@ -162,6 +167,7 @@ function charts() {
 
 $('walk').addEventListener('click', () => {
   if (!render) return;
+  if (world) return window.open(`/room3d?${new URLSearchParams({ room: world, name: concept.name })}`, '_blank', 'noopener');
   const q = new URLSearchParams({ render: render.id, name: concept.name, tagline: concept.tagline });
   window.open(`/live?${q}`, '_blank', 'noopener');
 });
