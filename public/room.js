@@ -12,9 +12,8 @@ async function api(path, body) {
 }
 
 // A preset fills the line and builds straight away; typing builds on Enter or the button.
-$('examples').addEventListener('click', e => { const b = e.target.closest('[data-ex]'); if (b) { $('text').value = b.dataset.ex; build(b.dataset.ex); } });
-$('ask').addEventListener('submit', e => { e.preventDefault(); build($('text').value.trim()); });
-$('text').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('ask').requestSubmit(); } });
+document.querySelectorAll('[data-ex]').forEach(b => b.addEventListener('click', () => { $('text').value = b.dataset.ex; build(b.dataset.ex); }));
+$('ask').addEventListener('submit', e => { e.preventDefault(); const t = $('text').value.trim(); if (!t) { toast('Name a few things you love first.'); $('text').focus(); return; } build(t); });
 $('again').addEventListener('click', () => { $('build').hidden = true; $('intro').hidden = false; scrollTo({ top: 0, behavior: 'smooth' }); $('text').focus(); });
 $('change').addEventListener('click', () => { $('refine').hidden = !$('refine').hidden; if (!$('refine').hidden) $('refine-input').focus(); });
 
@@ -52,7 +51,7 @@ async function build(text) {
 function failed(message) {
   $('r-kicker').textContent = 'Something went wrong'; $('r-name').textContent = 'That didn’t work'; $('r-tag').textContent = message;
   $('hero-shimmer').hidden = true;
-  const again = el('button', 'btn ghost', 'Try another taste'); again.addEventListener('click', () => $('again').click());
+  const again = el('button', 'btn quiet', 'Try another taste'); again.addEventListener('click', () => $('again').click());
   $('hero-actions').replaceChildren(again); $('hero-actions').hidden = false;
 }
 
@@ -65,20 +64,25 @@ function handle(ev, pending) {
 }
 
 function tags(list) {
-  return list.map(s => el('span', `tag${s.grounded === false ? ' no' : ''}`, s.grounded === false ? `${s.name} · unverified` : s.name));
+  return list.map(s => el('span', `tag${s.grounded === false ? ' no' : ''}`, s.grounded === false ? `${s.name} (unverified)` : s.name));
 }
 
 function show(ev) {
   concept = ev.concept; render = ev.render; taste = ev.taste;
   const seeds = taste.seeds.map(s => s.name);
-  $('r-kicker').textContent = `${concept.scripted ? 'Scripted · ' : ''}A room for someone who loves ${seeds.slice(0, 3).join(', ')}${seeds.length > 3 ? '…' : ''}`;
+  $('r-kicker').textContent = `${concept.scripted ? 'Scripted. ' : ''}A room for someone who loves ${seeds.slice(0, 3).join(', ')}${seeds.length > 3 ? ' and more' : ''}`;
   $('r-name').textContent = concept.name; $('r-tag').textContent = concept.tagline; $('r-brief').textContent = concept.brief;
   const cited = [...new Set(concept.design_choices.flatMap(d => d.signals).filter(s => s.grounded).map(s => s.name))].slice(0, 8);
   $('r-chips').replaceChildren(...tags(cited.map(name => ({ name }))));
-  $('r-choices').replaceChildren(...concept.design_choices.map(d => {
-    const li = el('li'), t = el('div', 'tags');
+  // Six-column grid: the first two choices take half a row each, the rest a third, and the last row always
+  // fills the width (one leftover spans the row, two leftovers split it), so there is never an empty cell.
+  const n = concept.design_choices.length, rest = Math.max(0, n - 2), left = rest % 3;
+  const span = i => i < 2 ? (n === 1 ? 6 : 3) : i >= n - left ? 6 / left : 2;
+  $('r-choices').replaceChildren(...concept.design_choices.map((d, i) => {
+    const li = el('li', `span-${span(i)}`), t = el('div', 'tags');
+    li.style.animationDelay = `${i * 60}ms`;
     t.append(...tags(d.signals));
-    li.append(el('b', '', d.element), el('p', '', d.choice), t); return li;
+    li.append(el('h3', '', d.element), el('p', '', d.choice), t); return li;
   }));
   const actions = [];
   if (render?.url) {
@@ -121,24 +125,22 @@ async function play(name) {
   } catch (error) { $('yt').replaceChildren(el('p', 'yt-status', `Couldn't load ${name}. ${error.message}`)); }
 }
 
-const palette = ['#e8a548', '#9db394', '#d99a8f', '#c86b4b', '#f4c27a'];
-function bars(title, items, value, color, note) {
-  const rows = (items || []).slice(0, 5).map(x => ({ name: x.name, v: Number(value(x)) || 0 })).filter(x => x.name);
+// Qloo's ranked lists, plainly: the name and its affinity score, strongest first.
+function ranked(title, items) {
+  const rows = (items || []).slice(0, 5).filter(x => x.name);
   if (!rows.length) return null;
-  const hi = Math.max(...rows.map(r => r.v)), lo = Math.min(...rows.map(r => r.v));
-  const box = el('div', 'chart'), h = el('h4', '', title); if (note) h.append(el('small', '', note)); box.append(h);
-  rows.forEach(r => { const row = el('div', 'hbar'), track = el('i'), fill = el('b'); fill.style.setProperty('--c', palette[color % palette.length]); fill.dataset.w = `${hi === lo ? 100 : 22 + 78 * (r.v - lo) / (hi - lo)}%`; track.append(fill); row.append(el('span', '', r.name), track); row.title = `${r.name}: ${r.v}`; box.append(row); });
-  return box;
+  const col = el('div', 'taste-col'), list = el('ol');
+  col.append(el('h3', '', title));
+  rows.forEach(x => { const li = el('li'), score = x.affinity ?? x.popularity; li.append(el('span', '', x.name), el('span', '', score != null ? Number(score).toFixed(2) : '')); list.append(li); });
+  col.append(list);
+  return col;
 }
 function charts() {
-  const v = x => x.affinity ?? x.popularity;
   const list = [
-    bars('Rooms you’d love', taste.decor, v, 0, 'decor'), bars('The mood', taste.ambience, v, 1, 'ambience'),
-    bars('On the shelf', taste.book, v, 2), bars('On the screen', taste.movie, v, 3),
-    bars('Brands', taste.brand, v, 4)
+    ranked('Rooms they rate', taste.decor), ranked('The mood', taste.ambience),
+    ranked('On the shelf', taste.book), ranked('On the screen', taste.movie), ranked('Brands', taste.brand)
   ].filter(Boolean);
   $('chart-list').replaceChildren(...list); $('r-charts').hidden = !list.length;
-  setTimeout(() => $('chart-list').querySelectorAll('b[data-w]').forEach(b => { b.style.width = b.dataset.w; }), 60);
 }
 
 $('walk').addEventListener('click', () => {

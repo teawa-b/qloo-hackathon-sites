@@ -32,7 +32,7 @@ const files = {
 // every page is served at its own path and "/" is Openhere.
 export const sites = {
   openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
-  room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
+  room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
   pitch: { name: 'Pitch Brief', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js'], api: ['/api/pitch'] },
   talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
@@ -114,8 +114,16 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       const path = url.pathname;
       // A single site only answers for its own pages and API routes.
       if (site) {
-        const own = path === '/' || sharedPages.includes(path) || site.pages.includes(path) || [...sharedApi, ...site.api].some(p => path === p || (p.endsWith('/') ? path.startsWith(p) : path.startsWith(`${p}/`) || path === p));
+        const own = path === '/' || sharedPages.includes(path) || site.pages.some(p => p.endsWith('/') ? path.startsWith(p) : p === path) || [...sharedApi, ...site.api].some(p => path === p || (p.endsWith('/') ? path.startsWith(p) : path.startsWith(`${p}/`) || path === p));
         if (!own) return send(404, { error: 'Not found' });
+      }
+      // Static images shipped with a site (e.g. Taste Room's example rooms). Names are restricted, so no path tricks.
+      const image = path.match(/^\/img\/([a-z0-9-]+)\.(jpg|png|webp)$/);
+      if (req.method === 'GET' && image) {
+        const bytes = await readFile(new URL(`./public/img/${image[1]}.${image[2]}`, import.meta.url)).catch(() => null);
+        if (!bytes) return send(404, { error: 'Not found' });
+        res.writeHead(200, { 'Content-Type': `image/${image[2] === 'jpg' ? 'jpeg' : image[2]}`, 'Cache-Control': 'public, max-age=86400' });
+        return res.end(bytes);
       }
       const entry = site && path === '/' ? [site.home, 'text/html'] : files[path];
       if (req.method === 'GET' && entry) {
