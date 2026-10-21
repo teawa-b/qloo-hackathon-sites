@@ -1,0 +1,16 @@
+{
+  "app": "smalltalk",
+  "voice": "Sarah",
+  "data": "data.json",
+  "scenes": [
+    { "id": "title", "say": "SmallTalk. It hears what the other person loves, and tells you what to say next.", "caption": "" },
+    { "id": "home", "say": "Wear it on display glasses or a headset, or put your phone on the table. It only listens once you confirm the other person knows.", "caption": "Glasses, headset or phone" },
+    { "id": "talk1", "say": "Here is a sample first coffee. As they mention Sally Rooney, Phoebe Bridgers and Past Lives, each one is found in Qloo.", "caption": "Everything they mention, found in Qloo" },
+    { "id": "qloo", "say": "Qloo turns those into their taste: what people like them also love, and, from your own favourites, what you share. Lucy Dacus, Sufjan Stevens, boygenius.", "caption": "Their taste, and what you share" },
+    { "id": "talk2", "say": "When they say they cannot stand superhero films, that goes on the list of things to steer clear of.", "caption": "And what to avoid" },
+    { "id": "nudges", "say": "Then it suggests what to say next, built only on what Qloo returned. Have you heard Lucy Dacus's new album?", "caption": "What to say next, from Qloo" },
+    { "id": "compare", "say": "Ask a language model alone, with the same conversation, and only one of its six suggestions fits their taste.", "caption": "Without Qloo, 1 of 6 fit" },
+    { "id": "glasses", "say": "On display glasses it shows one nudge, large, white on black.", "caption": "One glance" },
+    { "id": "end", "say": "SmallTalk. Know what to say next.", "caption": "" }
+  ]
+}

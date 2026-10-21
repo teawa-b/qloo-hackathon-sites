@@ -1,0 +1,9 @@
+{
+  "seeds": ["Sally Rooney", "Phoebe Bridgers", "Past Lives"],
+  "outputs": [
+    ["Music", "Lucy Dacus, Samia, Orla Gartland"],
+    ["Films", "Cha Cha Real Smooth, The Whale"],
+    ["You share", "Sufjan Stevens, boygenius"],
+    ["Steer clear", "Superhero, Marvel"]
+  ]
+}
