@@ -1,0 +1,33 @@
+{
+ "ranked7": [
+  {
+   "name": "Chelsea F.C.",
+   "affinity": 0.787
+  },
+  {
+   "name": "Los Angeles Dodgers",
+   "affinity": 0.777
+  },
+  {
+   "name": "A24",
+   "affinity": 0.767
+  },
+  {
+   "name": "DraftKings",
+   "affinity": 0.763
+  },
+  {
+   "name": "Gopuff",
+   "affinity": 0.732
+  },
+  {
+   "name": "Cloud9",
+   "affinity": 0.729
+  },
+  {
+   "name": "Overtime",
+   "affinity": 0.727
+  }
+ ],
+ "calls": 32
+}

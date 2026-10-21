@@ -24,7 +24,7 @@ $('copy').addEventListener('click', async () => {
 async function run(demo = null) {
   if (running) return;
   running = true;
-  const body = { investor: $('investor').value.trim(), firm: $('firm').value.trim(), startup: $('startup').value.trim(), comps: $('comps').value, ...(demo ? { demo } : {}) };
+  const body = { investor: $('investor').value.trim(), firm: $('firm').value.trim(), startup: $('startup').value.trim(), comps: $('comps').value, ...(demo ? { demo, pace: new URLSearchParams(location.search).get('pace') } : {}) };
   $('demo-note').hidden = !demo;
   $('intro').hidden = true; $('out').hidden = false; $('o-body').hidden = true; $('o-fit').hidden = true; $('copy').hidden = true; $('steps').replaceChildren();
   $('o-kicker').textContent = 'Researching'; $('o-name').textContent = body.investor; $('o-role').textContent = body.firm;

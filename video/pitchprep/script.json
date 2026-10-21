@@ -1,0 +1,52 @@
+{
+  "app": "pitchprep",
+  "voice": "Sarah",
+  "scenes": [
+    {
+      "id": "title",
+      "say": "Founders get one meeting with an investor. Pitchprep makes sure you walk in knowing what to say.",
+      "caption": "One meeting. Walk in knowing what to say."
+    },
+    {
+      "id": "form",
+      "say": "Type the investor, your startup in one line, and a few apps your customers already use.",
+      "caption": "Investor, your startup, apps your customers use"
+    },
+    {
+      "id": "build",
+      "say": "Pitchprep researches the investor on the web, with a source for every fact. Then it hands their portfolio to Qloo.",
+      "caption": "Cited web research, then Qloo"
+    },
+    {
+      "id": "qloo",
+      "say": "Qloo starts from your customers, the people who use Ticketmaster, Spotify and Uber, and scores every company in the portfolio by how much those people like it. It compares the ages of the two crowds too.",
+      "caption": "Qloo scores their portfolio for your customers"
+    },
+    {
+      "id": "ranked",
+      "say": "For Todd Boehly, that puts Chelsea, the Dodgers and A24 at the top, with a fit of eighty two out of a hundred.",
+      "caption": "Name these companies"
+    },
+    {
+      "id": "compare",
+      "say": "Now the same question without Qloo. With the same research, a language model alone would name Gopuff, Cloud9 and Overtime, the three Qloo ranks lowest.",
+      "caption": "Without Qloo, it names the wrong three"
+    },
+    {
+      "id": "openers",
+      "say": "The openers come from Qloo too: what fans of his teams also love, like Bleacher Report.",
+      "caption": "Openers from what fans also love"
+    },
+    {
+      "id": "trust",
+      "say": "Every section is labelled web, Qloo or interpretation. Every Qloo call is listed, and the investor's name is never sent to Qloo.",
+      "caption": "Every claim shows where it came from"
+    },
+    {
+      "id": "end",
+      "say": "Pitchprep. Know your investor before you pitch. Try it on a judge in ten seconds.",
+      "caption": "Know your investor before you pitch."
+    }
+  ],
+  "data": "data.json"
+}

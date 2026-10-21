@@ -5,3 +5,10 @@ node_modules/
 .claude/
 outputs/
 *.log
+
+# Explainer video working files (regenerate with video/<app>/capture.js and video/make.js)
+video/*/out/
+video/*/assets/
+video/*/audio/
+video/*/timeline.js
+video/*/sheet-*.png

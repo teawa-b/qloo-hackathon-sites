@@ -265,7 +265,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         for (const r of demo.renders || []) if (!renders.has(r.id)) renders.set(r.id, { ...r, url: r.url, remoteUrl: r.remoteUrl });
         res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
         const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
-        try { await replay(demo, emit); } finally { res.end(); }
+        // An optional slower pace (ms per step, capped) lets the explainer videos film the steps arriving.
+        try { await replay(demo, emit, { step: Math.min(1500, Math.max(140, Number(body.pace) || 140)) }); } finally { res.end(); }
         return;
       }
       if (path === '/api/talk/demo') {
