@@ -58,7 +58,7 @@ function send(body) {
     finally { status(recording ? 'Listening' : demoTimer ? 'Sample conversation' : 'Paused'); }
   });
 }
-function status(text, busy = false) { $('status').querySelector('span').textContent = text; $('status').classList.toggle('busy', busy); }
+function status(text, busy = false) { $('status').querySelector('span').textContent = text; $('status').classList.toggle('busy', busy); xr?.status(text); }
 function line(who, text) { const li = el('li', who); li.append(el('b', '', who === 'me' ? 'You' : 'Them'), el('span', '', text)); $('lines').prepend(li); }
 
 // With and without Qloo: an LLM alone suggests what to bring up from the same conversation; each pick is checked
@@ -141,7 +141,7 @@ $('glass-x').addEventListener('click', () => { $('glass').hidden = true; if (doc
 $('xr').addEventListener('click', async () => {
   try {
     const { enterXR } = await import('/talk-xr.js');
-    xr = await enterXR({ view, onTalking: setMe, onEnd: () => { xr = null; } });
+    xr = await enterXR({ view, status: $('status').querySelector('span').textContent, onTalking: setMe, onEnd: () => { xr = null; } });
   } catch (error) { toast(`Couldn't start AR/VR: ${error.message}`); }
 });
 

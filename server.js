@@ -254,7 +254,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       if (req.method !== 'POST') return send(404, { error: 'Not found' });
       const origin = req.headers.origin;
       if (origin) { let host; try { host = new URL(origin).host; } catch {} if (host !== req.headers.host) return send(403, { error: 'Requests must come from this app.' }); }
-      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : 32_000);
+      // Uploads and SmallTalk's audio chunks (6 s of speech, base64) need more room than the JSON endpoints.
+      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : path === '/api/talk/hear' ? 4_200_000 : 32_000);
 
       // Instant demos: replay a recorded real run (no live calls, no run limit). See lib/demos.js.
       const demoSite = { '/api/agent': 'openhere', '/api/room': 'room', '/api/pitch': 'pitch' }[path];

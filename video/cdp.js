@@ -4,8 +4,9 @@ import { spawn } from 'node:child_process';
 const chrome = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-export async function launch({ port = 9334 } = {}) {
-  const proc = spawn(chrome, ['--headless=new', `--remote-debugging-port=${port}`, '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars', '--mute-audio', '--force-color-profile=srgb', '--allow-file-access-from-files', 'about:blank'], { stdio: 'ignore' });
+// `args` adds Chrome flags, e.g. a WAV file as a fake microphone for testing live listening.
+export async function launch({ port = 9334, args = [] } = {}) {
+  const proc = spawn(chrome, ['--headless=new', `--remote-debugging-port=${port}`, '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars', '--mute-audio', '--force-color-profile=srgb', '--allow-file-access-from-files', ...args, 'about:blank'], { stdio: 'ignore' });
   let ws;
   for (let i = 0; i < 40 && !ws; i++) { try { ws = (await fetch(`http://127.0.0.1:${port}/json/version`).then(r => r.json())).webSocketDebuggerUrl; } catch { await sleep(250); } }
   const socket = new WebSocket(ws);

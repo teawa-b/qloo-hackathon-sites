@@ -109,6 +109,8 @@ test('talk: consent first, typed or transcribed lines become a Qloo taste profil
   assert.ok(first.view.shared.some(s => s.name === 'Lucy Dacus'), 'common ground comes from a combined signal with explainability');
   const audio = await post(base, '/api/talk/hear', { id, audio: 'data:audio/webm;base64,GkXfo0', who: 'them' }).then(r => r.json());
   assert.equal(audio.heard, 'I love Past Lives but I really cannot stand Marvel.');
+  // A real 6-second chunk is a few hundred kilobytes once base64-encoded; it must get through.
+  assert.equal((await post(base, '/api/talk/hear', { id, audio: 'data:audio/webm;base64,' + 'A'.repeat(300_000), who: 'them' })).status, 200, 'real-size audio chunks are accepted');
   assert.deepEqual(audio.view.them.map(e => e.name), ['Sally Rooney', 'Past Lives']);
   assert.deepEqual(audio.view.avoid.map(e => e.name), ['Marvel'], 'dislikes are kept apart');
   // A disliked genre becomes a Qloo tag, never a film that happens to share a word with it.
