@@ -282,12 +282,16 @@ async function openStudio(space, photo = null) {
   const pending = new Map();
   try {
     const aspect = await photoAspect($('before'));
-    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}) }) });
+    // Image edits can take a minute; the server pings every 15 s, so three missed pings means the stream is dead.
+    const stall = new AbortController();
+    let watchdog = setTimeout(() => stall.abort(), 50000);
+    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}) }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The agent could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
     for (;;) {
       const { value, done } = await reader.read(); if (done) break;
+      clearTimeout(watchdog); watchdog = setTimeout(() => stall.abort(), 50000);
       buffer += value;
       let i;
       while ((i = buffer.indexOf('\n\n')) >= 0) {
@@ -295,7 +299,7 @@ async function openStudio(space, photo = null) {
         if (line) handle(JSON.parse(line.slice(6)), pending);
       }
     }
-  } catch (error) { fail(error.message); }
+  } catch (error) { fail(error.name === 'AbortError' ? 'The agent stopped responding. Try again.' : error.message); }
   finally {
     running = false; $('shimmer').hidden = true;
     // A stream that ends without a result (server restart, network drop) should say so, not sit on "Starting…".

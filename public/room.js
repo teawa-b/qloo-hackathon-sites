@@ -24,12 +24,15 @@ async function build(text) {
   $('r-kicker').textContent = 'Reading your taste…'; $('r-name').textContent = 'One moment'; $('r-tag').textContent = text;
   const pending = new Map();
   try {
-    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+    const stall = new AbortController();
+    let watchdog = setTimeout(() => stall.abort(), 50000);
+    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The room could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
     for (;;) {
       const { value, done } = await reader.read(); if (done) break;
+      clearTimeout(watchdog); watchdog = setTimeout(() => stall.abort(), 50000);
       buffer += value;
       let i;
       while ((i = buffer.indexOf('\n\n')) >= 0) {
@@ -37,8 +40,8 @@ async function build(text) {
         if (line) handle(JSON.parse(line.slice(6)), pending);
       }
     }
-  } catch (error) { toast(error.message); $('r-name').textContent = 'That didn’t work'; $('r-tag').textContent = error.message; }
-  finally { running = false; $('hero-shimmer').hidden = true; }
+  } catch (error) { const m = error.name === 'AbortError' ? 'The server stopped responding. Try again.' : error.message; toast(m); $('r-name').textContent = 'That didn’t work'; $('r-tag').textContent = m; }
+  finally { running = false; $('hero-shimmer').hidden = true; if (!concept && !$('r-tag').textContent.includes('Try again')) { $('r-name').textContent = 'That didn’t work'; } }
 }
 
 function handle(ev, pending) {
