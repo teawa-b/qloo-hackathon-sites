@@ -10,7 +10,7 @@ Run it with `npm run start:room` (port 3301), or deploy with `SITE=room`.
 
 ## Judge in 60 seconds
 
-1. Open the site and click the **Rain Hour Study** example. It is a recorded real run, so it opens in seconds.
+1. Open the site and click the **Quiet Signal Room** example. It is a recorded real run, so it opens in seconds.
 2. Look at the room: the painting, the name, and the first track playing from the room's Qloo playlist.
 3. Scroll to **Every choice, and the taste behind it**: each design choice names the Qloo result behind it. Anything Qloo did not return is marked unverified.
 4. Read **With and without Qloo**: the same favourites given to an LLM alone, each of its picks checked against Qloo.
@@ -22,9 +22,9 @@ Run it with `npm run start:room` (port 3301), or deploy with `SITE=room`.
 
 | Example | Favourites | Link |
 |---|---|---|
-| Rain Hour Study | Radiohead, Blade Runner, Haruki Murakami, Muji | `/?demo=rain` |
-| Heartbreak | Phoebe Bridgers, Fleabag, Sally Rooney, Glossier, Dr. Martens | `/?demo=heartbreak` |
-| Courtside | Kendrick Lamar, Nike, Jordan Peele films, Issa Rae, Lakers | `/?demo=courtside` |
+| Quiet Signal Room | Radiohead, Blade Runner, Haruki Murakami, Muji | `/?demo=rain` |
+| Velvet Speakeasy Lounge | Phoebe Bridgers, Fleabag, Sally Rooney, Glossier, Dr. Martens | `/?demo=heartbreak` |
+| Art Deco Court | Kendrick Lamar, Nike, Jordan Peele films, Issa Rae, Lakers | `/?demo=courtside` |
 
 ![A finished room: the painting, the playlist and the reasons](img/roomful-result.png)
 
@@ -54,9 +54,9 @@ After the room is written, the same favourites go to an LLM with no tools, and e
 
 | Example | Picks that hold up without Qloo |
 |---|---|
-| Rain Hour Study | 0 of 8 |
-| Heartbreak | 3 of 8 |
-| Courtside | 2 of 8 |
+| Quiet Signal Room | 0 of 8 |
+| Velvet Speakeasy Lounge | 3 of 8 |
+| Art Deco Court | 2 of 8 |
 
 The LLM's picks are often real (Vangelis, Brian Eno, an Eames chair) but not what people with this taste actually rate, and some are not in Qloo at all ("Rain-Streaked Glass").
 

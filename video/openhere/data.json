@@ -26,5 +26,90 @@
       "popularity at most 0.94, about 650"
     ]
   ],
-  "walkFrames": 140
+  "walkFrames": 140,
+  "globe": {
+    "frames": 375,
+    "spin": 0,
+    "dive": 90,
+    "hold": 210,
+    "hop": 270,
+    "end": 375
+  },
+  "agent": [
+    {
+      "tool": "local_taste_tags",
+      "text": "customer identity: Groups of Friends, Tourists, Locals, Families, Foodies",
+      "qloo": true
+    },
+    {
+      "tool": "local_taste_tags",
+      "text": "ambience: Lively, Casual, Stylish, Quirky, Fun",
+      "qloo": true
+    },
+    {
+      "tool": "local_taste_tags",
+      "text": "decor: Casual, Modern, Rustic, Cozy, Historic",
+      "qloo": true
+    },
+    {
+      "tool": "local_taste_tags",
+      "text": "age range: 25-29, 30-34, 18-24, 35-44, 55+",
+      "qloo": true
+    },
+    {
+      "tool": "local_taste_tags",
+      "text": "beverage offering: Beer, Cocktails, Coffee and tea, Wine, Spirits",
+      "qloo": true
+    },
+    {
+      "tool": "local_venues",
+      "text": "live music venues: The Baby G",
+      "qloo": true
+    },
+    {
+      "tool": "local_entities",
+      "text": "artists: George Stroumboulopoulos, Maylee Todd, Tagaq, Tanya Tagaq",
+      "qloo": true
+    },
+    {
+      "tool": "local_entities",
+      "text": "brands: Art Gallery of Ontario, blogTO, Royal Ontario Museum, Narcity",
+      "qloo": true
+    },
+    {
+      "tool": "thinking",
+      "text": "Parkdale skews 25-34, stylish and quirky, and only one live room (The Baby G) is nearby. Next I'll get the booking slate and check which design tags fit.",
+      "qloo": false
+    },
+    {
+      "tool": "book_slate",
+      "text": "12 acts for ~667 guests, seeded by Ontario Place, Sneaky Dee's, Revival Event Venue",
+      "qloo": true
+    },
+    {
+      "tool": "check_audience_fit",
+      "text": "Locals skew 35-44; 1 fit, 3 mismatch (Eclectic, Quirky, Lively)",
+      "qloo": true
+    },
+    {
+      "tool": "thinking",
+      "text": "Eclectic, Quirky and Lively are mismatches. I'll test replacements.",
+      "qloo": false
+    },
+    {
+      "tool": "check_audience_fit",
+      "text": "Locals skew 35-44; 1 fit, 3 mismatch (Cozy, Social, Energetic)",
+      "qloo": true
+    },
+    {
+      "tool": "finalize_concept",
+      "text": "Sent back 1 unverified citation",
+      "qloo": false
+    },
+    {
+      "tool": "finalize_concept",
+      "text": "Concept: Dollar Store Sessions",
+      "qloo": false
+    }
+  ]
 }

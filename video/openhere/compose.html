@@ -17,7 +17,7 @@
   .page img { display: block; width: 1440px; }
   .shade { position: absolute; inset: 0; background: radial-gradient(80% 80% at 50% 45%, transparent 40%, rgba(5,6,8,.55)); pointer-events: none; }
   .ring { position: absolute; border: 3px solid var(--amber); border-radius: 18px; box-shadow: 0 0 0 4000px rgba(5,6,8,.5); opacity: 0; pointer-events: none; }
-  .sub { position: absolute; left: 0; right: 0; bottom: 110px; text-align: center; font-size: 48px; font-weight: 600; letter-spacing: -0.02em; text-shadow: 0 2px 18px rgba(0,0,0,.8), 0 1px 3px rgba(0,0,0,.9); z-index: 6; }
+  .sub { position: absolute; left: 0; right: 0; bottom: 100px; width: fit-content; margin: 0 auto; padding: 8px 28px 12px; border-radius: 16px; background: rgba(5,6,8,.72); text-align: center; font-size: 48px; font-weight: 600; letter-spacing: -0.02em; text-shadow: 0 2px 18px rgba(0,0,0,.8), 0 1px 3px rgba(0,0,0,.9); z-index: 6; }
   .sub b { color: var(--amber); font-weight: 600; }
   .card { display: grid; place-items: center; text-align: center; z-index: 7; }
   .card .inner { display: grid; justify-items: center; gap: 22px; }
@@ -34,6 +34,32 @@
   .label span { display: block; font: 500 16px 'JetBrains Mono', monospace; color: var(--amber); letter-spacing: .04em; margin-bottom: 4px; }
   .label b { font-size: 28px; font-weight: 600; }
   .coord { position: absolute; font: 500 20px 'JetBrains Mono', monospace; color: rgba(255,255,255,.8); opacity: 0; }
+  /* Before and after: the real photo, with the redesign wiped across it and back. */
+  .wipe { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+  .wipe .imgs { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .wipe img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .wipe .line { position: absolute; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: #fff; box-shadow: 0 0 24px rgba(0,0,0,.6); }
+  .wipe .knob { position: absolute; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -30px; border-radius: 50%; background: #fff; display: grid; place-items: center; font: 600 26px Outfit, sans-serif; color: #050608; box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+  .wipe .tag { position: absolute; top: 34px; padding: 10px 18px; border-radius: 999px; font: 600 24px Outfit, sans-serif; background: rgba(5,6,8,.72); backdrop-filter: blur(6px); }
+  .wipe .tag.b { left: 34px; } .wipe .tag.a { right: 34px; color: #050608; background: var(--amber); }
+  .wipe .where { position: absolute; left: 34px; bottom: 150px; font: 500 22px 'JetBrains Mono', monospace; color: rgba(255,255,255,.85); text-shadow: 0 2px 10px rgba(0,0,0,.8); }
+  /* The space the pin lands on: its photo and name, next to the pin. */
+  .place { position: absolute; display: flex; gap: 16px; align-items: center; padding: 12px 22px 12px 12px; border-radius: 18px; background: rgba(10,12,18,.86); border: 1px solid rgba(255,181,71,.5); opacity: 0; white-space: nowrap; }
+  .place img { width: 96px; height: 72px; border-radius: 10px; object-fit: cover; }
+  .place span { display: block; font: 500 17px 'JetBrains Mono', monospace; color: var(--amber); margin-bottom: 4px; }
+  .place b { font-size: 30px; font-weight: 600; }
+  .kicker { position: absolute; left: 0; right: 0; top: 600px; text-align: center; font-size: 132px; font-weight: 700; letter-spacing: -0.05em; line-height: 1; text-shadow: 0 6px 40px rgba(0,0,0,.6); }
+  .kicker span { display: inline-block; }
+  .kicker b { color: var(--accent); font-weight: 700; }
+  /* The agent's run, line by line: each Qloo call and what came back. */
+  .log { position: absolute; left: 200px; right: 200px; top: 60px; bottom: 170px; overflow: hidden; opacity: 0; }
+  .log .rows { position: absolute; left: 0; right: 0; top: 0; }
+  .log .row { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: baseline; padding: 18px 26px; margin-bottom: 12px; border-radius: 16px; background: rgba(10,12,18,.84); border: 1px solid rgba(255,255,255,.1); }
+  .log .row span { font: 500 20px 'JetBrains Mono', monospace; color: rgba(255,255,255,.6); }
+  .log .row.q span { color: var(--amber); }
+  .log .row.q span::before { content: 'Qloo  '; color: #050608; background: var(--amber); border-radius: 6px; padding: 2px 8px; margin-right: 10px; font-weight: 600; }
+  .log .row b { font-size: 28px; font-weight: 500; line-height: 1.3; }
+  .log .row.t b { font-style: italic; color: rgba(255,255,255,.75); }
 </style>
 </head>
 <body>
@@ -41,6 +67,10 @@
   <div id="film" class="layer"><div class="screen"><div id="page" class="page"><img id="shot" alt=""></div><div class="shade"></div><div id="ring" class="ring"></div>
     <div id="pin" class="pin" style="opacity:0"><img src="../../public/img/openhere-512.png" alt=""></div><div id="pulse" class="pulse"></div><div id="coord" class="coord"></div>
     <div id="labels"></div>
+    <div id="place" class="place"><img id="placeImg" alt=""><div><span id="placeWhere"></span><b id="placeName"></b></div></div>
+    <div id="wipe" class="wipe"><div id="wipeImgs" class="imgs"><img id="before" alt=""><img id="after" alt=""></div><div id="wipeLine" class="line"></div><div id="wipeKnob" class="knob">&#8596;</div><div class="tag b">Before: the real photo</div><div class="tag a">After: Openhere</div><div id="wipeWhere" class="where"></div></div>
+    <div id="kicker" class="kicker"></div>
+    <div id="log" class="log"><div id="logRows" class="rows"></div></div>
   </div></div>
   <div id="cardTitle" class="layer card"><div class="inner"><img src="../../public/img/openhere-512.png" alt=""><h1>open<b>here</b></h1><p>Design the place for the people around it.</p></div></div>
   <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/openhere-512.png" alt=""><h1>open<b>here</b></h1><p>Design the place for the people around it.</p><div class="url" id="endUrl"></div></div></div>

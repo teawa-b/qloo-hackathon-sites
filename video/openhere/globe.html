@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Openhere globe</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<style>
+  /* The app's own globe in its dark colours, filmed one frame at a time by globe.js. */
+  html, body, #map { margin: 0; width: 100%; height: 100%; background: #050608; }
+  .pin { width: 64px; height: 64px; border-radius: 50%; border: 4px solid #1b1f27; box-shadow: 0 6px 18px rgba(0,0,0,.5); background: center / cover #232833; }
+  .pin.on { transform: scale(1.5); border-color: #ffb547; box-shadow: 0 0 0 8px rgba(255,181,71,.25), 0 6px 18px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+const params = new URLSearchParams(location.search);
+const spaces = JSON.parse(decodeURIComponent(params.get('spaces') || '[]'));
+const map = new maplibregl.Map({ container: 'map', style: 'https://tiles.openfreemap.org/styles/dark', center: [-150, 25], zoom: 1.5, attributionControl: false, interactive: false, fadeDuration: 0, preserveDrawingBuffer: true });
+const pins = [];
+map.on('style.load', () => {
+  map.setProjection({ type: 'globe' });
+  // The app's dark colours, lifted a little so land and water read on video.
+  const c = { bg: '#232a36', water: '#0e1524', park: '#1f2b27', building: '#2a303b', land: '#212833', extrude: '#343b48' };
+  for (const layer of map.getStyle().layers) {
+    if (layer.id === 'background') map.setPaintProperty(layer.id, 'background-color', c.bg);
+    else if (/water/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.water);
+    else if (/park|landcover_wood|grass/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.park);
+    else if (/building/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.building);
+    else if (/landuse|residential|landcover/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.land);
+  }
+  map.addLayer({ id: 'buildings-3d', type: 'fill-extrusion', source: 'openmaptiles', 'source-layer': 'building', minzoom: 15, paint: { 'fill-extrusion-color': c.extrude, 'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 8], 'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0], 'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.85] } });
+  for (const s of spaces) { const el = document.createElement('div'); el.className = 'pin'; el.style.backgroundImage = `url("${s.photo}")`; pins.push(el); new maplibregl.Marker({ element: el }).setLngLat([s.lng, s.lat]).addTo(map); }
+});
+// One camera state per call; resolves once the tiles for it are drawn.
+window.frame = ({ lng, lat, zoom, pitch = 0, bearing = 0, on = -1 }) => new Promise(resolve => {
+  map.resize();
+  pins.forEach((p, i) => p.classList.toggle('on', i === on));
+  map.jumpTo({ center: [lng, lat], zoom, pitch, bearing });
+  const done = () => { clearTimeout(t); resolve(true); };
+  const t = setTimeout(() => { map.off('idle', done); resolve(false); }, 6000);
+  map.once('idle', done); map.triggerRepaint();
+});
+window.ready = new Promise(r => map.once('idle', () => r(true)));
+</script>
+</body>
+</html>

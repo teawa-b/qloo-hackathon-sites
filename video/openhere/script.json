@@ -1,56 +1,64 @@
 {
   "app": "openhere",
-  "voice": "Sarah",
+  "voice": "Laura",
   "data": "data.json",
   "scenes": [
     {
       "id": "title",
-      "say": "Openhere. Pick an empty space anywhere on the map, and design it for the people who actually live around it.",
+      "say": "Openhere. Pick an empty space on the map, and design it for the people around it.",
       "caption": ""
     },
     {
       "id": "globe",
-      "say": "Pick a spot, and Openhere finds real spaces nearby. Here, a cleared-out Dollarama in Parkdale, Toronto.",
+      "say": "Spin the globe and pick a spot. Here, a cleared-out Dollarama in Parkdale, Toronto.",
       "caption": "Pick a real space on the map"
     },
     {
       "id": "build",
-      "say": "An agent asks Qloo about the neighbourhood: the moods and decor locals rate, the venues they love, and the artists they would pay to see. Fifteen calls, adapting as it goes.",
+      "say": "An agent asks Qloo about this exact spot: the moods locals rate, the venues they love, the artists they'd pay to see.",
       "caption": "An agent asks Qloo who goes out here"
     },
     {
       "id": "qloo",
-      "say": "Every question starts from that point on the map. Qloo's demographics check each design idea against the local crowd, and its popularity filter sizes the bookings to a six hundred and fifty person room.",
+      "say": "Every answer starts from one point on the map, and the room is sized to the crowd.",
       "caption": "Qloo, from one point on the map"
     },
     {
       "id": "reveal",
-      "say": "Then it redesigns the real photo, keeping the walls, the windows and the camera, so the before and after is believable. This is Dollar Store Sessions.",
-      "caption": "The real photo, redesigned"
+      "say": "Then it redesigns the real photo. Same walls, same windows. Before, and after.",
+      "caption": "Before and after, from the real photo",
+      "min": 6
     },
     {
       "id": "slate",
-      "say": "It books the room from what locals already love: Yukon Blonde, Matt Mays and Jenn Grant, acts small enough to fill it.",
+      "say": "It books acts the locals already love, small enough to fill the room.",
       "caption": "Booked from what locals love"
     },
     {
       "id": "choices",
-      "say": "Every design choice cites the Qloo signal behind it, and ideas that draw a different crowd, like cozy or energetic, are dropped.",
+      "say": "Every design choice cites the Qloo signal behind it.",
       "caption": "Every choice cites Qloo"
     },
     {
       "id": "baseline",
-      "say": "Ask a language model alone for the same room, and none of its eight picks hold up for this crowd. Three, like salvaged aisle shelving, are not in Qloo at all.",
+      "say": "Ask a model alone for the same room, and none of its eight picks hold up for this crowd.",
       "caption": "Without Qloo, 0 of 8 hold up"
     },
     {
       "id": "fit",
-      "say": "For a brand, it measures the fit with a fanbase. Red Bull and Phoebe Bridgers fans score thirty six out of a hundred, so the room leans on what both already love: Fender, Vans and Big Red Machine.",
-      "caption": "Brand meets fanbase, measured"
+      "say": "Add a brand, and the room changes. Red Bull and Phoebe Bridgers fans share Fender, Vans and Big Red Machine.",
+      "caption": "Brand meets fanbase, measured",
+      "min": 7
+    },
+    {
+      "id": "anywhere",
+      "say": "It works anywhere. In Chelsea, New York, an empty dining car becomes a neighbourhood café.",
+      "caption": "Anywhere on the map",
+      "min": 7
     },
     {
       "id": "walk",
-      "say": "And then you walk inside. A live world model streams the redesign in real time, from the same photo.",
+      "say": "Then walk inside, live, in a world model.",
       "caption": "Walk inside"
     },
     {
@@ -58,5 +66,6 @@
       "say": "Openhere. Design the place for the people around it.",
       "caption": ""
     }
-  ]
+  ],
+  "model": "eleven-v3"
 }

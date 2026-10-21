@@ -1,12 +1,13 @@
 // Openhere's film, cinematic: every frame is a pure function of time; renderAt(t) sets the stage for t seconds.
-// Captures are 1440x900 CSS px (studio shots at 2x, frame sequences at 1x) shown full-bleed in a letterboxed
-// 1920x940 screen; shots.json says where each studio panel sits.
+// Footage: the app's globe filmed frame by frame (globe.js), the studio captures (1440x900 CSS px, shots.json says
+// where each panel sits), the real photos and their redesigns for the before and after, and the live walk.
 const $ = id => document.getElementById(id);
 const { scenes, boxes: DATA, url } = window.TIMELINE;
 const SHOTS = DATA.shots || {}, BUILD = DATA.build || { frames: 1, doneAt: 0 };
-const WALK = DATA.walkFrames || 0;
+const WALK = DATA.walkFrames || 0, GLOBE = DATA.globe || { frames: 0 };
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ease = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const out = x => 1 - Math.pow(1 - clamp(x), 3);
 const spring = x => { x = clamp(x); return 1 - Math.pow(1 - x, 3) * Math.cos(x * 4.2); };
 const lerp = (a, b, k) => a + (b - a) * k;
 const VW = 1920, VH = 940, PW = 1440, PH = 900;
@@ -16,7 +17,9 @@ const sources = { home: 'assets/home.png', venue: 'assets/studio-venue.png', act
 for (const k of Object.keys(SHOTS)) sources[k] = `assets/${k}.png`;
 for (let i = 0; i < BUILD.frames; i++) sources[`b${i}`] = `assets/build-${pad(i)}.jpg`;
 for (let i = 0; i < WALK; i++) sources[`w${i}`] = `assets/walk-${pad(i)}.jpg`;
-window.ready = Promise.all([document.fonts.ready, ...Object.values(sources).map(src => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = src; }))]);
+for (let i = 0; i < GLOBE.frames; i++) sources[`g${i}`] = `assets/globe-${pad(i)}.jpg`;
+const photos = { parkdale: 'assets/space-1.jpg', chelsea: 'assets/space-2.jpg', afterParkdale: 'assets/after-parkdale.jpg', afterChelsea: 'assets/after-chelsea.jpg', afterRedbull: 'assets/after-redbull.jpg' };
+window.ready = Promise.all([document.fonts.ready, ...[...Object.values(sources), ...Object.values(photos)].map(src => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = src; }))]);
 $('endUrl').textContent = url || '';
 
 // Subtitles: the whole line fades up, as in a film; words naming Qloo are amber.
@@ -35,67 +38,138 @@ const mix = (a, b, k) => ({ s: lerp(a.s, b.s, k), x: lerp(a.x, b.x, k), y: lerp(
 const full = { s: VW / PW, x: 0, y: (VH - PH * VW / PW) / 2 };
 function shoot(img, cam, ring = null, k = 0, dim = 0) {
   if ($('shot').dataset.src !== img) { $('shot').dataset.src = img; $('shot').src = sources[img]; }
+  // Globe frames are filmed at the screen's own size; everything else is a 1440 px capture.
+  $('shot').style.width = img[0] === 'g' ? '1920px' : '';
   $('shot').style.filter = dim ? `brightness(${1 - dim * .7}) blur(${dim * 3}px)` : '';
   $('page').style.transform = `translate(${cam.x}px, ${cam.y}px) scale(${cam.s})`;
   const r = $('ring');
   if (ring && k > 0) { r.style.opacity = k; r.style.left = `${cam.x + ring.x * cam.s - 10}px`; r.style.top = `${cam.y + ring.y * cam.s - 10}px`; r.style.width = `${ring.w * cam.s + 20}px`; r.style.height = `${ring.h * cam.s + 20}px`; }
   else r.style.opacity = 0;
 }
-function film(l, d) { $('film').style.opacity = ease(l / .4) * (1 - ease((l - (d - .35)) / .35)); }
-// A studio panel: the camera glides from the full studio onto the panel, which gets an amber ring.
-function panel(name, l, d, at = .8) {
-  const r = SHOTS[name], focus = { x: r.x - 10, y: Math.max(0, r.y - 20), w: r.w + 20, h: Math.min(r.h + 40, 520) };
-  shoot(name, mix(full, camera(focus, 30), ease((l - .2) / 1.4)), { ...r, h: Math.min(r.h, 500) }, ease((l - at) / .5));
+// A stretch of the globe footage played across [t0, t1] of the scene, with an optional slow push in.
+function globe(from, to, l, t0, t1, push = 0) {
+  const k = clamp((l - t0) / (t1 - t0)), s = 1 + push * k;
+  shoot(`g${Math.round(lerp(from, to - 1, k))}`, { s, x: VW / 2 * (1 - s), y: VH / 2 * (1 - s) });
 }
-const hide = () => { $('pin').style.opacity = 0; $('pulse').style.opacity = 0; $('coord').style.opacity = 0; $('labels').replaceChildren(); };
+function film(l, d) { $('film').style.opacity = ease(l / .3) * (1 - ease((l - (d - .3)) / .3)); }
+// A studio panel: the camera snaps from the full studio onto the panel, which gets an amber ring, then glides
+// down it for the rest of the scene so it never sits still.
+function panel(name, l, d, at = .6) {
+  const r = SHOTS[name], focus = { x: r.x - 10, y: Math.max(0, r.y - 20), w: r.w + 20, h: Math.min(r.h + 40, 400) };
+  const drift = Math.max(0, Math.min(r.h, 820) - 360) * ease((l - 1.2) / Math.max(1, d - 1.6));
+  shoot(name, mix(full, camera({ ...focus, y: focus.y + drift }, 30), out((l - .1) / .8)), { ...r, h: Math.min(r.h, 500) }, ease((l - at) / .4));
+}
+// Before and after: k is how far the redesign has been wiped across (0 = all before, 1 = all after).
+function wipe(before, after, k, zoom = 1, where = '') {
+  $('wipe').style.opacity = 1;
+  if ($('before').dataset.src !== before) { $('before').dataset.src = before; $('before').src = photos[before]; }
+  if ($('after').dataset.src !== after) { $('after').dataset.src = after; $('after').src = photos[after]; }
+  $('after').style.clipPath = `inset(0 ${(1 - k) * 100}% 0 0)`;
+  $('wipeImgs').style.transform = `scale(${zoom})`;
+  $('wipeLine').style.left = $('wipeKnob').style.left = `${k * 100}%`;
+  $('wipeLine').style.opacity = $('wipeKnob').style.opacity = k > .01 && k < .99 ? 1 : 0;
+  $('wipeWhere').textContent = where;
+}
+// A wipe's path through time: [time, position] keys, eased between them.
+function path(keys, l) {
+  if (l <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) if (l <= keys[i][0]) { const [t0, a] = keys[i - 1], [t1, b] = keys[i]; return lerp(a, b, ease((l - t0) / (t1 - t0))); }
+  return keys[keys.length - 1][1];
+}
+function place(x, y, img, where, name, k) {
+  const p = $('place'); p.style.opacity = clamp(k); p.style.left = `${x}px`; p.style.top = `${y}px`; p.style.transform = `translateY(${(1 - spring(k)) * 30}px)`;
+  if ($('placeImg').dataset.src !== img) { $('placeImg').dataset.src = img; $('placeImg').src = photos[img]; }
+  $('placeWhere').textContent = where; $('placeName').textContent = name;
+}
+// Kinetic type: each word springs up on its own beat.
+function kicker(words, l, at = 0, gap = .18) {
+  const el = $('kicker');
+  if (el.dataset.t !== words.join(' ')) { el.dataset.t = words.join(' '); el.replaceChildren(...words.map((w, i) => { const s = document.createElement('span'); s.innerHTML = w; if (i) s.style.marginLeft = '0.25em'; return s; })); }
+  [...el.children].forEach((s, i) => { const k = spring((l - at - i * gap) / .5); s.style.opacity = clamp(k * 1.5); s.style.transform = `translateY(${(1 - k) * 60}px)`; });
+}
+const hide = () => {
+  for (const id of ['pin', 'pulse', 'coord', 'place', 'wipe', 'log']) $(id).style.opacity = 0;
+  $('labels').replaceChildren(); $('kicker').replaceChildren(); $('kicker').dataset.t = '';
+};
 
 const draw = {
+  // The globe is already turning behind the name, so the film opens on motion.
   title(l, d) {
-    $('cardTitle').style.opacity = ease(l / .6) * (1 - ease((l - (d - .5)) / .5));
-    const img = $('cardTitle').querySelector('img'); const k = spring((l - .2) / .9);
-    img.style.transform = `translateY(${(1 - k) * -120}px)`; img.style.opacity = clamp((l - .2) / .3);
+    film(l, d + 1);
+    globe(GLOBE.spin, GLOBE.dive, l, 0, d, .08);
+    if (l < d * .45) kicker(['Open<b>here</b>'], l, .1);
+    else kicker(['Pick', 'a', 'space.', 'Design', 'it', 'for', 'locals.'], l, d * .45, .12);
   },
-  // The globe, then the pin drops onto Toronto.
+  // The real globe dives into Parkdale; the space's photo and name land beside its pin.
   globe(l, d) {
     film(l, d);
-    // Push toward North America on the globe; the pin is anchored to Toronto's spot in the capture, so it moves with it.
-    const cam = mix(full, camera({ x: 420, y: 220, w: 320, h: 240 }, 20), ease((l - .3) / (d - .8)));
-    shoot('home', cam);
-    const tx = cam.x + 536 * cam.s, ty = cam.y + 318 * cam.s, k = spring((l - 1.4) / .7), pin = $('pin');
-    pin.style.opacity = clamp((l - 1.4) / .15); pin.style.left = `${tx}px`; pin.style.top = `${ty - (1 - k) * 300}px`;
-    const p = clamp((l - 2.0) / 1.2); $('pulse').style.left = `${tx}px`; $('pulse').style.top = `${ty}px`; $('pulse').style.opacity = (1 - p) * (l > 2 ? 1 : 0); $('pulse').style.transform = `scale(${1 + p * 5})`;
+    globe(GLOBE.dive, GLOBE.hop, l, 0, d - .2);
+    place(1060, 380, 'parkdale', 'Parkdale, Toronto', 'Emptied Dollarama, Queen St W', (l - (d - 2.6)) / .5);
   },
-  build(l, d) { film(l, d); const end = Math.max(1, BUILD.doneAt - 1), f = Math.min(end, Math.floor(clamp((l - .2) / (d - .9)) * end)); shoot(`b${f}`, mix(full, camera({ x: 0, y: 0, w: 900, h: 620 }, 10), ease(l / d) * .6)); },
-  // Over the real photo: one point on the map, and what the agent learns fanning out around it.
+  // The agent's run over the street map, one line per step: Qloo's answers in amber, its own reasoning in italics.
+  build(l, d) {
+    film(l, d);
+    globe(GLOBE.hold, GLOBE.hop, l, 0, d, .05);
+    $('shot').style.filter = 'brightness(.45) blur(2px)';
+    const rows = DATA.agent || [], step = (d - 1.2) / rows.length, box = $('log'), list = $('logRows');
+    if (list.children.length !== rows.length) list.replaceChildren(...rows.map(r => { const el = document.createElement('div'); el.className = `row${r.qloo ? ' q' : ''}${r.tool === 'thinking' ? ' t' : ''}`; el.innerHTML = '<span></span><b></b>'; el.firstChild.textContent = r.tool; el.lastChild.textContent = r.text; return el; }));
+    box.style.opacity = 1;
+    const n = clamp(Math.floor((l - .3) / step) + 1, 0, rows.length), k = clamp(((l - .3) % step) / .35);
+    [...list.children].forEach((el, i) => { const on = i < n - 1 ? 1 : i === n - 1 ? k : 0; el.style.opacity = on; el.style.transform = `translateY(${(1 - out(on)) * 24}px)`; });
+    // Scroll so the newest line sits at the bottom of the box.
+    const bottom = i => i < 0 ? 0 : Math.max(0, list.children[i].offsetTop + list.children[i].offsetHeight - box.clientHeight);
+    list.style.transform = `translateY(${-lerp(bottom(n - 2), bottom(n - 1), out(k))}px)`;
+  },
+  // Over the street map: one point, and what Qloo returns fanning out around it.
   qloo(l, d) {
     film(l, d);
-    shoot('venue', camera({ x: 12, y: 12, w: 448 * 1.6, h: 500 * 1.6 }, 0), null, 0, ease((l - .5) / .8));
-    const cx = 960, cy = 450, pin = $('pin');
-    pin.style.opacity = 1; pin.style.left = `${cx}px`; pin.style.top = `${cy + 40}px`;
+    globe(GLOBE.hold, GLOBE.hop, l, 0, d, .06);
+    $('shot').style.filter = `brightness(${1 - .45 * ease((l - .3) / .6)})`;
+    const cx = 960, cy = 480, pin = $('pin');
+    pin.style.opacity = clamp((l - .2) / .2); pin.style.left = `${cx}px`; pin.style.top = `${cy + 40}px`;
     const p = (l % 1.6) / 1.6; $('pulse').style.left = `${cx}px`; $('pulse').style.top = `${cy + 40}px`; $('pulse').style.opacity = 1 - p; $('pulse').style.transform = `scale(${1 + p * 6})`;
     $('coord').style.left = `${cx + 60}px`; $('coord').style.top = `${cy + 20}px`; $('coord').style.opacity = ease((l - .3) / .4); $('coord').textContent = `${DATA.point}  ·  signal.location`;
-    const spots = [[-520, -250], [330, -250], [-560, -60], [380, -60], [-520, 130], [360, 130]];
-    if (!$('labels').children.length) $('labels').replaceChildren(...(DATA.outputs || []).map(([k, v], i) => { const el = document.createElement('div'); el.className = 'label'; el.innerHTML = '<span></span><b></b>'; el.firstChild.textContent = k; el.lastChild.textContent = v; el.style.left = `${cx + spots[i][0]}px`; el.style.top = `${cy + spots[i][1]}px`; return el; }));
-    [...$('labels').children].forEach((el, i) => { const k = spring((l - 1.2 - i * .55) / .6); el.style.opacity = clamp(k); el.style.transform = `scale(${.8 + .2 * k})`; });
+    const spots = [[-560, -280], [330, -280], [-600, -80], [380, -80], [-560, 130], [360, 130]];
+    $('labels').replaceChildren(...(DATA.outputs || []).map(([k, v], i) => { const el = document.createElement('div'); el.className = 'label'; el.innerHTML = '<span></span><b></b>'; el.firstChild.textContent = k; el.lastChild.textContent = v; el.style.left = `${cx + spots[i][0]}px`; el.style.top = `${cy + spots[i][1]}px`; return el; }));
+    [...$('labels').children].forEach((el, i) => { const k = spring((l - .9 - i * .45) / .5); el.style.opacity = clamp(k); el.style.transform = `scale(${.8 + .2 * k})`; });
   },
+  // The real photo, with the redesign wiped across it and back, so you can see what stayed and what changed.
   reveal(l, d) {
     film(l, d);
-    const from = BUILD.doneAt, to = BUILD.frames - 1, sweep = Math.min(2.6, d * .45);
-    if (l < sweep) shoot(`b${Math.min(to, from + Math.floor((l / sweep) * (to - from)))}`, full);
-    else shoot('venue', mix(full, camera({ x: 12, y: 12, w: 806, h: 900 }, 0), ease((l - sweep) / 3)));
+    const k = path([[.4, 0], [1.6, 1], [2.6, .3], [3.5, .75], [4.3, .15], [5.3, 1]], l);
+    wipe('parkdale', 'afterParkdale', k, 1 + .07 * clamp(l / d), 'Parkdale, Toronto  ·  same walls, windows and camera');
   },
-  slate(l, d) { film(l, d); panel('slate', l, d, .6); },
-  choices(l, d) { film(l, d); l < d * .55 ? panel('choices', l, d, .5) : panel('audience', l - d * .55, d * .45, .3); },
-  baseline(l, d) { film(l, d); panel('baseline', l, d, .8); },
-  fit(l, d) { film(l, d); l < 1.6 ? shoot('activation', mix(full, camera({ x: 12, y: 12, w: 806, h: 900 }, 0), ease(l / 1.6))) : panel('fit', l - 1.6, d - 1.6, .3); },
-  walk(l, d) { film(l, d); if (!WALK) return shoot('venue', full); shoot(`w${Math.min(WALK - 1, Math.floor(clamp(l / d) * WALK))}`, full); },
+  slate(l, d) { film(l, d); panel('slate', l, d, .5); },
+  choices(l, d) { film(l, d); l < d * .55 ? panel('choices', l, d * .55, .4) : panel('audience', l - d * .55, d * .45, .3); },
+  baseline(l, d) { film(l, d); panel('baseline', l, d, .6); },
+  // The same room for a brand: wipe to the Red Bull version, then the fit score.
+  fit(l, d) {
+    film(l, d);
+    if (l < 3.2) wipe('parkdale', 'afterRedbull', path([[.2, 0], [1.2, 1], [1.9, .4], [2.6, 1]], l), 1 + .05 * clamp(l / 3.2), 'Red Bull  ×  Phoebe Bridgers fans');
+    else panel('fit', l - 3.2, d - 3.2, .3);
+  },
+  // Back out to the map and over to Chelsea, New York: the same idea anywhere.
+  anywhere(l, d) {
+    film(l, d);
+    const hop = Math.min(3.6, d * .45);
+    if (l < hop) {
+      globe(GLOBE.hop, GLOBE.frames, l, 0, hop);
+      place(1060, 380, 'chelsea', 'Chelsea, New York', 'Empire Diner dining car', (l - (hop - 1.3)) / .4);
+    } else wipe('chelsea', 'afterChelsea', path([[hop + .2, 0], [hop + 1.3, 1], [hop + 2.1, .35], [hop + 2.9, 1]], l), 1 + .06 * clamp((l - hop) / (d - hop)), 'Chelsea, New York  ·  a café for the people around it');
+  },
+  walk(l, d) {
+    film(l, d);
+    if (!WALK) return shoot('venue', full);
+    const s = 1 + .05 * clamp(l / d);
+    shoot(`w${Math.min(WALK - 1, Math.floor(clamp(l / d) * WALK))}`, { s: full.s * s, x: VW / 2 * (1 - s), y: full.y * s + VH / 2 * (1 - s) });
+  },
   end(l, d) { $('cardEnd').style.opacity = ease(l / .6); const img = $('cardEnd').querySelector('img'); const k = spring(l / .9); img.style.transform = `translateY(${(1 - k) * -80}px)`; }
 };
 
 window.renderAt = t => {
   for (const id of ['cardTitle', 'film', 'cardEnd']) $(id).style.opacity = 0;
   const s = scenes.find(s => t >= s.start && t < s.start + s.dur) || scenes[scenes.length - 1];
-  if (s.id !== 'globe' && s.id !== 'qloo') hide();
+  hide();
   const l = t - s.start;
   draw[s.id](l, s.dur);
   if (s.caption) sub(s.caption, l, s.dur); else $('sub').style.opacity = 0;
