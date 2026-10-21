@@ -5,12 +5,12 @@
   "scenes": [
     {
       "id": "title",
-      "say": "Openhere. Pick an empty space on the map, and design it for the people around it.",
+      "say": "Openhere. Pick a real empty space on the map, and turn it into the right business for the people around it.",
       "caption": ""
     },
     {
       "id": "globe",
-      "say": "Spin the globe and pick a spot. Here, a cleared-out Dollarama in Parkdale, Toronto.",
+      "say": "A café, a music room, a spot they'll actually love, built from real taste data from Qloo. Here, a cleared-out Dollarama in Parkdale, Toronto.",
       "caption": "Pick a real space on the map"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "id": "end",
-      "say": "Openhere. Design the place for the people around it.",
+      "say": "Openhere. Open the spot your neighbourhood will love.",
       "caption": ""
     }
   ],

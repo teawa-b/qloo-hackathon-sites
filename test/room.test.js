@@ -57,3 +57,29 @@ test('roomful: favourites become Qloo taste, the brief cites it, and an LLM alon
   assert.deepEqual(final.baseline.counts, { ranked: 2, known: 2, unknown: 2 });
   assert.equal(JSON.stringify(ev).includes(OKEY) || JSON.stringify(ev).includes(QKEY), false, 'no key reaches the browser');
 });
+
+test('roomful: a painting becomes a 3D room through MoGe-2, streamed back through the server, key never exposed', async t => {
+  const FKEY = 'fal-secret-key', calls = [];
+  const fetcher = async (url, options = {}) => {
+    url = new URL(url); calls.push({ host: url.host, auth: options.headers?.authorization });
+    if (url.host === 'fal.run') {
+      assert.equal(url.pathname, '/fal-ai/moge-2');
+      assert.match(JSON.parse(options.body).image_url, /^data:image\/jpeg;base64,/);
+      return Response.json({ model_mesh: { url: 'https://v3b.fal.media/files/room.glb' }, fov_x: 49 });
+    }
+    if (url.host === 'v3b.fal.media') return new Response(new Uint8Array([103, 108, 84, 70]));
+    throw new Error(`unexpected ${url}`);
+  };
+  const base = await serve(t, { SITE: 'room', FAL_KEY: FKEY }, fetcher);
+  assert.equal((await (await fetch(`${base}/api/config`)).json()).room3d, true);
+  const bad = await fetch(`${base}/api/room3d`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: 'https://example.com/x.jpg' }) });
+  assert.equal(bad.status, 400);
+  const res = await fetch(`${base}/api/room3d`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: 'data:image/jpeg;base64,/9j/AAAA' }) });
+  const data = await res.json();
+  assert.equal(res.status, 200); assert.match(data.glb, /^\/api\/room3d\/[\w-]+\.glb$/);
+  assert.ok(!JSON.stringify(data).includes(FKEY) && !JSON.stringify(data).includes('fal.media'));
+  const glb = await fetch(base + data.glb);
+  assert.equal(glb.headers.get('content-type'), 'model/gltf-binary');
+  assert.equal(Buffer.from(await glb.arrayBuffer()).toString(), 'glTF');
+  assert.equal(calls.find(c => c.host === 'fal.run').auth, `Key ${FKEY}`);
+});

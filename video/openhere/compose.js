@@ -95,11 +95,11 @@ function place(x, y, img, where, name, k) {
   if ($('placeImg').dataset.src !== img) { $('placeImg').dataset.src = img; $('placeImg').src = photos[img]; }
   $('placeWhere').textContent = where; $('placeName').textContent = name;
 }
-// Kinetic type: each word springs up on its own beat.
+// Kinetic type: each word springs up on its own beat; a '/' starts a new line.
 function kicker(words, l, at = 0, gap = .18) {
   const el = $('kicker');
-  if (el.dataset.t !== words.join(' ')) { el.dataset.t = words.join(' '); el.replaceChildren(...words.map((w, i) => { const s = document.createElement('span'); s.innerHTML = w; if (i) s.style.marginLeft = '0.25em'; return s; })); }
-  [...el.children].forEach((s, i) => { const k = spring((l - at - i * gap) / .5); s.style.opacity = clamp(k * 1.5); s.style.transform = `translateY(${(1 - k) * 60}px)`; });
+  if (el.dataset.t !== words.join(' ')) { el.dataset.t = words.join(' '); el.replaceChildren(...words.map((w, i) => { if (w === '/') return document.createElement('br'); const s = document.createElement('span'); s.innerHTML = w; if (i && words[i - 1] !== '/') s.style.marginLeft = '0.25em'; return s; })); }
+  [...el.querySelectorAll('span')].forEach((s, i) => { const k = spring((l - at - i * gap) / .5); s.style.opacity = clamp(k * 1.5); s.style.transform = `translateY(${(1 - k) * 60}px)`; });
 }
 const hide = () => {
   for (const id of ['pin', 'pulse', 'coord', 'place', 'wipe', 'log', 'pcard', 'livetag']) $(id).style.opacity = 0;
@@ -112,7 +112,7 @@ const draw = {
     film(l, d + 1);
     globe(GLOBE.spin, GLOBE.dive, l, 0, d, .08);
     if (l < d * .45) kicker(['Open<b>here</b>'], l, .1);
-    else kicker(['Pick', 'a', 'space.', 'Design', 'it', 'for', 'locals.'], l, d * .45, .12);
+    else kicker(['Pick', 'a', 'real', 'space.', '/', 'Open', 'what', 'locals', 'love.'], l, d * .45, .12);
   },
   // The real globe dives into Parkdale; the space's photo and name land beside its pin.
   globe(l, d) {

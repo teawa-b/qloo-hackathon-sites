@@ -12,6 +12,7 @@ import { demoSpaces, demoCities, matchDemo, geocode, reverseGeocode, distanceKm,
 import { createLimiter } from './lib/limits.js';
 import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
 import { createLive } from './lib/live.js';
+import { createDepth3d } from './lib/depth3d.js';
 import { buildRoom } from './lib/room.js';
 import { loadDemo, listDemos, replay } from './lib/demos.js';
 import { buildPitch } from './lib/pitch.js';
@@ -34,7 +35,7 @@ const files = {
 // every page is served at its own path and "/" is Openhere.
 export const sites = {
   openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
-  room: { name: 'Roomful', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js', '/room3d', '/room3d.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
+  room: { name: 'Roomful', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js', '/room3d', '/room3d.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/', '/api/room3d'] },
   pitch: { name: 'Pitchprep', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js', '/pitch.css', '/img/'], api: ['/api/pitch'] },
   talk: { name: 'SmallTalk', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js', '/talk.css', '/img/'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
@@ -52,7 +53,7 @@ const csp = {
   live: "default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`,
   // Roomful plays its playlist through YouTube's search embed; its 3D room loads three.js from jsDelivr.
-  room: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' ${cdn}; base-uri 'none'; frame-ancestors 'none'`,
+  room: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' blob: ${cdn}; base-uri 'none'; frame-ancestors 'none'`,
   lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   // Pitchprep loads the Phosphor icon font from jsDelivr.
   pitch: `default-src 'self'; img-src 'self' https: data:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'`,
@@ -77,6 +78,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
   const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100), videos = new Map(), talks = boundedMap(100);
   const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
+  const depth3d = env.FAL_KEY ? createDepth3d({ key: env.FAL_KEY, fetcher }) : null, rooms3d = boundedMap(100);
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
   const qlooHost = qlooHosts.includes(env.QLOO_API_HOST) ? env.QLOO_API_HOST : qlooHosts[0];
   const siteKey = sites[env.SITE] ? env.SITE : null, site = siteKey ? sites[siteKey] : null;
@@ -97,7 +99,9 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     talk: [Number(env.TALK_SESSIONS_PER_HOUR || 6), 3600e3],
     talkTurn: [Number(env.TALK_TURNS_PER_HOUR || 400), 3600e3],
     talkDaily: [Number(env.TALK_SESSIONS_PER_DAY || 100), 86400e3, true],
-    liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 20), 86400e3, true]
+    liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 20), 86400e3, true],
+    room3d: [Number(env.ROOMS_3D_PER_HOUR || 10), 3600e3],
+    room3dDaily: [Number(env.ROOMS_3D_PER_DAY || 300), 86400e3, true]
   });
 
   const findSpace = id => demoSpaces.find(s => s.id === id) || custom.get(id);
@@ -163,7 +167,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         return send(200, { id: await videos.get(q) });
       }
       if (req.method === 'GET' && path === '/api/config') {
-        return send(200, { site: siteKey || 'openhere', siteName: (site || sites.openhere).name, qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
+        return send(200, { site: siteKey || 'openhere', siteName: (site || sites.openhere).name, qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, room3d: Boolean(depth3d), live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
       }
       if (req.method === 'GET' && (path === '/api/geocode' || path === '/api/reverse')) {
         if (!limit.take('geocode', ip)) return send(429, { error: 'Too many searches. Slow down a little.' });
@@ -237,6 +241,16 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         res.writeHead(200, { 'Content-Type': render.type, 'Cache-Control': 'private, max-age=3600' });
         return res.end(render.bytes);
       }
+      // A room's 3D mesh, streamed from fal (see lib/depth3d.js).
+      match = path.match(/^\/api\/room3d\/([\w-]+)\.glb$/);
+      if (req.method === 'GET' && match) {
+        const room = rooms3d.get(match[1]);
+        if (!room) return send(404, { error: 'This 3D room has expired. Open it again from the room.' });
+        const upstream = await depth3d.open(room.url);
+        res.writeHead(200, { 'Content-Type': 'model/gltf-binary', 'Cache-Control': 'private, max-age=3600' });
+        for await (const chunk of upstream.body) res.write(chunk);
+        return res.end();
+      }
       match = path.match(/^\/api\/world\/([\w.:-]+)(\/asset)?$/);
       if (req.method === 'GET' && match) {
         const world = worlds.get(match[1]);
@@ -261,7 +275,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       const origin = req.headers.origin;
       if (origin) { let host; try { host = new URL(origin).host; } catch {} if (host !== req.headers.host) return send(403, { error: 'Requests must come from this app.' }); }
       // Uploads and SmallTalk's audio chunks (6 s of speech, base64) need more room than the JSON endpoints.
-      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : path === '/api/talk/hear' ? 4_200_000 : 32_000);
+      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : path === '/api/talk/hear' ? 4_200_000 : path === '/api/room3d' ? 600_000 : 32_000);
 
       // Instant demos: replay a recorded real run (no live calls, no run limit). See lib/demos.js.
       const demoSite = { '/api/agent': 'openhere', '/api/room': 'room', '/api/pitch': 'pitch' }[path];
@@ -529,6 +543,14 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (path === '/api/live/heartbeat') return send(200, await live.heartbeat(liveId));
         if (path === '/api/live/end') { live.end(liveId); return send(200, { ok: true }); }
         return send(404, { error: 'Not found' });
+      }
+
+      if (path === '/api/room3d') {
+        if (!depth3d) return send(503, { error: '3D rooms need a fal key on the server.' });
+        if (!limit.take('room3d', ip) || !limit.take('room3dDaily', 'all')) return send(429, { error: '3D room limit reached. Try again later.' });
+        const id = randomUUID();
+        rooms3d.set(id, await depth3d.build(body.image));
+        return send(200, { id, glb: `/api/room3d/${id}.glb`, fovX: rooms3d.get(id).fovX });
       }
 
       if (path === '/api/world') {

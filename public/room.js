@@ -19,8 +19,9 @@ $('ask').addEventListener('submit', e => { e.preventDefault(); const t = $('text
 $('again').addEventListener('click', () => { $('build').hidden = true; $('intro').hidden = false; scrollTo({ top: 0, behavior: 'smooth' }); $('text').focus(); });
 $('change').addEventListener('click', () => { $('refine').hidden = !$('refine').hidden; if (!$('refine').hidden) $('refine-input').focus(); });
 
-// Examples whose room has been built in 3D (Hunyuan World, see scripts/world-to-glb.js): walk them with WASD.
-const worlds = { rain: 'room-rain' };
+// Every room can be walked in 3D: the viewer lifts the painting into 3D on the spot (fal's MoGe-2). This example's
+// 3D room ships with the site, so it opens instantly.
+const worlds = { rain: 'room-rain-depth' };
 let world = null;
 
 async function build(text, demo = null) {
@@ -95,10 +96,11 @@ function show(ev) {
   if (render?.url) {
     const img = $('hero-img'); img.src = safeUrl(render.url);
     img.decode().catch(() => {}).finally(() => { $('hero').classList.add('ready'); $('hero-shimmer').hidden = true; });
-    if (world || config.liveWorld) actions.push($('walk'));
+    const walkable = world || config.room3d || config.liveWorld;
+    if (walkable) actions.push($('walk'));
     actions.push($('change'));
-    $('walk').hidden = !(world || config.liveWorld);
-    $('walk').textContent = world ? 'Walk inside in 3D' : 'Walk inside';
+    $('walk').hidden = !walkable;
+    $('walk').textContent = world || config.room3d ? 'Walk inside in 3D' : 'Walk inside';
   } else {
     $('hero-shimmer').hidden = true;
     $('hero').classList.add('ready');
@@ -168,6 +170,7 @@ function charts() {
 $('walk').addEventListener('click', () => {
   if (!render) return;
   if (world) return window.open(`/room3d?${new URLSearchParams({ room: world, name: concept.name })}`, '_blank', 'noopener');
+  if (config.room3d) return window.open(`/room3d?${new URLSearchParams({ img: render.url, name: concept.name })}`, '_blank', 'noopener');
   const q = new URLSearchParams({ render: render.id, name: concept.name, tagline: concept.tagline });
   window.open(`/live?${q}`, '_blank', 'noopener');
 });
