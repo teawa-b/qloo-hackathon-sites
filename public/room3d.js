@@ -27,7 +27,12 @@ const camera = new THREE.PerspectiveCamera(depth ? 28 : 85, 1, 0.02, 60);
 // The rig is what walks; the camera turns inside it (and, in VR, the headset moves it).
 const rig = new THREE.Group(); rig.add(camera); scene.add(rig);
 let yaw = 0, pitch = 0;
-const resize = () => { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); };
+const resize = () => {
+  renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight;
+  // A depth room fills the window across: about 46 degrees wide, however tall or narrow the window is.
+  if (depth) camera.fov = Math.min(37, 2 * Math.atan(Math.tan(23 * Math.PI / 180) / camera.aspect) * 180 / Math.PI);
+  camera.updateProjectionMatrix();
+};
 addEventListener('resize', resize); resize();
 
 const status = text => { $('w3-load').querySelector('p').textContent = text; };

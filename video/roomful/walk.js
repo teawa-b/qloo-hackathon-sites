@@ -13,11 +13,10 @@ const tab = await chrome.page({ width: 1440, height: 810, scale: 1 });
 await tab.go(`${base}/room3d?room=${room}&name=${encodeURIComponent('Quiet Signal Room')}`);
 for (let i = 0; i < 60 && !(await tab.evaluate(`document.getElementById('w3-load').hidden`)); i++) await sleep(500);
 await sleep(800);
-// A short walk at 30 frames a second, starting on the lamp and sideboard: step in, turn right past the doorway to
-// the paper screens and the bed, step back, then turn back towards the doorway. Short steps keep it near the
-// centre, where the room holds together.
-await tab.evaluate(`walk.look(2.4, -0.1)`);
-const plan = [['', 20], ['w', 15], ['arrowright', 60], ['s', 15], ['arrowright', 30], ['a', 12], ['arrowleft', 45], ['', 15]];
+// A short walk at 30 frames a second into the painting lifted into 3D: step in, slide left past the sideboard,
+// across to the bed, glance round, and step back.
+await tab.evaluate(`walk.look(0, -0.03)`);
+const plan = [['', 20], ['w', 40], ['a', 25], ['d', 55], ['arrowleft', 20], ['s', 35], ['', 15]];
 let n = 0;
 for (const [k, frames] of plan) {
   if (k) await tab.evaluate(`walk.press('${k}')`);
