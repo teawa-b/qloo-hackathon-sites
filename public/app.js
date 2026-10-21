@@ -296,7 +296,11 @@ async function openStudio(space, photo = null) {
       }
     }
   } catch (error) { fail(error.message); }
-  finally { running = false; $('shimmer').hidden = true; }
+  finally {
+    running = false; $('shimmer').hidden = true;
+    // A stream that ends without a result (server restart, network drop) should say so, not sit on "Starting…".
+    if (!concept && !$('live').classList.contains('fail')) fail('The connection to the agent dropped before it finished. Try again.');
+  }
 }
 // The nearest aspect ratio the image model supports, so the redesign frames like the original photo.
 async function photoAspect(img) {
@@ -326,6 +330,7 @@ function handle(ev, pending) {
     if (ev.type === 'tool_result' && ev.data) collectTaste(ev.name, ev.data);
   } else if (ev.type === 'final') {
     concept = ev.concept; if (ev.render && !render) showRender(ev.render, { sweep: true }); showConcept(ev.concept); renderCharts();
+    if (ev.concept.heatmap) paintHeat(ev.concept.heatmap);
     $('live').className = 'live done'; $('live-text').textContent = render ? 'Done — drag the image to compare' : 'Done (no image model on this server)';
   } else if (ev.type === 'error') { fail(ev.message); logItem('err', ev.message); }
   else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && runId && config.llm) offerBaseline(); }
@@ -421,6 +426,25 @@ function collectTaste(name, data) {
   else if ((name === 'local_entities' || name === 'fan_favourites') && data.entities?.length) taste[data.type] = data;
   else if (name === 'fan_heatmap' && data.cells?.length) taste.heatmap = data;
   else if (name === 'audience_overlap') taste.overlap = data;
+}
+// The same grid on the big globe, so closing the studio lands on "where the fans are" around the venue.
+let heatLegend = null;
+function paintHeat(h) {
+  if (!map || !h.cells?.length) return;
+  const max = Math.max(...h.cells.map(c => c.affinity || 0)) || 1;
+  const data = { type: 'FeatureCollection', features: h.cells.map(c => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { w: (c.affinity || 0) / max } })) };
+  if (map.getSource('fanheat')) map.getSource('fanheat').setData(data);
+  else {
+    map.addSource('fanheat', { type: 'geojson', data });
+    map.addLayer({ id: 'fanheat', type: 'heatmap', source: 'fanheat', paint: { 'heatmap-weight': ['get', 'w'], 'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 14, 12, 40], 'heatmap-intensity': 1, 'heatmap-opacity': .75, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .3, '#cfe0ff', .6, '#0052ff', 1, '#ff5fa2'] } });
+  }
+  heatLegend?.remove();
+  heatLegend = el('div', 'heat-legend');
+  heatLegend.append(el('b', '', `Where ${activation?.event || 'the'} fans are`), el('span', '', 'Qloo heatmap · affinity around the venue'));
+  const x = el('button', 'x small', '×'); x.setAttribute('aria-label', 'Hide heatmap');
+  x.addEventListener('click', () => { map.setLayoutProperty('fanheat', 'visibility', 'none'); heatLegend.remove(); heatLegend = null; });
+  heatLegend.append(x); document.body.append(heatLegend);
+  map.setLayoutProperty('fanheat', 'visibility', 'visible');
 }
 // A small map of where the fans over-index around the venue, from Qloo's heatmap grid.
 function heatChart(h) {
@@ -597,7 +621,12 @@ async function pollWorld(id) {
 
 $('why').addEventListener('click', () => { $('drawer').hidden = false; });
 $('drawer-close').addEventListener('click', () => { $('drawer').hidden = true; });
-$('studio-close').addEventListener('click', () => { if (running) return toast('Hang on — the agent is still working.'); $('studio').hidden = true; $('hint').hidden = false; });
+$('studio-close').addEventListener('click', () => {
+  if (running) return toast('Hang on — the agent is still working.');
+  $('studio').hidden = true; $('hint').hidden = false;
+  // After an activation, pull back to the fan heatmap around the venue.
+  if (concept?.heatmap && map) map.flyTo({ center: [concept.heatmap.center.lng, concept.heatmap.center.lat], zoom: 10.6, pitch: 35, duration: 1800, essential: true });
+});
 addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('drawer').hidden) $('drawer').hidden = true; else if (!$('ask').hidden) $('ask').hidden = true; } });
 addEventListener('resize', () => { if (!$('ask').hidden) showAsk(); });
 
