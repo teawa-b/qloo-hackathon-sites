@@ -10,7 +10,7 @@ Five separate sites built on [Qloo](https://www.qloo.com)'s taste graph. They sh
 | **Talk Coach** | Hear what the other person loves; know what to say next, on glasses or in AR/VR | `npm run start:talk` (3303) | `SITE=talk` |
 | **Taste Lab** | The raw Qloo explorer: every match, request and response | `npm run start:lab` (3304) | `SITE=lab` |
 
-`npm run dev` starts all five at once. The names are working names, set in one place (`sites` in [`server.js`](server.js)) plus each page's logo.
+`npm run dev` starts all five at once. The names are set in one place (`sites` in [`server.js`](server.js)) plus each page's logo.
 
 ## Openhere
 
