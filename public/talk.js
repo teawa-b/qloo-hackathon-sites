@@ -2,7 +2,7 @@ const $ = id => document.getElementById(id);
 // Model-written text never shows an em or en dash used as punctuation (house style); a comma reads the same.
 const tidy = v => typeof v === 'string' ? v.replace(/(\d)\s*–\s*(\d)/g, '$1-$2').replace(/\s*[—–]\s*/g, ', ') : v;
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = tidy(text); return n; };
-let session = null, view = null, stream = null, recording = false, meDown = false, meMs = 0, meSince = 0, demoTimer = null, xr = null;
+let session = null, view = null, stream = null, recording = false, meDown = false, meMs = 0, meSince = 0, demoTimer = null, xr = null, sample = null;
 
 function toast(text, ms = 4000) { $('toast').textContent = text; $('toast').hidden = !text; clearTimeout(toast.t); if (text) toast.t = setTimeout(() => { $('toast').hidden = true; }, ms); }
 async function api(path, body) {
@@ -16,8 +16,8 @@ async function start() {
   if (!$('consent').checked) { toast('Tick the box first: the other person should know.'); $('consent').focus(); return false; }
   const { id, view: v } = await api('/api/talk/start', { consent: true, mine: $('mine').value });
   session = id; render(v);
-  $('setup').hidden = true; $('hud').hidden = false;
-  if (navigator.xr) navigator.xr.isSessionSupported('immersive-ar').then(ar => ar || navigator.xr.isSessionSupported('immersive-vr')).then(ok => { $('xr').hidden = !ok; if (ok) $('xr').textContent = '🥽 Enter AR / VR'; }).catch(() => {});
+  $('setup').hidden = true; $('hud').hidden = false; $('compare').hidden = false;
+  if (navigator.xr) navigator.xr.isSessionSupported('immersive-ar').then(ar => ar || navigator.xr.isSessionSupported('immersive-vr')).then(ok => { $('xr').hidden = !ok; }).catch(() => {});
   return true;
 }
 
@@ -61,6 +61,22 @@ function send(body) {
 function status(text, busy = false) { $('status').querySelector('span').textContent = text; $('status').classList.toggle('busy', busy); }
 function line(who, text) { const li = el('li', who); li.append(el('b', '', who === 'me' ? 'You' : 'Them'), el('span', '', text)); $('lines').prepend(li); }
 
+// With and without Qloo: an LLM alone suggests what to bring up from the same conversation; each pick is checked
+// against what Qloo returned for their taste. The sample carries a recorded comparison; a live one asks the server.
+$('compare').addEventListener('click', async () => {
+  $('compare').disabled = true;
+  try { showCompare(sample?.compare && !session ? sample.compare : await api('/api/talk/compare', { id: session })); }
+  catch (error) { toast(error.message); }
+  finally { $('compare').disabled = false; }
+});
+function showCompare(b) {
+  const label = { ranked: 'Qloo ranks it for their taste', known: 'Real, but Qloo does not rank it for their taste', unknown: 'Not in Qloo' };
+  $('cmp-score').textContent = `Without Qloo, ${b.counts.ranked} of ${b.total} suggestions fit their taste`;
+  $('cmp-list').replaceChildren(...b.picks.map(p => { const li = el('li', p.verdict); li.append(el('span', '', p.name), el('span', '', p.kind.replace('_', ' ')), el('span', '', label[p.verdict])); return li; }));
+  $('cmp-foot').textContent = `LLM alone: ${b.model}, given the same conversation. SmallTalk's own nudges only use names Qloo returned.`;
+  $('cmp').hidden = false; $('cmp').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 // "I'm talking": hold the button, Space, or (in a headset) the trigger.
 function setMe(down) {
   if (down === meDown) return;
@@ -79,13 +95,14 @@ $('say').addEventListener('submit', e => { e.preventDefault(); const t = $('say-
 $('demo').addEventListener('click', async () => {
   let demo;
   try { demo = await api('/api/talk/demo', { demo: 'sample' }); } catch (error) { return toast(error.message); }
+  sample = demo;
   $('setup').hidden = true; $('hud').hidden = false; $('say').hidden = true; $('me').hidden = true;
   $('demo-note').hidden = false;
   if (navigator.xr) navigator.xr.isSessionSupported('immersive-ar').then(ar => ar || navigator.xr.isSessionSupported('immersive-vr')).then(ok => { $('xr').hidden = !ok; }).catch(() => {});
   status('Sample conversation');
   let i = 0;
   const next = () => {
-    if (i >= demo.turns.length) { demoTimer = null; status('Sample finished'); return; }
+    if (i >= demo.turns.length) { demoTimer = null; status('Sample finished'); if (demo.compare) $('compare').hidden = false; return; }
     const t = demo.turns[i++];
     if (t.heard) line(t.who, t.heard);
     render(t.view);
@@ -105,12 +122,13 @@ function chips(list, cls) { return (list || []).map((x, i) => el('span', `chip $
 function render(v) {
   view = v;
   const n = v.nudges || [];
-  $('nudges').replaceChildren(...(n.length ? n.map((x, i) => { const c = el('div', `nudge${i ? '' : ' lead'}${x.grounded ? '' : ' unverified'}`); c.append(el('p', '', x.say), el('small', '', `${x.about} · ${x.why}`)); return c; }) : [el('p', 'nudge-empty', 'Waiting for them to mention something they love…')]));
+  $('nudges').replaceChildren(...(n.length ? n.map((x, i) => { const c = el('div', `nudge${i ? '' : ' lead'}${x.grounded ? '' : ' unverified'}`); c.append(el('p', '', x.say), el('small', '', `${x.about} · ${x.why}`)); return c; }) : [el('p', 'empty', 'Waiting for them to mention something they love.')]));
   $('them').replaceChildren(...chips(v.them));
   $('shared').replaceChildren(...(v.shared?.length ? chips(v.shared, 'c0') : [el('span', 'muted', v.mine?.length ? 'Nothing yet' : 'Add your favourites to see this')]));
   $('avoid').replaceChildren(...(v.avoid?.length ? chips(v.avoid, 'no') : [el('span', 'muted', 'Nothing yet')]));
   const label = { artist: 'Music', movie: 'Films', tv_show: 'TV', book: 'Books', podcast: 'Podcasts', brand: 'Brands', destination: 'Places' };
-  $('recs').replaceChildren(...Object.entries(v.recs || {}).map(([t, l]) => { const row = el('div', 'rec-row'); row.append(el('b', '', label[t] || t), el('span', '', l.map(e => e.name).join(' · '))); return row; }));
+  // Qloo's suggestions per kind, a few each, so the panel stays glanceable.
+  $('recs').replaceChildren(...Object.entries(v.recs || {}).map(([t, l]) => { const row = el('div', 'rec-row'); row.append(el('b', '', label[t] || t), el('span', '', l.slice(0, 3).map(e => e.name).join(', '))); return row; }));
   if (n[0]) { $('glass-say').textContent = tidy(n[0].say); $('glass-why').textContent = tidy(`${n[0].about}: ${n[0].why}`); }
   xr?.update(v);
 }

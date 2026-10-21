@@ -69,7 +69,8 @@ for (const [site, list] of Object.entries(demos)) {
       const { id } = await post('/api/talk/start', { consent: true, mine: demo.mine }).then(r => r.json());
       const turns = [];
       for (const [who, text] of demo.lines) turns.push(await post('/api/talk/hear', { id, text, who }).then(r => r.json()));
-      record = { site, slug: demo.slug, title: demo.title, request: { mine: demo.mine }, turns };
+      const compare = await post('/api/talk/compare', { id }).then(r => r.json());
+      record = { site, slug: demo.slug, title: demo.title, request: { mine: demo.mine }, turns, compare };
     } else {
       const raw = events(await post(demo.path, demo.body).then(r => r.text()));
       const done = raw.find(e => e.type === 'done');

@@ -14,7 +14,7 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      }
     ],
     "them": [
@@ -279,25 +279,25 @@
     ],
     "nudges": [
      {
-      "say": "No worries! Which Rooney is it? Are you enjoying it so far?",
-      "about": "Sally Rooney",
-      "why": "They just mentioned finishing her new book",
-      "grounded": false
-     },
-     {
-      "say": "Do you track your reading on Goodreads? I'm always adding to my list.",
-      "about": "Goodreads",
-      "why": "Shared common ground and a Qloo brand for Rooney fans",
+      "say": "Oh, Sally Rooney! Have you read 'The Seven Husbands of Evelyn Hugo'?",
+      "about": "The Seven Husbands of Evelyn Hugo",
+      "why": "People with their taste also love this book",
       "grounded": true
      },
      {
-      "say": "Have you read The Seven Husbands of Evelyn Hugo? Feels like your taste.",
-      "about": "The Seven Husbands of Evelyn Hugo",
-      "why": "Popular pick among people who love Sally Rooney",
+      "say": "I love Goodreads! It's such a great way to track what I'm reading.",
+      "about": "Goodreads",
+      "why": "You both love Goodreads",
+      "grounded": true
+     },
+     {
+      "say": "How do you like 'The First to Die at the End'?",
+      "about": "The First to Die at the End (Death-Cast, #0)",
+      "why": "People with their taste also love this book",
       "grounded": true
      }
     ],
-    "updated": 1792600738931
+    "updated": 1792610014454
    }
   },
   {
@@ -308,12 +308,12 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      }
     ],
     "them": [
@@ -583,25 +583,25 @@
     ],
     "nudges": [
      {
-      "say": "Have you read Why Fish Don't Exist? Feels like a good follow-up read.",
-      "about": "Why Fish Don’t Exist: A Story of Loss, Love, and the Hidden Order of Life",
-      "why": "Listed as common ground between you both",
+      "say": "Have you read The Anthropocene Reviewed yet? We both own it.",
+      "about": "The Anthropocene Reviewed: Essays on a Human-Centered Planet",
+      "why": "Common ground: you both already own this book.",
       "grounded": true
      },
      {
-      "say": "I've been meaning to ask: do you read Hanya Yanagihara? I loved To Paradise.",
-      "about": "To Paradise",
-      "why": "Common ground: you both like To Paradise",
+      "say": "Have you seen Gifted? It feels like your kind of film.",
+      "about": "Gifted",
+      "why": "Qloo: people with your taste also love this movie.",
       "grounded": true
      },
      {
-      "say": "Do you ever listen to podcasts about books, like The Guilty Feminist?",
-      "about": "The Guilty Feminist",
-      "why": "Fans of Sally Rooney also love this podcast",
+      "say": "Ever read The Seven Husbands of Evelyn Hugo? Thoughts?",
+      "about": "The Seven Husbands of Evelyn Hugo",
+      "why": "Qloo: people with your taste also love this book.",
       "grounded": true
      }
     ],
-    "updated": 1792600750473
+    "updated": 1792610025236
    }
   },
   {
@@ -612,17 +612,17 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      },
      {
       "who": "them",
       "text": "Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.",
-      "t": 1792600750475
+      "t": 1792610025238
      }
     ],
     "them": [
@@ -897,25 +897,25 @@
     ],
     "nudges": [
      {
-      "say": "Since you love Phoebe Bridgers, have you listened to boygenius much?",
-      "about": "boygenius",
-      "why": "Common ground; Phoebe Bridgers is a member",
-      "grounded": true
-     },
-     {
-      "say": "Have you heard the new Lucy Dacus? I'm curious what you think.",
+      "say": "Have you heard Lucy Dacus? We both seem to love her.",
       "about": "Lucy Dacus",
-      "why": "Common ground; fans of Phoebe Bridgers also love her",
+      "why": "Common ground and fits their indie folk taste",
       "grounded": true
      },
      {
-      "say": "What else have you read lately? Have you tried Sally Rooney-adjacent stuff like Nightcrawling?",
-      "about": "Nightcrawling",
-      "why": "Books that fans of Sally Rooney and Phoebe Bridgers love",
+      "say": "Have you checked out Lizzy McAlpine? Feels like your kind of music.",
+      "about": "Lizzy McAlpine",
+      "why": "Qloo: fans of their taste also love her",
+      "grounded": true
+     },
+     {
+      "say": "What did you think of On Earth We're Briefly Gorgeous? Want to read it next?",
+      "about": "On Earth We're Briefly Gorgeous",
+      "why": "Qloo: fans of their taste also love this book",
       "grounded": true
      }
     ],
-    "updated": 1792600760743
+    "updated": 1792610036218
    }
   },
   {
@@ -926,22 +926,22 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      },
      {
       "who": "them",
       "text": "Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.",
-      "t": 1792600750475
+      "t": 1792610025238
      },
      {
       "who": "them",
       "text": "We went to see Past Lives again last weekend and I cried the whole second half.",
-      "t": 1792600760745
+      "t": 1792610036220
      }
     ],
     "them": [
@@ -1221,25 +1221,25 @@
     ],
     "nudges": [
      {
-      "say": "Wait, are you a boygenius fan too? Phoebe plus Lucy Dacus is elite.",
-      "about": "boygenius",
-      "why": "Common ground: you both like boygenius, and Phoebe is in it.",
-      "grounded": true
-     },
-     {
-      "say": "Have you heard Lucy Dacus lately? I feel like she fits your reading kick.",
+      "say": "Have you heard Lucy Dacus's new stuff? We both love her.",
       "about": "Lucy Dacus",
-      "why": "Shared taste, and she's loved by Phoebe Bridgers fans.",
+      "why": "Shared favorite, and fans of your taste love her too.",
       "grounded": true
      },
      {
-      "say": "If Past Lives wrecked you, have you seen All of Us Strangers?",
+      "say": "Ever seen All of Us Strangers? Sounds like your kind of cry.",
       "about": "All of Us Strangers",
-      "why": "Loved by fans of Past Lives; also an emotional watch.",
+      "why": "Fans of your taste also love this tearjerker.",
+      "grounded": true
+     },
+     {
+      "say": "Have you gotten into Gracie Abrams yet? Similar vibe to Phoebe.",
+      "about": "Gracie Abrams",
+      "why": "Your taste overlaps strongly with Gracie Abrams fans.",
       "grounded": true
      }
     ],
-    "updated": 1792600771102
+    "updated": 1792610048370
    }
   },
   {
@@ -1250,27 +1250,27 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      },
      {
       "who": "them",
       "text": "Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.",
-      "t": 1792600750475
+      "t": 1792610025238
      },
      {
       "who": "them",
       "text": "We went to see Past Lives again last weekend and I cried the whole second half.",
-      "t": 1792600760745
+      "t": 1792610036220
      },
      {
       "who": "me",
       "text": "I have not seen it yet. Is it sad?",
-      "t": 1792600771104
+      "t": 1792610048371
      }
     ],
     "them": [
@@ -1550,25 +1550,25 @@
     ],
     "nudges": [
      {
-      "say": "Wait, are you a boygenius fan too? Phoebe plus Lucy Dacus is elite.",
-      "about": "boygenius",
-      "why": "Common ground: you both like boygenius, and Phoebe is in it.",
-      "grounded": true
-     },
-     {
-      "say": "Have you heard Lucy Dacus lately? I feel like she fits your reading kick.",
+      "say": "Have you heard Lucy Dacus's new stuff? We both love her.",
       "about": "Lucy Dacus",
-      "why": "Shared taste, and she's loved by Phoebe Bridgers fans.",
+      "why": "Shared favorite, and fans of your taste love her too.",
       "grounded": true
      },
      {
-      "say": "If Past Lives wrecked you, have you seen All of Us Strangers?",
+      "say": "Ever seen All of Us Strangers? Sounds like your kind of cry.",
       "about": "All of Us Strangers",
-      "why": "Loved by fans of Past Lives; also an emotional watch.",
+      "why": "Fans of your taste also love this tearjerker.",
+      "grounded": true
+     },
+     {
+      "say": "Have you gotten into Gracie Abrams yet? Similar vibe to Phoebe.",
+      "about": "Gracie Abrams",
+      "why": "Your taste overlaps strongly with Gracie Abrams fans.",
       "grounded": true
      }
     ],
-    "updated": 1792600772182
+    "updated": 1792610049738
    }
   },
   {
@@ -1579,32 +1579,32 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      },
      {
       "who": "them",
       "text": "Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.",
-      "t": 1792600750475
+      "t": 1792610025238
      },
      {
       "who": "them",
       "text": "We went to see Past Lives again last weekend and I cried the whole second half.",
-      "t": 1792600760745
+      "t": 1792610036220
      },
      {
       "who": "me",
       "text": "I have not seen it yet. Is it sad?",
-      "t": 1792600771104
+      "t": 1792610048371
      },
      {
       "who": "them",
       "text": "Quietly sad. Oh, and I cannot stand superhero films, I fell asleep in the last Marvel one.",
-      "t": 1792600772199
+      "t": 1792610049746
      }
     ],
     "them": [
@@ -1647,6 +1647,11 @@
      }
     ],
     "avoid": [
+     {
+      "name": "Superhero",
+      "type": "tag",
+      "id": "urn:tag:subgenre:qloo:superhero"
+     },
      {
       "name": "Marvel Entertainment",
       "type": "brand",
@@ -1890,25 +1895,25 @@
     ],
     "nudges": [
      {
-      "say": "Since you love Phoebe Bridgers, have you listened to Lucy Dacus? She's in boygenius too.",
+      "say": "Have you heard Lucy Dacus? I think you'd like her.",
       "about": "Lucy Dacus",
-      "why": "Shared taste with Phoebe fans; common ground for both of you",
+      "why": "People with their taste also love her.",
       "grounded": true
      },
      {
-      "say": "If Past Lives wrecked you, I'd like to see All of Us Strangers next.",
+      "say": "Oh, that reminds me of Sufjan Stevens.",
+      "about": "Sufjan Stevens",
+      "why": "You both have this artist in common.",
+      "grounded": true
+     },
+     {
+      "say": "Have you seen All of Us Strangers?",
       "about": "All of Us Strangers",
-      "why": "Qloo: loved by fans of Past Lives-type taste",
-      "grounded": true
-     },
-     {
-      "say": "Have you read Nightcrawling? It sounds like it fits your reading kick.",
-      "about": "Nightcrawling",
-      "why": "Qloo: books loved by Sally Rooney fans",
+      "why": "People with their taste also love it.",
       "grounded": true
      }
     ],
-    "updated": 1792600785203
+    "updated": 1792610059785
    }
   },
   {
@@ -1919,37 +1924,37 @@
      {
       "who": "them",
       "text": "Sorry I was late, I was finishing the new Sally Rooney on the train.",
-      "t": 1792600728637
+      "t": 1792610005659
      },
      {
       "who": "me",
       "text": "No worries. Is it as good as Normal People?",
-      "t": 1792600738933
+      "t": 1792610014457
      },
      {
       "who": "them",
       "text": "Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.",
-      "t": 1792600750475
+      "t": 1792610025238
      },
      {
       "who": "them",
       "text": "We went to see Past Lives again last weekend and I cried the whole second half.",
-      "t": 1792600760745
+      "t": 1792610036220
      },
      {
       "who": "me",
       "text": "I have not seen it yet. Is it sad?",
-      "t": 1792600771104
+      "t": 1792610048371
      },
      {
       "who": "them",
       "text": "Quietly sad. Oh, and I cannot stand superhero films, I fell asleep in the last Marvel one.",
-      "t": 1792600772199
+      "t": 1792610049746
      },
      {
       "who": "them",
       "text": "Next month I am going to Lisbon, mostly to eat pastries and walk around.",
-      "t": 1792600785204
+      "t": 1792610059788
      }
     ],
     "them": [
@@ -1997,6 +2002,11 @@
      }
     ],
     "avoid": [
+     {
+      "name": "Superhero",
+      "type": "tag",
+      "id": "urn:tag:subgenre:qloo:superhero"
+     },
      {
       "name": "Marvel Entertainment",
       "type": "brand",
@@ -2240,27 +2250,74 @@
     ],
     "nudges": [
      {
-      "say": "Phoebe Bridgers on repeat? Have you been listening to Lucy Dacus too?",
+      "say": "Have you heard Lucy Dacus' new album?",
       "about": "Lucy Dacus",
-      "why": "Shared favorite; fans of Phoebe Bridgers also love her.",
+      "why": "People with their taste also love her.",
       "grounded": true
      },
      {
-      "say": "Past Lives made you cry? All of Us Strangers is supposed to be similar.",
-      "about": "All of Us Strangers",
-      "why": "Qloo: fans of Past Lives also love this quietly sad film.",
+      "say": "What do you think of Cha Cha Real Smooth?",
+      "about": "Cha Cha Real Smooth",
+      "why": "People with their taste also love it.",
       "grounded": true
      },
      {
-      "say": "Lisbon sounds perfect. Are you planning any pastry stops, or just wandering?",
+      "say": "Are you excited for your trip to Lisbon?",
       "about": "Lisbon",
-      "why": "They mentioned the trip themselves; an easy open question.",
+      "why": "You both mentioned liking Lisbon.",
       "grounded": false
      }
     ],
-    "updated": 1792600796893
+    "updated": 1792610068210
    }
   }
  ],
- "recorded": "2026-10-21T16:39:56.893Z"
+ "compare": {
+  "model": "anthropic/claude-haiku-5.5",
+  "picks": [
+   {
+    "name": "Writers & Lovers",
+    "kind": "book",
+    "verdict": "known",
+    "match": "Writers &amp; Lovers"
+   },
+   {
+    "name": "Mitski",
+    "kind": "artist",
+    "verdict": "known",
+    "match": "Mitski"
+   },
+   {
+    "name": "Aftersun",
+    "kind": "movie",
+    "verdict": "ranked",
+    "match": "Aftersun"
+   },
+   {
+    "name": "Fleabag",
+    "kind": "tv_show",
+    "verdict": "known",
+    "match": "Fleabag"
+   },
+   {
+    "name": "Heavyweight",
+    "kind": "podcast",
+    "verdict": "known",
+    "match": "Heavyweight"
+   },
+   {
+    "name": "Sintra",
+    "kind": "destination",
+    "verdict": "known",
+    "match": "Sintra"
+   }
+  ],
+  "counts": {
+   "ranked": 1,
+   "known": 5,
+   "unknown": 0
+  },
+  "total": 6
+ },
+ "recorded": "2026-10-21T19:14:33.384Z"
 }

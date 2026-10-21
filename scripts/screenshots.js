@@ -14,7 +14,10 @@ const shots = [
   ['pitchprep-brief', 'http://127.0.0.1:3302/?demo=boehly', 1440, 1700, 12000],
   // The hero image on Pitchprep's own home page (saved into public/img, light mode).
   ['pitchprep-brief', 'http://127.0.0.1:3302/?demo=calacanis', 1200, 900, 12000, 'public/img/'],
-  ['talk-coach', 'http://127.0.0.1:3303/?demo=sample', 1280, 1000, 32000],
+  ['smalltalk-live', 'http://127.0.0.1:3303/?demo=sample', 1440, 1100, 32000],
+  // The hero image on SmallTalk's own home page.
+  ['smalltalk-hud', 'http://127.0.0.1:3303/?demo=sample', 1200, 900, 32000, 'public/img/'],
+  ['smalltalk-home', 'http://127.0.0.1:3303/', 1440, 900, 3000],
   ['taste-lab', 'http://127.0.0.1:3304/', 1440, 900, 3000]
 ];
 const only = process.argv.slice(2);

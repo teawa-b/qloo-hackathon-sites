@@ -16,10 +16,11 @@ const post = (base, path, body) => fetch(`${base}${path}`, { method: 'POST', hea
 const reply = content => Response.json({ choices: [{ message: { content } }] });
 
 // A fake Qloo with a few brands, a podcast and a book; every search hits by exact name.
-const catalog = { Calm: 'b-calm', Strava: 'b-strava', Uber: 'b-uber', Robinhood: 'b-robin', 'This Week in Startups': 'p-twist', 'Sally Rooney': 'pe-rooney', 'Phoebe Bridgers': 'a-pb', 'Past Lives': 'm-pl', Marvel: 'br-marvel' };
+const catalog = { 'Superhero Movie': 'm-superhero-movie', Calm: 'b-calm', Strava: 'b-strava', Uber: 'b-uber', Robinhood: 'b-robin', 'This Week in Startups': 'p-twist', 'Sally Rooney': 'pe-rooney', 'Phoebe Bridgers': 'a-pb', 'Past Lives': 'm-pl', Marvel: 'br-marvel' };
 function qloo(url, log) {
   const p = url.searchParams;
   log.push(Object.fromEntries(p));
+  if (url.pathname === '/v2/tags') return Response.json({ results: { tags: /superhero/i.test(p.get('filter.query')) ? [{ tag_id: 't-super', name: 'Superhero' }] : [] } });
   if (url.pathname === '/search') {
     const name = Object.keys(catalog).find(k => k.toLowerCase() === p.get('query').toLowerCase());
     return Response.json({ results: name ? [{ name, entity_id: catalog[name], popularity: 0.9, types: [p.get('types') || 'urn:entity:brand'] }] : [] });
@@ -90,8 +91,10 @@ test('talk: consent first, typed or transcribed lines become a Qloo taste profil
         if (/Sally Rooney/.test(prompt)) mentions.push({ name: 'Sally Rooney', kind: 'person', who: 'them', feeling: 'likes' });
         if (/Past Lives/.test(prompt)) mentions.push({ name: 'Past Lives', kind: 'movie', who: 'them', feeling: 'likes' });
         if (/Marvel/.test(prompt)) mentions.push({ name: 'Marvel', kind: 'brand', who: 'them', feeling: 'dislikes' });
+        if (/stand superhero/.test(prompt)) mentions.push({ name: 'superhero films', kind: 'genre', who: 'them', feeling: 'dislikes' });
         return reply(JSON.stringify({ mentions }));
       }
+      if (/Suggest exactly 6/.test(prompt)) return reply(JSON.stringify({ picks: [{ name: 'Lucy Dacus', kind: 'artist' }, { name: 'Uber', kind: 'brand' }, { name: 'Imaginary Band', kind: 'artist' }] }));
       return reply(JSON.stringify({ nudges: [{ say: 'Have you heard Lucy Dacus?', about: 'Lucy Dacus', why: 'fans of their taste love her' }, { say: 'Seen Dune?', about: 'Dune', why: 'guess' }] }));
     }
     throw new Error(`Unexpected request to ${url}`);
@@ -108,6 +111,12 @@ test('talk: consent first, typed or transcribed lines become a Qloo taste profil
   assert.equal(audio.heard, 'I love Past Lives but I really cannot stand Marvel.');
   assert.deepEqual(audio.view.them.map(e => e.name), ['Sally Rooney', 'Past Lives']);
   assert.deepEqual(audio.view.avoid.map(e => e.name), ['Marvel'], 'dislikes are kept apart');
+  // A disliked genre becomes a Qloo tag, never a film that happens to share a word with it.
+  const genre = await post(base, '/api/talk/hear', { id, text: 'I cannot stand superhero films', who: 'them' }).then(r => r.json());
+  assert.deepEqual(genre.view.avoid.map(e => e.name), ['Marvel', 'Superhero']);
+  // Without Qloo: an LLM alone suggests what to bring up; each pick is checked against Qloo's results for their taste.
+  const cmp = await post(base, '/api/talk/compare', { id }).then(r => r.json());
+  assert.deepEqual(cmp.picks.map(p => [p.name, p.verdict]), [['Lucy Dacus', 'ranked'], ['Uber', 'known'], ['Imaginary Band', 'unknown']]);
   assert.equal((await post(base, '/api/talk/hear', { id, audio: 'data:text/html;base64,PGI+' })).status, 400);
   assert.equal((await post(base, '/api/talk/hear', { id: 'nope', text: 'hi' })).status, 404);
 });

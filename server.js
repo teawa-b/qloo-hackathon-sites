@@ -15,7 +15,7 @@ import { createLive } from './lib/live.js';
 import { buildRoom } from './lib/room.js';
 import { loadDemo, listDemos, replay } from './lib/demos.js';
 import { buildPitch } from './lib/pitch.js';
-import { createTalk, transcribe } from './lib/talk.js';
+import { createTalk, transcribe, compareWithout } from './lib/talk.js';
 import { parseInterests, entityList as labEntities, insightParams } from './lab/lib.js';
 
 const files = {
@@ -24,7 +24,7 @@ const files = {
   '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
   '/room': ['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'], '/room.css': ['room.css', 'text/css'],
   '/pitch': ['pitch.html', 'text/html'], '/pitch.js': ['pitch.js', 'text/javascript'], '/pitch.css': ['pitch.css', 'text/css'],
-  '/talk': ['talk.html', 'text/html'], '/talk.js': ['talk.js', 'text/javascript'], '/talk-xr.js': ['talk-xr.js', 'text/javascript'],
+  '/talk': ['talk.html', 'text/html'], '/talk.js': ['talk.js', 'text/javascript'], '/talk-xr.js': ['talk-xr.js', 'text/javascript'], '/talk.css': ['talk.css', 'text/css'],
   // Taste Lab, the raw Qloo explorer, mounted under /lab.
   '/lab': ['../lab/public/index.html', 'text/html'], '/lab/app.js': ['../lab/public/app.js', 'text/javascript'], '/lab/style.css': ['../lab/public/style.css', 'text/css']
 };
@@ -35,7 +35,7 @@ export const sites = {
   openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
   room: { name: 'Roomful', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
   pitch: { name: 'Pitchprep', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js', '/pitch.css', '/img/'], api: ['/api/pitch'] },
-  talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
+  talk: { name: 'SmallTalk', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js', '/talk.css', '/img/'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
 };
 const sharedPages = ['/style.css', '/favicon.svg'], sharedApi = ['/api/config', '/api/health', '/api/demos'];
@@ -56,7 +56,7 @@ const csp = {
   // Pitchprep loads the Phosphor icon font from jsDelivr.
   pitch: `default-src 'self'; img-src 'self' https: data:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'`,
   // Talk loads three.js from jsDelivr only when entering AR/VR; the microphone stays on this origin.
-  talk: `default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; connect-src 'self' ${cdn}; base-uri 'none'; frame-ancestors 'none'`
+  talk: `default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self' ${cdn}; connect-src 'self' ${cdn}; base-uri 'none'; frame-ancestors 'none'`
 };
 
 // Time-of-day lighting, written per Pruna's edit formula ("Change X. Keep Y identical.").
@@ -400,7 +400,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         const talk = createTalk({ qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }), llm: llm.fast || llm });
         const mine = (Array.isArray(body.mine) ? body.mine : String(body.mine || '').split(',')).map(s => String(s).trim().slice(0, 60)).filter(Boolean);
         if (mine.length) await talk.setMine(mine);
-        talks.set(id, { talk, busy: Promise.resolve() });
+        talks.set(id, { talk, busy: Promise.resolve(), qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }) });
         return send(200, { id, view: talk.view(), stt: Boolean(env.FAL_KEY) });
       }
       if (path === '/api/talk/hear') {
@@ -420,6 +420,16 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         entry.busy = turn.catch(() => {});
         await turn;
         return send(200, { heard: text, who, view: entry.talk.view() });
+      }
+
+      // With and without Qloo for a conversation so far: the main model alone, checked against Qloo's results.
+      if (path === '/api/talk/compare') {
+        const entry = talks.get(String(body.id || ''));
+        if (!entry) return send(404, { error: 'That conversation has ended. Start a new one.' });
+        if (!entry.talk.state.them.size) return send(400, { error: 'Wait until they have mentioned something they love.' });
+        if (!limit.take('baseline', ip)) return send(429, { error: 'Comparison limit reached. Try again later.' });
+        await entry.busy;
+        return send(200, await compareWithout({ state: entry.talk.state, llm, qloo: entry.qloo }));
       }
 
       // Taste room: favourites → Qloo taste → a painted room, streamed step by step.
