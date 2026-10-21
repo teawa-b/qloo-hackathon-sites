@@ -10,7 +10,14 @@ Openhere is a taste-grounded design agent for physical spaces, built on [Qloo](h
 | **Activations** (`/`, "Brand activation") | Sponsorship and experiential teams: a brand's pop-up, booth or takeover for one event's fans, inside a real room near the venue | How well the brand fits that fanbase, what the fans want a room to feel like, the playlist, the co-sponsors both audiences already love, local partners, and where the fans live around the venue |
 | **Taste room** (`/room`) | Anyone: name a few things you love and walk into the room they make | Which decor and mood people with that taste rate highest, their playlist, the brands, films and books on the shelves |
 
-A fourth page, **Lab** (`/lab`), is the raw Qloo explorer the project started from: type interests, review every match, and see the exact request and response behind each recommendation.
+Two more pages are about people rather than rooms:
+
+| Page | Who it's for | What Qloo decides |
+|---|---|---|
+| **Pitch** (`/pitch`) | A founder before an investor meeting | Web research (cited) finds the investor's public record: thesis, stages, cheques, portfolio, and the things they publicly host, own or recommend. Qloo then scores every portfolio company for *your* customers (`filter.results.entities`), compares the two crowds' ages, and finds openers in what fans of the investor's public interests also love. The brief says which companies to name, how to fix the deck and what to open with; invented names are flagged |
+| **Talk** (`/talk`) | Anyone in a conversation, on glasses, a Quest headset or a phone on the table | It hears what the other person mentions (speech to text in 6-second chunks), resolves every band, film, book, place or brand in Qloo, and builds their taste live: what else people with that taste love, what you have in common (from your own favourites, with explainability), what to steer clear of, and three nudges you can say next. Hold "I'm talking", Space or the headset trigger while you speak. Glasses view shows one nudge, huge; **Enter AR / VR** floats the nudges in front of you in WebXR (Quest passthrough when available). It will not listen until you confirm the other person knows |
+
+**Lab** (`/lab`) is the raw Qloo explorer the project started from: type interests, review every match, and see the exact request and response behind each recommendation.
 
 In every mode the result is a concept, a photoreal render, a live walkthrough and an evidence trail. **Every design choice cites the exact Qloo signal behind it, and anything the model cites that Qloo did not return in that run is flagged as unverified.** A "Why not just ask a chatbot?" panel answers the same brief with no tools and checks each of its picks against what Qloo actually ranks for that crowd.
 

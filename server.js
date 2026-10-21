@@ -13,6 +13,8 @@ import { createLimiter } from './lib/limits.js';
 import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
 import { createLive } from './lib/live.js';
 import { buildRoom } from './lib/room.js';
+import { buildPitch } from './lib/pitch.js';
+import { createTalk, transcribe } from './lib/talk.js';
 import { parseInterests, entityList as labEntities, insightParams } from './lab/lib.js';
 
 const files = {
@@ -20,6 +22,8 @@ const files = {
   '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
   '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
   '/room': ['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'],
+  '/pitch': ['pitch.html', 'text/html'], '/pitch.js': ['pitch.js', 'text/javascript'],
+  '/talk': ['talk.html', 'text/html'], '/talk.js': ['talk.js', 'text/javascript'], '/talk-xr.js': ['talk-xr.js', 'text/javascript'],
   // Taste Lab, the raw Qloo explorer, mounted under /lab.
   '/lab': ['../lab/public/index.html', 'text/html'], '/lab/app.js': ['../lab/public/app.js', 'text/javascript'], '/lab/style.css': ['../lab/public/style.css', 'text/css']
 };
@@ -36,7 +40,10 @@ const csp = {
   walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`,
   // The taste room plays its playlist through YouTube's search embed.
   room: "default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
-  lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'"
+  lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+  pitch: "default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+  // Talk loads three.js from jsDelivr only when entering AR/VR; the microphone stays on this origin.
+  talk: `default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; connect-src 'self' ${cdn}; base-uri 'none'; frame-ancestors 'none'`
 };
 
 // Time-of-day lighting, written per Pruna's edit formula ("Change X. Keep Y identical.").
@@ -53,7 +60,7 @@ function boundedMap(limit) {
 }
 
 export function createApp({ env = process.env, fetcher = fetch } = {}) {
-  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100), videos = new Map();
+  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100), videos = new Map(), talks = boundedMap(100);
   const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
@@ -70,6 +77,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     worldDaily: [Number(env.WORLDS_PER_DAY || 25), 86400e3, true],
     agentDaily: [Number(env.AGENT_RUNS_PER_DAY || 300), 86400e3, true],
     live: [Number(env.LIVE_SESSIONS_PER_HOUR || 4), 3600e3],
+    talk: [Number(env.TALK_SESSIONS_PER_HOUR || 6), 3600e3],
+    talkTurn: [Number(env.TALK_TURNS_PER_HOUR || 400), 3600e3],
     liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 30), 86400e3, true]
   });
 
@@ -93,7 +102,9 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       const path = url.pathname;
       if (req.method === 'GET' && files[path]) {
         const [name, type] = files[path];
-        res.setHeader('Content-Security-Policy', path.startsWith('/walk') ? csp.walk : path.startsWith('/live') ? csp.live : path.startsWith('/room') ? csp.room : path.startsWith('/lab') ? csp.lab : csp.app);
+        const page = ['walk', 'live', 'room', 'lab', 'pitch', 'talk'].find(p => path.startsWith(`/${p}`));
+        res.setHeader('Content-Security-Policy', csp[page] || csp.app);
+        if (page === 'talk') res.setHeader('Permissions-Policy', 'microphone=(self), xr-spatial-tracking=(self)');
         res.writeHead(200, { 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-cache' });
         return res.end(await readFile(new URL(`./public/${name}`, import.meta.url)));
       }
@@ -308,6 +319,58 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         const counts = { ranked: checks.filter(c => c.verdict === 'ranked').length, known: checks.filter(c => c.verdict === 'known').length, unknown: checks.filter(c => c.verdict === 'unknown').length };
         run.baseline = { model: session.model, picks: checks, counts, total: checks.length };
         return send(200, run.baseline);
+      }
+
+      // Pitch: research an investor (web, cited) and tailor the pitch with Qloo, streamed step by step.
+      if (path === '/api/pitch') {
+        const clean = (v, n) => String(v || '').trim().replace(/\s+/g, ' ').slice(0, n);
+        const investor = clean(body.investor, 80), firm = clean(body.firm, 80), startup = clean(body.startup, 400);
+        const comps = (Array.isArray(body.comps) ? body.comps : String(body.comps || '').split(',')).map(c => clean(c, 60)).filter(Boolean).slice(0, 4);
+        if (!investor) return send(400, { error: 'Name the investor.' });
+        if (!startup || !comps.length) return send(400, { error: 'Describe your startup and name at least one product your customers already use.' });
+        if (!llm?.research) return send(503, { error: 'Investor research needs OPENROUTER_API_KEY on the server.' });
+        if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
+        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
+        res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+        const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
+        const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        try { await buildPitch({ qloo, llm, investor, firm, startup, comps, emit }); }
+        catch (error) { emit({ type: 'error', message: error.message }); }
+        finally { clearInterval(heartbeat); emit({ type: 'done', qlooCalls: qloo.calls }); res.end(); }
+        return;
+      }
+
+      // Talk: a live conversation coach. One session per conversation; each turn is audio or typed text.
+      if (path === '/api/talk/start') {
+        if (!llm) return send(503, { error: 'Talk needs an LLM key on the server.' });
+        if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
+        if (body.consent !== true) return send(400, { error: 'Confirm the other person knows you are using a conversation assistant.' });
+        if (!limit.take('talk', ip)) return send(429, { error: 'Too many conversations this hour. Try again later.' });
+        const id = randomUUID();
+        const talk = createTalk({ qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }), llm });
+        const mine = (Array.isArray(body.mine) ? body.mine : String(body.mine || '').split(',')).map(s => String(s).trim().slice(0, 60)).filter(Boolean);
+        if (mine.length) await talk.setMine(mine);
+        talks.set(id, { talk, busy: Promise.resolve() });
+        return send(200, { id, view: talk.view(), stt: Boolean(env.FAL_KEY) });
+      }
+      if (path === '/api/talk/hear') {
+        const entry = talks.get(String(body.id || ''));
+        if (!entry) return send(404, { error: 'That conversation has ended. Start a new one.' });
+        if (!limit.take('talkTurn', ip)) return send(429, { error: 'Slow down a little.' });
+        const who = body.who === 'me' ? 'me' : 'them';
+        let text = String(body.text || '').trim().slice(0, 600);
+        if (!text && body.audio) {
+          if (!env.FAL_KEY) return send(503, { error: 'Listening needs FAL_KEY on the server. Type what they said instead.' });
+          if (String(body.audio).length > 4_000_000) return send(413, { error: 'Audio chunk too large.' });
+          text = await transcribe({ key: env.FAL_KEY, audio: body.audio, fetcher });
+        }
+        if (!text) return send(200, { heard: '', view: entry.talk.view() });
+        // One turn at a time per conversation, so mentions and suggestions stay in order.
+        const turn = entry.busy.then(() => entry.talk.hear(text, who));
+        entry.busy = turn.catch(() => {});
+        await turn;
+        return send(200, { heard: text, who, view: entry.talk.view() });
       }
 
       // Taste room: favourites → Qloo taste → a painted room, streamed step by step.

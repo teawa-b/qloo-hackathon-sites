@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Talk — Openhere</title>
+  <meta name="description" content="A conversation assistant for glasses and headsets: it hears the things the other person loves, builds their taste with Qloo, and suggests what to say next.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/talk.js"></script>
+</head>
+<body class="talk-page">
+  <header class="bar room-bar">
+    <a class="logo" href="/">open<b>here</b></a>
+    <nav class="modes"><a href="/">Venues</a><a href="/room">Taste room</a><a href="/pitch">Pitch</a><a href="/talk" class="on">Talk</a><a href="/lab">Lab</a></nav>
+  </header>
+
+  <main class="talk">
+    <section id="setup" class="talk-setup">
+      <p class="kicker">Talk</p>
+      <h1>Hear what they love.<br>Know what to say next.</h1>
+      <p class="room-lead">Wear it in a conversation, on glasses, a headset or a phone on the table. Every band, film, book, place or brand the other person mentions becomes part of their taste in Qloo, and you get a quiet nudge: what to bring up, what you have in common, what to steer clear of.</p>
+      <label class="talk-mine">Your own favourites <small>optional, for common ground</small><input id="mine" maxlength="300" placeholder="Bon Iver, Past Lives, Murakami, Patagonia"></label>
+      <label class="consent"><input type="checkbox" id="consent"> The other person knows I'm using a conversation assistant.</label>
+      <div class="talk-start">
+        <button id="listen" class="cta">🎙 Start listening</button>
+        <button id="demo" class="cta ghost dark">▶ Play a sample conversation</button>
+      </div>
+      <p class="doc-note">Audio is sent in short chunks for transcription and not stored. Hold <b>I'm talking</b> (or Space, or the trigger in a headset) while you speak, so the coach knows which lines are yours.</p>
+    </section>
+
+    <section id="hud" class="talk-hud" hidden>
+      <div class="hud-top">
+        <span id="status" class="hud-status"><i></i><span>Listening</span></span>
+        <div class="hud-actions">
+          <button id="glasses" class="pill">👓 Glasses view</button>
+          <button id="xr" class="pill" hidden>🥽 Enter AR</button>
+          <button id="stop" class="pill">■ End</button>
+        </div>
+      </div>
+      <div id="nudges" class="nudges"><p class="nudge-empty">Waiting for them to mention something they love…</p></div>
+      <div class="hud-grid">
+        <section><h3>They love</h3><div id="them" class="chips"></div></section>
+        <section><h3>In common</h3><div id="shared" class="chips"></div></section>
+        <section><h3>Steer clear</h3><div id="avoid" class="chips"></div></section>
+        <section class="wide"><h3>People with their taste also love <small>Qloo</small></h3><div id="recs" class="recs"></div></section>
+      </div>
+      <form id="say" class="refine talk-type"><input id="say-input" maxlength="300" placeholder="Or type what they said…"><button aria-label="Add">↵</button></form>
+      <ol id="lines" class="talk-lines"></ol>
+      <button id="me" class="me-btn">Hold: I'm talking</button>
+    </section>
+  </main>
+  <div id="glass" class="glass" hidden><p id="glass-say"></p><small id="glass-why"></small><button id="glass-x" class="x" aria-label="Close glasses view">×</button></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

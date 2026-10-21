@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pitch brief — Openhere</title>
+  <meta name="description" content="Name an investor. Get their public record with sources, and a pitch tailored by Qloo to what their portfolio's customers and your customers share.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/pitch.js"></script>
+</head>
+<body class="doc-page">
+  <header class="bar doc-bar">
+    <a class="logo" href="/">open<b>here</b></a>
+    <nav class="modes"><a href="/">Venues</a><a href="/room">Taste room</a><a href="/pitch" class="on">Pitch</a><a href="/talk">Talk</a><a href="/lab">Lab</a></nav>
+  </header>
+
+  <main class="doc">
+    <section id="intro" class="doc-intro">
+      <p class="kicker">Pitch brief</p>
+      <h1>Walk into the meeting knowing what they back, and what your customers already share with theirs.</h1>
+      <p class="doc-lead">Name an investor. Openhere researches their public record on the web, with every fact linked to its source. Then Qloo scores their portfolio against your customers, and finds the openers in what they publicly host, own and recommend.</p>
+      <form id="ask" class="doc-form" autocomplete="off">
+        <label>Investor <input id="investor" maxlength="80" placeholder="Jason Calacanis" required></label>
+        <label>Firm <small>optional</small> <input id="firm" maxlength="80" placeholder="LAUNCH"></label>
+        <label class="wide">Your startup, in one line <input id="startup" maxlength="400" placeholder="A habit app that turns your run into a guided meditation" required></label>
+        <label class="wide">Products your customers already use <small>2–4, comma separated</small> <input id="comps" maxlength="240" placeholder="Calm, Strava, Headspace" required></label>
+        <div class="doc-presets wide"><span class="kicker">Try a judge</span>
+          <button type="button" data-i="Jason Calacanis" data-f="LAUNCH">Jason Calacanis</button>
+          <button type="button" data-i="Todd Boehly" data-f="Eldridge">Todd Boehly</button>
+          <button type="button" data-i="Michael Abrams" data-f="Live Nation">Michael Abrams</button>
+        </div>
+        <p class="doc-note wide">Public, professional information only: no family, homes, health or finances. Every fact links to where it came from.</p>
+        <button class="cta wide">Build the brief →</button>
+      </form>
+    </section>
+
+    <section id="out" class="doc-out" hidden>
+      <div class="doc-head">
+        <div>
+          <p class="kicker" id="o-kicker">Researching…</p>
+          <h2 id="o-name" class="c-name">One moment</h2>
+          <p id="o-role" class="c-tag"></p>
+        </div>
+        <div id="o-fit" class="ring big" hidden><b></b><small>fit</small></div>
+      </div>
+      <ol id="steps" class="room-steps doc-steps"></ol>
+      <div id="o-body" hidden>
+        <p id="o-headline" class="doc-headline"></p>
+        <div class="doc-grid">
+          <section class="doc-card">
+            <h3>What they back</h3>
+            <p id="o-thesis"></p>
+            <dl id="o-facts" class="doc-facts"></dl>
+            <div id="o-looks" class="chips"></div>
+          </section>
+          <section class="doc-card">
+            <h3>Their portfolio, through your customers' eyes <small>Qloo affinity</small></h3>
+            <div id="o-portfolio" class="chart"></div>
+            <p id="o-fit-note" class="doc-small"></p>
+          </section>
+          <section class="doc-card wide">
+            <h3>The angle</h3>
+            <p id="o-angle"></p>
+            <div id="o-drops" class="drops"></div>
+          </section>
+          <section class="doc-card">
+            <h3>Fix the deck</h3>
+            <ol id="o-deck" class="doc-list"></ol>
+          </section>
+          <section class="doc-card">
+            <h3>Open with <small>from what they publicly love</small></h3>
+            <div id="o-openers" class="openers"></div>
+          </section>
+          <section class="doc-card">
+            <h3>They'll ask</h3>
+            <ol id="o-questions" class="doc-list"></ol>
+          </section>
+          <section class="doc-card">
+            <h3>Avoid</h3>
+            <ul id="o-avoid" class="doc-list"></ul>
+          </section>
+          <section class="doc-card wide">
+            <h3>Sources</h3>
+            <ol id="o-sources" class="doc-sources"></ol>
+          </section>
+        </div>
+        <button id="again" class="link">← Another investor</button>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <footer class="credit">Taste data · <a href="https://www.qloo.com" target="_blank" rel="noreferrer">Qloo</a> · Web research with sources</footer>
+</body>
+</html>
