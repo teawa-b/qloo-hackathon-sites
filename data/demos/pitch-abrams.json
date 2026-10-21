@@ -1,0 +1,231 @@
+{
+ "site": "pitch",
+ "slug": "abrams",
+ "title": "Michael Abrams",
+ "request": {
+  "investor": "Michael Abrams",
+  "firm": "Live Nation",
+  "startup": "A live-events app that turns a concert ticket into a night out: pre-show bars, merch and rides, picked for each fanbase",
+  "comps": "Ticketmaster, Spotify, Uber"
+ },
+ "events": [
+  {
+   "type": "step",
+   "id": "research",
+   "label": "Researching Michael Abrams on the web"
+  },
+  {
+   "type": "step_done",
+   "id": "research",
+   "summary": "Live Nation Entertainment · 1 portfolio companies · 0 sources"
+  },
+  {
+   "type": "step",
+   "id": "resolve",
+   "label": "Finding the portfolio, their interests and your product in Qloo"
+  },
+  {
+   "type": "step_done",
+   "id": "resolve",
+   "summary": "0/1 portfolio · 0 interests · comps: Ticketmaster, Spotify, Uber"
+  },
+  {
+   "type": "step",
+   "id": "fit",
+   "label": "Scoring their portfolio against your customers"
+  },
+  {
+   "type": "step_done",
+   "id": "fit",
+   "summary": "no portfolio companies in Qloo"
+  },
+  {
+   "type": "step",
+   "id": "rapport",
+   "label": "Finding common ground in what they publicly love"
+  },
+  {
+   "type": "step_done",
+   "id": "rapport",
+   "summary": "no public interests found in Qloo"
+  },
+  {
+   "type": "step",
+   "id": "brief",
+   "label": "Writing your pitch brief"
+  },
+  {
+   "type": "step_done",
+   "id": "brief",
+   "summary": "Mike Abrams has spent his career evaluating, incubating, investing in and acquiring entertainment tech for Live Nation a"
+  },
+  {
+   "type": "final",
+   "dossier": {
+    "name": "Michael (Mike) Abrams",
+    "firm": "Live Nation Entertainment",
+    "role": "EVP, Strategic Initiatives (Crunchbase lists this role as starting May 2019). Earlier he was President, Digital Ventures at Live Nation, then SVP, Innovation at The Walt Disney Company (2013 to 2019).",
+    "thesis": "He has historically backed and incubated early-stage entertainment-technology businesses for large entertainment companies. At Live Nation he evaluated, incubated, invested in and acquired entertainment tech, and he ran the Live Nation Labs Fund for strategic early-stage investments. At Disney he led startup engagement, including the Disney Accelerator. I found no public thesis statement for his current role.",
+    "stages": "Early-stage (seed/angel). The only dated investment I could verify was a 2012 seed round.",
+    "cheque": "",
+    "looks_for": [],
+    "portfolio": [
+     "Socialcam"
+    ],
+    "public_interests": [],
+    "recent": [],
+    "sources": [
+     {
+      "url": "https://thewaltdisneycompany.com/michael-abrams-named-senior-vice-president-for-new-strategic-business-initiatives-at-the-walt-disney-company/",
+      "title": "thewaltdisneycompany.com/michael-abrams-named-senior-vice-president-for-new-stra"
+     },
+     {
+      "url": "https://www.crunchbase.com/person/michael-abrams",
+      "title": "crunchbase.com/person/michael-abrams"
+     },
+     {
+      "url": "https://www.cbinsights.com/investor/michael-abrams",
+      "title": "cbinsights.com/investor/michael-abrams"
+     },
+     {
+      "url": "https://www.dewexpo.com/portfolio/michael-abrams/",
+      "title": "dewexpo.com/portfolio/michael-abrams/"
+     },
+     {
+      "url": "https://startupintros.com/orgs/live-nation",
+      "title": "startupintros.com/orgs/live-nation"
+     }
+    ]
+   },
+   "resolved": {
+    "portfolio": [],
+    "interests": [],
+    "comps": [
+     {
+      "name": "Ticketmaster",
+      "id": "177ABEBD-6662-4362-98A1-17257CA783C8",
+      "type": "brand",
+      "popularity": 0.988,
+      "tags": [
+       "Mobile App",
+       "Live Nation Entertainment",
+       "Ticket sales companies",
+       "West Hollywood",
+       "2010 mergers and acquisitions",
+       "Monopolies"
+      ],
+      "image": "https://images.qloo.com/i/177ABEBD-6662-4362-98A1-17257CA783C8-420x-auto.jpg",
+      "detail": "Ticketmaster is a global platform for buying and selling verified tickets for concerts, sports, theater, and other live events.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Spotify",
+      "id": "99CBD9B1-F023-4034-97E7-E95A4A85BDD2",
+      "type": "brand",
+      "popularity": 0.998,
+      "tags": [
+       "Streaming Service App",
+       "Advertising Enabled",
+       "Mobile App",
+       "Music App",
+       "Minimalist",
+       "High-Contrast"
+      ],
+      "image": "https://images.qloo.com/i/99CBD9B1-F023-4034-97E7-E95A4A85BDD2-420x-auto.jpg",
+      "detail": "Spotify is a global audio streaming platform offering music, podcasts, and personalized listening experiences.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Uber",
+      "id": "DAA03219-916F-491D-9F1C-E780DFA8A5DB",
+      "type": "brand",
+      "popularity": 0.99,
+      "tags": [
+       "Travel App",
+       "2019 initial public offerings",
+       "Mobile App",
+       "American companies established in 2009",
+       "Software",
+       "Transport companies established in 2009"
+      ],
+      "image": "https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg",
+      "detail": "Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ]
+   },
+   "fit": {
+    "ranked": [],
+    "score": null,
+    "mean": 0,
+    "ageMatch": null,
+    "yourCrowd": "25–29",
+    "theirCrowd": null
+   },
+   "rapport": [],
+   "brief": {
+    "headline": "Mike Abrams has spent his career evaluating, incubating, investing in and acquiring entertainment tech for Live Nation and Disney, so a live-events app that turns a ticket into a full night out is squarely in his lane.",
+    "angle": "Frame the startup as entertainment tech that extends the value of a Live Nation-style ticket, since he has worked from the strategic side of large entertainment companies, including the Live Nation Labs Fund and the Disney Accelerator. Be explicit about how a partnership, pilot or strategic relationship could work, because his background is in startup engagement as well as investing, and no public thesis exists for his current role, so avoid claiming you know what he wants today.",
+    "name_drop": [],
+    "deck": [
+     "Open with the problem: a ticket covers only the show itself, while the pre-show bars, merch and rides around it are fragmented and unmonetized.",
+     "Show the product with one concrete fanbase example, such as a single concert night from ticket to ride home, to illustrate picking options for each fanbase.",
+     "Define your audience clearly as 25-29 year old concertgoers, and show how personalization by fanbase drives engagement.",
+     "Include a slide on how you work with large entertainment companies and venues (pilot, integration or strategic partnership), reflecting his incubator and accelerator background.",
+     "Position Ticketmaster, Spotify and Uber as your reference points, being clear about where you integrate with them or differ, and keep the ask specific to early-stage funding."
+    ],
+    "openers": [],
+    "avoid": [
+     "Don't pitch as a pure consumer app with no path to working with large entertainment companies; his background is strategic and corporate-backed.",
+     "Don't assume his current investing focus or recent deals; the research found no public thesis for his current role and only one verifiable dated investment (a 2012 seed round).",
+     "Don't treat Ticketmaster as just a competitor without explaining how you would coexist or partner, since he comes from the large-entertainment-company side."
+    ],
+    "questions": [
+     "How would this work alongside a major ticketing and live-events platform, and why would they partner with you rather than build it themselves?",
+     "What is your evidence that fanbase-specific recommendations change behavior, such as attach rate on bars, merch and rides?",
+     "How do you make money per event, and who are the partners paying: venues, bars, merch sellers, ride services or artists?",
+     "Why 25-29 year olds first, and how do you expand beyond that group or into new fanbases?"
+    ]
+   }
+  },
+  {
+   "type": "done",
+   "qlooCalls": [
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Ticketmaster&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 411,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Spotify&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 411,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 414,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Socialcam&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 129,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB",
+     "ms": 147,
+     "ok": true
+    }
+   ]
+  }
+ ],
+ "renders": [],
+ "baseline": null,
+ "recorded": "2026-10-21T16:46:20.905Z"
+}

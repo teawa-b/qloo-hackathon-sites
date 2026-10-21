@@ -1,0 +1,1048 @@
+{
+ "site": "pitch",
+ "slug": "calacanis",
+ "title": "Jason Calacanis",
+ "request": {
+  "investor": "Jason Calacanis",
+  "firm": "LAUNCH",
+  "startup": "A live-events app that turns a concert ticket into a night out: pre-show bars, merch and rides, picked for each fanbase",
+  "comps": "Ticketmaster, Spotify, Uber"
+ },
+ "events": [
+  {
+   "type": "step",
+   "id": "research",
+   "label": "Researching Jason Calacanis on the web"
+  },
+  {
+   "type": "step_done",
+   "id": "research",
+   "summary": "LAUNCH (includes the LAUNCH fund, LAUNCH Accelerator, Founder University and the LAUNCH Syndicate) · 11 portfolio companies · 0 sources"
+  },
+  {
+   "type": "step",
+   "id": "resolve",
+   "label": "Finding the portfolio, their interests and your product in Qloo"
+  },
+  {
+   "type": "step_done",
+   "id": "resolve",
+   "summary": "6/11 portfolio · 4 interests · comps: Ticketmaster, Spotify, Uber"
+  },
+  {
+   "type": "step",
+   "id": "fit",
+   "label": "Scoring their portfolio against your customers"
+  },
+  {
+   "type": "step_done",
+   "id": "fit",
+   "summary": "fit 72/100 · closest: Robinhood, Thumbtack, Calm, GoAir, Wealthfront"
+  },
+  {
+   "type": "step",
+   "id": "rapport",
+   "label": "Finding common ground in what they publicly love"
+  },
+  {
+   "type": "step_done",
+   "id": "rapport",
+   "summary": "The Prosperity Paradox: How Innovation Can Lift Nations Out of Poverty, How to Make the World Add Up: Ten Rules for Thinking Differently About Numbers, How Innovation Works: Serendipity, Energy and the Saving of Time, Anthro-Vision: A New Way to See in Business and Life"
+  },
+  {
+   "type": "step",
+   "id": "brief",
+   "label": "Writing your pitch brief"
+  },
+  {
+   "type": "step_done",
+   "id": "brief",
+   "summary": "Jason Calacanis backs very early-stage, high-agency founders at volume, and a fanbase-specific night-out layer on top of"
+  },
+  {
+   "type": "final",
+   "dossier": {
+    "name": "Jason Calacanis",
+    "firm": "LAUNCH (includes the LAUNCH fund, LAUNCH Accelerator, Founder University and the LAUNCH Syndicate)",
+    "role": "Founder and CEO; angel investor and fund manager",
+    "thesis": "Backs very early-stage founders at high volume, about 100 new startups a year. He uses his media platforms (podcasts, events, newsletter) to find deals and help founders. In 2026 LAUNCH is leaning toward AI and agent startups.",
+    "stages": "Pre-seed and seed (accelerator and Founder University for the earliest teams)",
+    "cheque": "Third-party sources report personal angel cheques of about $25K–$100K at pre-seed and seed. The LAUNCH Accelerator is reported at about $125K per company, and LAUNCH says it does not publish the equity terms. These figures are not confirmed by LAUNCH, so check them directly.",
+    "looks_for": [
+     "High-agency founders",
+     "Fast execution",
+     "Clear articulation of the problem being solved",
+     "Founders with lived experience in the problem",
+     "Solutions to painful problems that scale simply"
+    ],
+    "portfolio": [
+     "Uber",
+     "Thumbtack",
+     "Robinhood",
+     "Calm",
+     "Superhuman",
+     "Wealthfront",
+     "Trello",
+     "Desktop Metal",
+     "DataStax",
+     "8090 Labs",
+     "Go.AI"
+    ],
+    "public_interests": [
+     {
+      "name": "This Week in Startups",
+      "kind": "podcast",
+      "why": "Founded and hosts it"
+     },
+     {
+      "name": "All-In Podcast",
+      "kind": "podcast",
+      "why": "Co-hosts it and is its executive producer"
+     },
+     {
+      "name": "This Week in AI",
+      "kind": "podcast",
+      "why": "Launched it as a new podcast in 2026"
+     },
+     {
+      "name": "Angel: How to Invest in Technology Startups",
+      "kind": "book",
+      "why": "Wrote it (HarperCollins, 2017)"
+     },
+     {
+      "name": "LAUNCH Festival",
+      "kind": "brand",
+      "why": "Founded and hosts the startup festival (LAUNCH FEST 2026, March 2026; next planned for spring 2027)"
+     },
+     {
+      "name": "LAUNCH Accelerator",
+      "kind": "brand",
+      "why": "Runs it through LAUNCH"
+     },
+     {
+      "name": "Founder University",
+      "kind": "brand",
+      "why": "Runs this pre-accelerator for year-zero startups"
+     },
+     {
+      "name": "Inside.com",
+      "kind": "brand",
+      "why": "Founded this newsletter company"
+     }
+    ],
+    "recent": [
+     "September 2026: participated in Go.AI's $85M Series A (reported by Finovate via ValueAddVC)",
+     "July 2026: participated in 8090 Labs' $135M Series A (reported by TechCrunch via ValueAddVC)",
+     "April 2026: SEC Form D filed for LAUNCH Fund II, with a target of about $70M (via ValueAddVC)"
+    ],
+    "sources": [
+     {
+      "url": "https://allin.com/about/jason-calacanis",
+      "title": "allin.com/about/jason-calacanis"
+     },
+     {
+      "url": "https://valueaddvc.com/vc/launch",
+      "title": "valueaddvc.com/vc/launch"
+     },
+     {
+      "url": "https://www.hustlefund.vc/post/angel-squad-jason-calacanis-investments-the-original-super-angels-playbook-for-backing-100-startups-a-year",
+      "title": "hustlefund.vc/post/angel-squad-jason-calacanis-investments-the-original-super-an"
+     },
+     {
+      "url": "https://www.capitaly.vc/blog/jason-calacanis-investment-thesis-check-sizes-red-flags-2025-guide",
+      "title": "capitaly.vc/blog/jason-calacanis-investment-thesis-check-sizes-red-flags-2025-gu"
+     },
+     {
+      "url": "https://www.capitaly.vc/blog/how-jason-calacanis-built-launch-into-a-founder-deal-flow-machine",
+      "title": "capitaly.vc/blog/how-jason-calacanis-built-launch-into-a-founder-deal-flow-machi"
+     },
+     {
+      "url": "https://hub.causo.ai/guides/how-to-apply-to-launch-accelerator-2026",
+      "title": "hub.causo.ai/guides/how-to-apply-to-launch-accelerator-2026"
+     },
+     {
+      "url": "https://elev-x.com/news-insights/article-launch-accelerator-review/",
+      "title": "elev-x.com/news-insights/article-launch-accelerator-review/"
+     },
+     {
+      "url": "https://calacanis.substack.com/archive",
+      "title": "calacanis.substack.com/archive"
+     },
+     {
+      "url": "https://launch-fest.lovable.app/",
+      "title": "launch-fest.lovable.app/"
+     },
+     {
+      "url": "https://www.aaespeakers.com/keynote-speakers/jason-calacanis",
+      "title": "aaespeakers.com/keynote-speakers/jason-calacanis"
+     },
+     {
+      "url": "https://en.wikipedia.org/wiki/Jason_Calacanis",
+      "title": "en.wikipedia.org/wiki/Jason_Calacanis"
+     }
+    ]
+   },
+   "resolved": {
+    "portfolio": [
+     {
+      "name": "Uber",
+      "id": "DAA03219-916F-491D-9F1C-E780DFA8A5DB",
+      "type": "brand",
+      "popularity": 0.99,
+      "tags": [
+       "Travel App",
+       "2019 initial public offerings",
+       "Mobile App",
+       "American companies established in 2009",
+       "Software",
+       "Transport companies established in 2009"
+      ],
+      "image": "https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg",
+      "detail": "Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Thumbtack",
+      "id": "C97FAC3C-67C9-4158-A596-083ABDEC2CC7",
+      "type": "brand",
+      "popularity": 0.64,
+      "tags": [
+       "Professional Services",
+       "Website",
+       "Clean Interface",
+       "Functional Design",
+       "Blue Color Palette",
+       "Minimalist Typography"
+      ],
+      "image": "https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg",
+      "detail": "Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Robinhood",
+      "id": "117146D1-9BD1-4FEC-8243-D171D4E5AC9A",
+      "type": "brand",
+      "popularity": 0.963,
+      "tags": [
+       "Companies listed on the Nasdaq",
+       "Financial services companies based in California",
+       "Online financial services companies of the United States",
+       "Mobile App",
+       "2013 establishments in California",
+       "Robinhood (company)"
+      ],
+      "image": "https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg",
+      "detail": "Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Calm",
+      "id": "47DD40B2-E2BC-421A-9466-C229D9DFDA09",
+      "type": "brand",
+      "popularity": 0.983,
+      "tags": [
+       "Mobile App",
+       "Healthcare App",
+       "Soft Color Palettes",
+       "Minimalist Typography",
+       "Nature-Inspired Imagery",
+       "Clean Interface"
+      ],
+      "image": "https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg",
+      "detail": "Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Wealthfront",
+      "id": "03EE3F81-3946-4A11-AA9D-E3DFA828EC57",
+      "type": "brand",
+      "popularity": 0.73,
+      "tags": [
+       "Financial Services",
+       "Financial Services App",
+       "Companies based in Redwood City",
+       "Website",
+       "Robo-advisors",
+       "American companies established in 2008"
+      ],
+      "image": "https://images.qloo.com/i/03EE3F81-3946-4A11-AA9D-E3DFA828EC57-420x-auto.jpg",
+      "detail": "Wealthfront is a financial services brand offering automated investment portfolios, high-yield cash accounts, and tax-efficient strategies through a robo-advisor platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "GoAir",
+      "id": "A5237A95-5CA9-468F-92DB-A7503993FF03",
+      "type": "brand",
+      "popularity": 0.919,
+      "tags": [
+       "Travel",
+       "Airline",
+       "Minimalist Branding",
+       "Functional Design",
+       "Blue Color Palette",
+       "Exploring New Cities"
+      ],
+      "image": "https://images.qloo.com/i/A5237A95-5CA9-468F-92DB-A7503993FF03-420x-auto.jpg",
+      "detail": "GoAir is an Indian low-cost airline providing passenger air transportation services across domestic and international routes.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ],
+    "interests": [
+     {
+      "name": "This Week in Startups",
+      "id": "3F0EB23C-390B-4D2C-92AF-D1114FF3D67F",
+      "type": "podcast",
+      "popularity": 0.947,
+      "tags": [
+       "Podcasts",
+       "Technology"
+      ],
+      "image": "https://images.qloo.com/i/3F0EB23C-390B-4D2C-92AF-D1114FF3D67F-420x-auto.jpg",
+      "detail": "Jason Calacanis discusses startups, technology, and business trends while interviewing leading founders and investors.",
+      "types": [
+       "urn:entity:podcast"
+      ],
+      "why": "Founded and hosts it"
+     },
+     {
+      "name": "Stories Podcast: A Bedtime Show for Kids of All Ages",
+      "id": "56401B80-41AF-48AC-A611-72D77D640885",
+      "type": "podcast",
+      "popularity": 0.993,
+      "tags": [
+       "Kids & Family",
+       "Stories for Kids",
+       "Fiction",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/56401B80-41AF-48AC-A611-72D77D640885-420x-auto.jpg",
+      "detail": "A weekly podcast featuring G-rated stories for children, including fairy tales, classics, and original works.",
+      "types": [
+       "urn:entity:podcast"
+      ],
+      "why": "Co-hosts it and is its executive producer"
+     },
+     {
+      "name": "The TWIML AI Podcast (formerly This Week in Machine Learning & Artificial Intelligence)",
+      "id": "6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31",
+      "type": "podcast",
+      "popularity": 0.644,
+      "tags": [
+       "Technology",
+       "Podcasts",
+       "Tech News",
+       "News"
+      ],
+      "image": "https://images.qloo.com/i/6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31-420x-auto.jpg",
+      "detail": "Exploring the impact of machine learning and AI through insights from leading experts in the field.",
+      "types": [
+       "urn:entity:podcast"
+      ],
+      "why": "Launched it as a new podcast in 2026"
+     },
+     {
+      "name": "United Launch Alliance",
+      "id": "1BDA1155-1DED-453E-8D5F-305925CF83B2",
+      "type": "brand",
+      "popularity": 0.937,
+      "tags": [
+       "Industrials",
+       "Industrial",
+       "Technical",
+       "Utilitarian",
+       "Minimalist",
+       "Deep Space Exploration"
+      ],
+      "image": "https://images.qloo.com/i/1BDA1155-1DED-453E-8D5F-305925CF83B2-420x-auto.jpg",
+      "detail": "United Launch Alliance is a leading American space launch service provider known for reliable and accurate rocket launches, including the Atlas V and Vulcan rockets.",
+      "types": [
+       "urn:entity:brand"
+      ],
+      "why": "Runs it through LAUNCH"
+     }
+    ],
+    "comps": [
+     {
+      "name": "Ticketmaster",
+      "id": "177ABEBD-6662-4362-98A1-17257CA783C8",
+      "type": "brand",
+      "popularity": 0.988,
+      "tags": [
+       "Mobile App",
+       "Live Nation Entertainment",
+       "Ticket sales companies",
+       "West Hollywood",
+       "2010 mergers and acquisitions",
+       "Monopolies"
+      ],
+      "image": "https://images.qloo.com/i/177ABEBD-6662-4362-98A1-17257CA783C8-420x-auto.jpg",
+      "detail": "Ticketmaster is a global platform for buying and selling verified tickets for concerts, sports, theater, and other live events.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Spotify",
+      "id": "99CBD9B1-F023-4034-97E7-E95A4A85BDD2",
+      "type": "brand",
+      "popularity": 0.998,
+      "tags": [
+       "Streaming Service App",
+       "Advertising Enabled",
+       "Mobile App",
+       "Music App",
+       "Minimalist",
+       "High-Contrast"
+      ],
+      "image": "https://images.qloo.com/i/99CBD9B1-F023-4034-97E7-E95A4A85BDD2-420x-auto.jpg",
+      "detail": "Spotify is a global audio streaming platform offering music, podcasts, and personalized listening experiences.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Uber",
+      "id": "DAA03219-916F-491D-9F1C-E780DFA8A5DB",
+      "type": "brand",
+      "popularity": 0.99,
+      "tags": [
+       "Travel App",
+       "2019 initial public offerings",
+       "Mobile App",
+       "American companies established in 2009",
+       "Software",
+       "Transport companies established in 2009"
+      ],
+      "image": "https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg",
+      "detail": "Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ]
+   },
+   "fit": {
+    "ranked": [
+     {
+      "name": "Robinhood",
+      "id": "117146D1-9BD1-4FEC-8243-D171D4E5AC9A",
+      "type": "brand",
+      "popularity": 0.963,
+      "affinity": 0.788,
+      "tags": [
+       "Companies listed on the Nasdaq",
+       "Financial services companies based in California",
+       "Online financial services companies of the United States",
+       "Mobile App",
+       "2013 establishments in California",
+       "Robinhood (company)"
+      ],
+      "image": "https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg",
+      "detail": "Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services."
+     },
+     {
+      "name": "Thumbtack",
+      "id": "C97FAC3C-67C9-4158-A596-083ABDEC2CC7",
+      "type": "brand",
+      "popularity": 0.64,
+      "affinity": 0.782,
+      "tags": [
+       "Professional Services",
+       "Website",
+       "Clean Interface",
+       "Functional Design",
+       "Blue Color Palette",
+       "Minimalist Typography"
+      ],
+      "image": "https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg",
+      "detail": "Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website."
+     },
+     {
+      "name": "Calm",
+      "id": "47DD40B2-E2BC-421A-9466-C229D9DFDA09",
+      "type": "brand",
+      "popularity": 0.983,
+      "affinity": 0.773,
+      "tags": [
+       "Mobile App",
+       "Healthcare App",
+       "Soft Color Palettes",
+       "Minimalist Typography",
+       "Nature-Inspired Imagery",
+       "Clean Interface"
+      ],
+      "image": "https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg",
+      "detail": "Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health."
+     },
+     {
+      "name": "GoAir",
+      "id": "A5237A95-5CA9-468F-92DB-A7503993FF03",
+      "type": "brand",
+      "popularity": 0.919,
+      "affinity": 0.731,
+      "tags": [
+       "Travel",
+       "Airline",
+       "Minimalist Branding",
+       "Functional Design",
+       "Blue Color Palette",
+       "Exploring New Cities"
+      ],
+      "image": "https://images.qloo.com/i/A5237A95-5CA9-468F-92DB-A7503993FF03-420x-auto.jpg",
+      "detail": "GoAir is an Indian low-cost airline providing passenger air transportation services across domestic and international routes."
+     },
+     {
+      "name": "Wealthfront",
+      "id": "03EE3F81-3946-4A11-AA9D-E3DFA828EC57",
+      "type": "brand",
+      "popularity": 0.73,
+      "affinity": 0.712,
+      "tags": [
+       "Financial Services",
+       "Financial Services App",
+       "Companies based in Redwood City",
+       "Website",
+       "Robo-advisors",
+       "American companies established in 2008"
+      ],
+      "image": "https://images.qloo.com/i/03EE3F81-3946-4A11-AA9D-E3DFA828EC57-420x-auto.jpg",
+      "detail": "Wealthfront is a financial services brand offering automated investment portfolios, high-yield cash accounts, and tax-efficient strategies through a robo-advisor platform."
+     }
+    ],
+    "score": 72,
+    "mean": 0.76,
+    "ageMatch": 0.68,
+    "yourCrowd": "25–29",
+    "theirCrowd": "35–44"
+   },
+   "rapport": {
+    "books": [
+     {
+      "name": "The Prosperity Paradox: How Innovation Can Lift Nations Out of Poverty",
+      "id": "2ECB65E7-10D5-40E0-AA25-A3882C0851E7",
+      "type": "book",
+      "popularity": 0.888,
+      "affinity": 0.937,
+      "tags": [],
+      "image": "https://images.qloo.com/i/2ECB65E7-10D5-40E0-AA25-A3882C0851E7-420x-auto.jpg",
+      "detail": "2019, Clayton M. Christensen"
+     },
+     {
+      "name": "How to Make the World Add Up: Ten Rules for Thinking Differently About Numbers",
+      "id": "67D89DD0-D9EA-45E2-9B1C-D92E351BEAE8",
+      "type": "book",
+      "popularity": 0.956,
+      "affinity": 0.931,
+      "tags": [
+       "Psychology",
+       "Social Science",
+       "Science",
+       "Nonfiction",
+       "History",
+       "Popular Science"
+      ],
+      "image": "https://images.qloo.com/i/67D89DD0-D9EA-45E2-9B1C-D92E351BEAE8-420x-auto.jpg",
+      "detail": "2020, Tim Harford"
+     },
+     {
+      "name": "How Innovation Works: Serendipity, Energy and the Saving of Time",
+      "id": "F283CE50-9AF1-45ED-B4C1-A660F0D38067",
+      "type": "book",
+      "popularity": 0.933,
+      "affinity": 0.927,
+      "tags": [
+       "Audiobook",
+       "Business",
+       "Nonfiction",
+       "Leadership",
+       "Politics",
+       "Science"
+      ],
+      "image": "https://images.qloo.com/i/F283CE50-9AF1-45ED-B4C1-A660F0D38067-420x-auto.jpg",
+      "detail": "2020, Matt Ridley"
+     },
+     {
+      "name": "Anthro-Vision: A New Way to See in Business and Life",
+      "id": "0972826C-94B2-46CD-B321-008D66EA480E",
+      "type": "book",
+      "popularity": 0.787,
+      "affinity": 0.927,
+      "tags": [
+       "Psychology",
+       "Anthropology",
+       "Audiobook",
+       "Nonfiction",
+       "Cultural",
+       "History"
+      ],
+      "image": "https://images.qloo.com/i/0972826C-94B2-46CD-B321-008D66EA480E-420x-auto.jpg",
+      "detail": "2021, Gillian Tett"
+     },
+     {
+      "name": "Mine!: How the Hidden Rules of Ownership Control Our Lives",
+      "id": "389B0B8A-01E8-4910-9416-6A00EB99DEFF",
+      "type": "book",
+      "popularity": 0.833,
+      "affinity": 0.921,
+      "tags": [],
+      "image": "https://images.qloo.com/i/389B0B8A-01E8-4910-9416-6A00EB99DEFF-420x-auto.jpg",
+      "detail": "2021, Michael A. Heller"
+     },
+     {
+      "name": "Reimagining Capitalism in a World on Fire",
+      "id": "13B736F2-8832-444B-B27C-EF1AFF231344",
+      "type": "book",
+      "popularity": 0.837,
+      "affinity": 0.918,
+      "tags": [
+       "Finance",
+       "Audiobook",
+       "Economics",
+       "Politics",
+       "Sustainability",
+       "Business"
+      ],
+      "image": "https://images.qloo.com/i/13B736F2-8832-444B-B27C-EF1AFF231344-420x-auto.jpg",
+      "detail": "2020, Rebecca Henderson"
+     }
+    ],
+    "podcasts": [
+     {
+      "name": "Data Skeptic",
+      "id": "749F13E6-4188-467A-8F01-621187D06A7C",
+      "type": "podcast",
+      "popularity": 0.816,
+      "affinity": 0.892,
+      "tags": [
+       "Mathematics",
+       "Science",
+       "Technology",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/749F13E6-4188-467A-8F01-621187D06A7C-420x-auto.jpg",
+      "detail": "Interviews and discussions on data science, statistics, and AI, emphasizing critical thinking and scientific evaluation."
+     },
+     {
+      "name": "Science Friday",
+      "id": "F57D9658-BDC5-4C19-A901-EBBA66744FA8",
+      "type": "podcast",
+      "popularity": 0.943,
+      "affinity": 0.887,
+      "tags": [
+       "Podcasts",
+       "Natural Sciences",
+       "Science",
+       "Life Sciences"
+      ],
+      "image": "https://images.qloo.com/i/F57D9658-BDC5-4C19-A901-EBBA66744FA8-420x-auto.jpg",
+      "detail": "Entertaining and educational stories about science, technology, and nature, hosted by Ira Flatow."
+     },
+     {
+      "name": "The Kevin Rose Show",
+      "id": "B57102A1-2043-4DB7-B691-9C1170C8F9B2",
+      "type": "podcast",
+      "popularity": 0.903,
+      "affinity": 0.887,
+      "tags": [
+       "Business",
+       "Entrepreneurship",
+       "Technology",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/B57102A1-2043-4DB7-B691-9C1170C8F9B2-420x-auto.jpg",
+      "detail": "Insights on tech, finance, longevity, and performance from experts, aimed at personal and professional growth."
+     },
+     {
+      "name": "The After On Podcast",
+      "id": "DC6A823F-83D3-4779-9FA5-76FFD3A569A3",
+      "type": "podcast",
+      "popularity": 0.94,
+      "affinity": 0.886,
+      "tags": [
+       "Technology",
+       "Science",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/DC6A823F-83D3-4779-9FA5-76FFD3A569A3-420x-auto.jpg",
+      "detail": "Exploring science, technology, and social issues inspired by the novel 'After On,' accessible to all listeners."
+     },
+     {
+      "name": "Planetary Radio: Space Exploration, Astronomy and Science",
+      "id": "96ACA6D9-0FD5-49A3-AF38-BBFD88A8AF31",
+      "type": "podcast",
+      "popularity": 0.892,
+      "affinity": 0.884,
+      "tags": [
+       "Science",
+       "Podcasts",
+       "Technology"
+      ],
+      "image": "https://images.qloo.com/i/96ACA6D9-0FD5-49A3-AF38-BBFD88A8AF31-420x-auto.jpg",
+      "detail": "Exploring space science and exploration through interviews with scientists, engineers, and astronauts, hosted by Sarah Al-Ahmed."
+     },
+     {
+      "name": "Machine Learning Guide",
+      "id": "4AC4B1C5-6E70-43DD-84C0-38621C67B578",
+      "type": "podcast",
+      "popularity": 0.718,
+      "affinity": 0.883,
+      "tags": [
+       "Education",
+       "Technology",
+       "Courses",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/4AC4B1C5-6E70-43DD-84C0-38621C67B578-420x-auto.jpg",
+      "detail": "An audio course teaching the fundamentals of machine learning and artificial intelligence, covering models, math, and frameworks."
+     }
+    ],
+    "brands": [
+     {
+      "name": "Salesforce",
+      "id": "2C2B0CB0-C320-42D3-A33E-9AA9238F1F05",
+      "type": "brand",
+      "popularity": 0.973,
+      "affinity": 0.952,
+      "tags": [
+       "Customer relationship management software",
+       "Companies formerly listed on the New York Stock Exchange",
+       "Business intelligence companies",
+       "Companies listed on the New York Stock Exchange",
+       "Software companies established in 1999",
+       "Companies based in San Francisco"
+      ],
+      "image": "https://images.qloo.com/i/2C2B0CB0-C320-42D3-A33E-9AA9238F1F05-420x-auto.jpg",
+      "detail": "Salesforce is a leading cloud-based CRM platform offering AI-powered sales, service, marketing, and analytics solutions for businesses of all sizes."
+     },
+     {
+      "name": "TechCrunch",
+      "id": "ADEAD7B9-D51D-421D-BE45-7FE8E08AB129",
+      "type": "brand",
+      "popularity": 0.998,
+      "affinity": 0.944,
+      "tags": [
+       "Entertainment",
+       "Technology",
+       "Business",
+       "Media",
+       "Advertising Enabled",
+       "Website"
+      ],
+      "image": "https://images.qloo.com/i/ADEAD7B9-D51D-421D-BE45-7FE8E08AB129-420x-auto.jpg",
+      "detail": "TechCrunch is a global online newspaper providing technology news, analysis, and coverage focused on startups and high-tech companies."
+     },
+     {
+      "name": "Square",
+      "id": "376A66CE-AC37-4116-8965-DE0AABC672A9",
+      "type": "brand",
+      "popularity": 0.949,
+      "affinity": 0.942,
+      "tags": [
+       "Companies based in San Francisco",
+       "IOS software",
+       "American companies established in 2009",
+       "South of Market",
+       "Financial Services",
+       "Online payments"
+      ],
+      "image": "https://images.qloo.com/i/376A66CE-AC37-4116-8965-DE0AABC672A9-420x-auto.jpg",
+      "detail": "Square is a financial services and business management platform powering over 4 million businesses globally with payment processing, point of sale hardware, and business software solutions."
+     },
+     {
+      "name": "Kaggle",
+      "id": "9F6756F6-5BD0-4B89-82DF-6E4A879E8756",
+      "type": "brand",
+      "popularity": 0.9,
+      "affinity": 0.939,
+      "tags": [
+       "Applied machine learning",
+       "Google acquisitions",
+       "Google Cloud",
+       "Website",
+       "Analytics companies",
+       "Artificial intelligence"
+      ],
+      "image": "https://images.qloo.com/i/9F6756F6-5BD0-4B89-82DF-6E4A879E8756-420x-auto.jpg",
+      "detail": "Kaggle is an online community and platform for data scientists and machine learning practitioners to compete, learn, and share datasets and projects."
+     },
+     {
+      "name": "Medium",
+      "id": "7ECCF237-DFEA-45D2-AABF-8F77E974C9E9",
+      "type": "brand",
+      "popularity": 0.99,
+      "affinity": 0.939,
+      "tags": [
+       "Reading App",
+       "Website",
+       "Entertainment",
+       "Advertising Enabled",
+       "Mobile App",
+       "Minimalist Typography"
+      ],
+      "image": "https://images.qloo.com/i/7ECCF237-DFEA-45D2-AABF-8F77E974C9E9-420x-auto.jpg",
+      "detail": "Medium is an online publishing platform where users can read, write, and share stories, ideas, and perspectives."
+     },
+     {
+      "name": "GitHub",
+      "id": "E61FB036-6B73-40CB-AB7A-512A08C79AC8",
+      "type": "brand",
+      "popularity": 0.989,
+      "affinity": 0.938,
+      "tags": [
+       "Mozilla",
+       "Remote companies",
+       "Software",
+       "Microsoft acquisitions",
+       "Firefox",
+       "Microsoft subsidiaries"
+      ],
+      "image": "https://images.qloo.com/i/E61FB036-6B73-40CB-AB7A-512A08C79AC8-420x-auto.jpg",
+      "detail": "GitHub is the world's most widely adopted AI-powered developer platform for building, collaborating, and securing software projects."
+     }
+    ]
+   },
+   "brief": {
+    "headline": "Jason Calacanis backs very early-stage, high-agency founders at volume, and a fanbase-specific night-out layer on top of concert tickets is a clear, painful-problem pitch he can judge quickly at pre-seed or seed.",
+    "angle": "Open with the problem in one sentence: a concert ticket gets you into the show, but the night around it (bars, merch, rides) is left to chance. Then show how fast you've executed and why you personally understand the problem. If your per-fanbase picks are driven by AI or agents, say so plainly, since LAUNCH is leaning that way in 2026. If they aren't, don't force it.",
+    "name_drop": [
+     {
+      "company": "Robinhood",
+      "line": "Our concertgoers show a 0.788 affinity with Robinhood, so they're used to opening an app and acting in the moment, which is the same behavior we need on show night.",
+      "name": "Robinhood",
+      "grounded": true
+     },
+     {
+      "company": "Thumbtack",
+      "line": "Our audience has a 0.782 affinity with Thumbtack, so they're comfortable booking real-world services through an app, and we apply that to pre-show bars and rides.",
+      "name": "Thumbtack",
+      "grounded": true
+     },
+     {
+      "company": "Calm",
+      "line": "Calm has a 0.773 affinity with our crowd, which suggests they value an app that removes friction from their routine. We take the planning stress out of a night out.",
+      "name": "Calm",
+      "grounded": true
+     }
+    ],
+    "deck": [
+     "Lead with the problem in one clear slide: the ticket is the easy part, and the night around it is fragmented and unplanned.",
+     "Show execution speed early: what you've built and shipped, and how quickly, so the high-agency signal is visible in the first few slides.",
+     "State your lived experience with the problem and why you're the one to solve it.",
+     "Use Ticketmaster, Spotify and Uber as comparables to show the simple scaling logic: ticket intent, fanbase taste, and rides or logistics combined into one flow.",
+     "Add a slide on the 25–29 core audience and how it differs from the 35–44 skew of his portfolio's crowd, framed as a new, reachable audience. Only use numbers you can back up."
+    ],
+    "openers": [
+     {
+      "line": "I've followed This Week in Startups, and your push for founders to explain the problem simply shaped how I built this pitch. Here's the problem in one sentence.",
+      "based_on": "This Week in Startups",
+      "name": "This Week in Startups",
+      "grounded": true
+     },
+     {
+      "line": "I saw you also launched The TWIML AI Podcast this year. We're thinking hard about how smart recommendations can personalize a night out for each fanbase.",
+      "based_on": "The TWIML AI Podcast (formerly This Week in Machine Learning & Artificial Intelligence)",
+      "name": "The TWIML AI Podcast (formerly This Week in Machine Learning & Artificial Intelligence)",
+      "grounded": true
+     },
+     {
+      "line": "I'm a regular TechCrunch reader, and I'd like to show you the numbers behind how fans actually spend a show night.",
+      "based_on": "TechCrunch",
+      "name": "TechCrunch",
+      "grounded": true
+     }
+    ],
+    "avoid": [
+     "Don't pitch a vague 'AI-powered' story. His 2026 lean is toward AI and agents, but he also wants a clear articulation of the problem, so only claim AI where it's real.",
+     "Don't bury the lede or ramble. He backs about 100 startups a year and values fast execution and clarity.",
+     "Don't present a big, abstract vision without proof of speed. Show what you've actually built and shipped."
+    ],
+    "questions": [
+     "Why are you the right founder for this, and what lived experience do you have with the problem?",
+     "How fast have you moved, and what have you shipped or tested with real fans so far?",
+     "How does this scale simply across fanbases, venues and cities without heavy manual curation?",
+     "Where does AI or agent technology actually make your picks better for each fanbase?",
+     "Why would Ticketmaster or a ride app not just build this themselves?"
+    ]
+   }
+  },
+  {
+   "type": "done",
+   "qlooCalls": [
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Spotify&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 419,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 420,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Ticketmaster&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 426,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 142,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Thumbtack&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 148,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Robinhood&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 151,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Calm&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 123,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Superhuman&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 127,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Wealthfront&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 148,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Desktop+Metal&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 125,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=DataStax&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 126,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Trello&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 131,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Desktop+Metal&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 139,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=DataStax&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 143,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Go.AI&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 143,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=8090+Labs&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 156,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=All-In+Podcast&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 135,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=This+Week+in+Startups&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 143,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=This+Week+in+AI&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 148,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=LAUNCH+Accelerator&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 145,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=LAUNCH+Festival&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 149,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Angel%3A+How+to+Invest+in+Technology+Startups&types=urn%3Aentity%3Abook&take=3",
+     "ms": 291,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Inside.com&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 120,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Founder+University&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 120,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Inside.com&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 144,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Founder+University&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 151,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB&filter.results.entities=C97FAC3C-67C9-4158-A596-083ABDEC2CC7%2C117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09%2C03EE3F81-3946-4A11-AA9D-E3DFA828EC57%2CA5237A95-5CA9-468F-92DB-A7503993FF03&take=5",
+     "ms": 159,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB%2CC97FAC3C-67C9-4158-A596-083ABDEC2CC7%2C117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09%2C03EE3F81-3946-4A11-AA9D-E3DFA828EC57%2CA5237A95-5CA9-468F-92DB-A7503993FF03",
+     "ms": 166,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2",
+     "ms": 262,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Apodcast&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2",
+     "ms": 465,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2",
+     "ms": 615,
+     "ok": true
+    }
+   ]
+  }
+ ],
+ "renders": [],
+ "baseline": null,
+ "recorded": "2026-10-21T16:45:28.233Z"
+}

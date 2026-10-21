@@ -13,12 +13,13 @@ import { createLimiter } from './lib/limits.js';
 import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
 import { createLive } from './lib/live.js';
 import { buildRoom } from './lib/room.js';
+import { loadDemo, listDemos, replay } from './lib/demos.js';
 import { buildPitch } from './lib/pitch.js';
 import { createTalk, transcribe } from './lib/talk.js';
 import { parseInterests, entityList as labEntities, insightParams } from './lab/lib.js';
 
 const files = {
-  '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'],
+  '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'], '/openhere.css': ['openhere.css', 'text/css'],
   '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
   '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
   '/room': ['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'], '/room.css': ['room.css', 'text/css'],
@@ -31,13 +32,13 @@ const files = {
 // home page at "/", its own pages and only its own API routes. Without SITE (tests, quick local runs)
 // every page is served at its own path and "/" is Openhere.
 export const sites = {
-  openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
+  openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
   room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
   pitch: { name: 'Pitch Brief', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js'], api: ['/api/pitch'] },
   talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
 };
-const sharedPages = ['/style.css', '/favicon.svg'], sharedApi = ['/api/config', '/api/health'];
+const sharedPages = ['/style.css', '/favicon.svg'], sharedApi = ['/api/config', '/api/health', '/api/demos'];
 const cdn = 'https://cdn.jsdelivr.net';
 // The walkthrough's import map is inline, so it is allowed by hash rather than 'unsafe-inline'.
 const walkHtml = await readFile(new URL('./public/walk.html', import.meta.url), 'utf8');
@@ -45,7 +46,7 @@ const importMap = walkHtml.match(/<script type="importmap">([\s\S]*?)<\/script>/
 const importMapHash = createHash('sha256').update(importMap).digest('base64');
 const csp = {
   // The map is MapLibre GL from jsDelivr with OpenFreeMap tiles (free, no key).
-  app: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; worker-src 'self' blob:; child-src blob:; connect-src 'self' https://tiles.openfreemap.org; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+  app: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self' ${cdn}; worker-src 'self' blob:; child-src blob:; connect-src 'self' https://tiles.openfreemap.org; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
   // The live walkthrough plays a WebRTC stream; media flows peer-to-peer, signalling goes through this server.
   live: "default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`,
@@ -135,6 +136,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         return res.end(await readFile(new URL(`./public/${name}`, import.meta.url)));
       }
       if (req.method === 'GET' && path === '/api/health') return send(200, { ok: true });
+      if (req.method === 'GET' && path === '/api/demos') return send(200, { demos: await listDemos(siteKey || String(url.searchParams.get('site') || 'openhere').replace(/[^a-z]/g, '')) });
       if (req.method === 'GET' && path === '/api/lab/config') return send(200, { hasKey: Boolean(env.QLOO_API_KEY), host: qlooHost });
       // The taste room's player: the first YouTube result for an artist, found without an API key (the
       // results page lists video ids inline). Cached per query; the browser then embeds that one video.
@@ -253,6 +255,23 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       if (origin) { let host; try { host = new URL(origin).host; } catch {} if (host !== req.headers.host) return send(403, { error: 'Requests must come from this app.' }); }
       const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : 32_000);
 
+      // Instant demos: replay a recorded real run (no live calls, no run limit). See lib/demos.js.
+      const demoSite = { '/api/agent': 'openhere', '/api/room': 'room', '/api/pitch': 'pitch' }[path];
+      if (demoSite && body.demo) {
+        const demo = await loadDemo(demoSite, body.demo);
+        if (!demo) return send(404, { error: 'That example is not available.' });
+        // Re-register the recorded renders so refine, relight and the live walkthrough work from a replay.
+        for (const r of demo.renders || []) if (!renders.has(r.id)) renders.set(r.id, { ...r, url: r.url, remoteUrl: r.remoteUrl });
+        res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+        const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
+        try { await replay(demo, emit); } finally { res.end(); }
+        return;
+      }
+      if (path === '/api/talk/demo') {
+        const demo = await loadDemo('talk', body.demo);
+        return demo ? send(200, demo) : send(404, { error: 'That example is not available.' });
+      }
+
       if (path === '/api/spaces/custom') {
         if (!limit.take('upload', ip)) return send(429, { error: 'Too many uploads. Try again later.' });
         let address = String(body.address || '').trim().slice(0, 200);
@@ -308,6 +327,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       // checked against Qloo. A pick holds up when it is a real Qloo name that ranked in this crowd's
       // top results during the run; it is merely plausible when Qloo knows it but did not rank it here.
       if (path === '/api/baseline') {
+        // A replayed demo carries the chatbot check recorded with it.
+        if (body.demo) { const demo = await loadDemo('openhere', body.demo); return demo?.baseline ? send(200, demo.baseline) : send(404, { error: 'No recorded chatbot check for this example.' }); }
         const run = runs.get(String(body.runId || ''));
         if (!run) return send(404, { error: 'That run has expired. Run the agent again.' });
         if (!llm) return send(503, { error: 'No LLM key on the server.' });

@@ -436,3 +436,5 @@ img { display: block; }
 .live-pad { position: fixed; right: 18px; bottom: 84px; z-index: 5; display: none; grid-template-columns: repeat(3, 54px); gap: 6px; }
 .live-pad button { height: 54px; border-radius: 14px; border: 1px solid #ffffff40; background: #0b071299; color: #fff; font-size: 20px; touch-action: none; }
 @media (pointer: coarse) { .live-pad { display: grid; } .live-hint { display: none; } }
+
+.demo-talk { margin: 0; font: 400 12px var(--mono); color: #8d867a; }

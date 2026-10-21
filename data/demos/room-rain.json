@@ -1,0 +1,1272 @@
+{
+ "site": "room",
+ "slug": "rain",
+ "title": "Rain Hour Study",
+ "request": {
+  "text": "Radiohead, Blade Runner, Haruki Murakami, Muji, Monocle magazine"
+ },
+ "events": [
+  {
+   "type": "step",
+   "id": "resolve",
+   "label": "Finding your favourites in Qloo"
+  },
+  {
+   "type": "step_done",
+   "id": "resolve",
+   "summary": "Radiohead, Blade Runner, Haruki Murakami, Muji, Elle Magazine"
+  },
+  {
+   "type": "step",
+   "id": "taste",
+   "label": "Asking Qloo what rooms people with your taste love"
+  },
+  {
+   "type": "step_done",
+   "id": "taste",
+   "summary": "decor: Japanese, Quaint, Industrial Chic, Dark Wood · mood: Vintage, Rustic, Homey"
+  },
+  {
+   "type": "step",
+   "id": "culture",
+   "label": "Building the playlist, the shelf and the screen"
+  },
+  {
+   "type": "step_done",
+   "id": "culture",
+   "summary": "playlist: The Smashing Pumpkins, The Cure, Pixies · brands: MoMA, the Museum of Modern Art, The New Yorker"
+  },
+  {
+   "type": "step",
+   "id": "who",
+   "label": "Reading who shares this taste"
+  },
+  {
+   "type": "step_done",
+   "id": "who",
+   "summary": "strongest age band: 35 to 44"
+  },
+  {
+   "type": "step",
+   "id": "brief",
+   "label": "Writing the room"
+  },
+  {
+   "type": "step_done",
+   "id": "brief",
+   "summary": "Rain Hour Study"
+  },
+  {
+   "type": "step",
+   "id": "paint",
+   "label": "Painting the room"
+  },
+  {
+   "type": "step_done",
+   "id": "paint",
+   "summary": "gpt-image-2.5/flare"
+  },
+  {
+   "type": "final",
+   "concept": {
+    "name": "Rain Hour Study",
+    "tagline": "A dim, warm, wood-lined room for listening, reading and watching the city blur.",
+    "brief": "The room feels hushed, intimate and quietly luxurious, mixing Japanese restraint with dark wood, vintage warmth and a faint neon melancholy. You listen to records, read on the low sofa, and watch films late at night with rain on the window.",
+    "image_prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+    "design_choices": [
+     {
+      "element": "Lighting",
+      "choice": "Warm paper lanterns and one brass lamp provide low amber light, while a teal-orange glow from the window nods to neon-soaked night cities.",
+      "signals": [
+       {
+        "name": "Blade Runner",
+        "grounded": true
+       },
+       {
+        "name": "Japanese",
+        "grounded": true
+       },
+       {
+        "name": "Romantic",
+        "grounded": true
+       },
+       {
+        "name": "Lost in Translation",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Materials",
+      "choice": "Dark walnut paneling is paired with matte black steel and natural linen for an industrial-chic, Japanese-minimal feel.",
+      "signals": [
+       {
+        "name": "Dark Wood",
+        "grounded": true
+       },
+       {
+        "name": "Industrial Chic",
+        "grounded": true
+       },
+       {
+        "name": "Japanese",
+        "grounded": true
+       },
+       {
+        "name": "Muji",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Seating",
+      "choice": "A low, deep linen sofa with a wool throw keeps the room comfortable and understated yet elegant.",
+      "signals": [
+       {
+        "name": "Comfortable",
+        "grounded": true
+       },
+       {
+        "name": "Elegant",
+        "grounded": true
+       },
+       {
+        "name": "Homey",
+        "grounded": true
+       },
+       {
+        "name": "Muji",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Soundtrack",
+      "choice": "A turntable on a walnut sideboard holds alt-rock and post-punk records, and the sound is the room's focal point.",
+      "signals": [
+       {
+        "name": "Radiohead",
+        "grounded": true
+       },
+       {
+        "name": "The Cure",
+        "grounded": true
+       },
+       {
+        "name": "The Smiths",
+        "grounded": true
+       },
+       {
+        "name": "Interpol",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Shelf",
+      "choice": "A small, edited shelf and side table hold novels and fashion magazines, styled like a curated gallery rather than clutter.",
+      "signals": [
+       {
+        "name": "Haruki Murakami",
+        "grounded": true
+       },
+       {
+        "name": "Elle Magazine",
+        "grounded": true
+       },
+       {
+        "name": "Queer",
+        "grounded": true
+       },
+       {
+        "name": "How Music Works",
+        "grounded": true
+       },
+       {
+        "name": "MoMA",
+        "grounded": false
+       }
+      ]
+     },
+     {
+      "element": "Screen",
+      "choice": "There is no TV on display. A concealed projector throws moody, slow films onto a plain wall for late-night viewing.",
+      "signals": [
+       {
+        "name": "Melancholia",
+        "grounded": true
+       },
+       {
+        "name": "Synecdoche, New York",
+        "grounded": true
+       },
+       {
+        "name": "Magnolia",
+        "grounded": true
+       },
+       {
+        "name": "Lost in Translation",
+        "grounded": true
+       }
+      ]
+     }
+    ],
+    "first_track": "The Cure"
+   },
+   "render": {
+    "id": "5603b7b5-1e7f-4a1b-9490-6a4d9d7f71c1",
+    "url": "/img/demo-room-rain-1.jpg",
+    "model": "gpt-image-2.5/flare",
+    "prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+    "aspect": "3:2",
+    "signals": [
+     "Blade Runner",
+     "Japanese",
+     "Romantic",
+     "Lost in Translation",
+     "Dark Wood",
+     "Industrial Chic",
+     "Japanese",
+     "Muji",
+     "Comfortable",
+     "Elegant",
+     "Homey",
+     "Muji",
+     "Radiohead",
+     "The Cure",
+     "The Smiths",
+     "Interpol",
+     "Haruki Murakami",
+     "Elle Magazine",
+     "Queer",
+     "How Music Works",
+     "MoMA",
+     "Melancholia",
+     "Synecdoche, New York",
+     "Magnolia",
+     "Lost in Translation"
+    ]
+   },
+   "taste": {
+    "decor": [
+     {
+      "id": "urn:tag:decor:qloo:japanese",
+      "name": "Japanese",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.8544568245125348,
+      "popularity": 0.9987493643931012
+     },
+     {
+      "id": "urn:tag:decor:qloo:quaint",
+      "name": "Quaint",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.7777777777777778,
+      "popularity": 0.9992444976510231
+     },
+     {
+      "id": "urn:tag:decor:qloo:industrial_chic",
+      "name": "Industrial Chic",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.7541653054557335,
+      "popularity": 0.999742694074722
+     },
+     {
+      "id": "urn:tag:decor:qloo:dark_wood",
+      "name": "Dark Wood",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.7105327468230693,
+      "popularity": 0.9877258161883756
+     },
+     {
+      "id": "urn:tag:decor:qloo:mediterranean",
+      "name": "Mediterranean",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.7046968403074295,
+      "popularity": 0.9995366765405328
+     },
+     {
+      "id": "urn:tag:decor:qloo:elegant",
+      "name": "Elegant",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.66765886140142,
+      "popularity": 0.9999356735186805
+     },
+     {
+      "id": "urn:tag:decor:qloo:comfortable",
+      "name": "Comfortable",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.6616766467065869,
+      "popularity": 0.9984920584678233
+     },
+     {
+      "id": "urn:tag:decor:qloo:colonial",
+      "name": "Colonial",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.6551724137931034,
+      "popularity": 0.9993850105632094
+     },
+     {
+      "id": "urn:tag:decor:qloo:traditional_japanese",
+      "name": "Traditional Japanese",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.6404827859121488,
+      "popularity": 0.9970738912557299
+     },
+     {
+      "id": "urn:tag:decor:qloo:cozy",
+      "name": "Cozy",
+      "type": "urn:tag:decor:qloo",
+      "affinity": 0.63088017224593,
+      "popularity": 0.9999677974879841
+     }
+    ],
+    "ambience": [
+     {
+      "id": "urn:tag:ambience:qloo:vintage",
+      "name": "Vintage",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.8717948717948718,
+      "popularity": 0.9995252878472589
+     },
+     {
+      "id": "urn:tag:ambience:qloo:rustic",
+      "name": "Rustic",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.8658892128279884,
+      "popularity": 0.9999370872875007
+     },
+     {
+      "id": "urn:tag:ambience:qloo:homey",
+      "name": "Homey",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.8157166574432761,
+      "popularity": 0.9999056702026072
+     },
+     {
+      "id": "urn:tag:ambience:qloo:authentic",
+      "name": "Authentic",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.7793120670979083,
+      "popularity": 0.9998694620122675
+     },
+     {
+      "id": "urn:tag:ambience:qloo:stylish",
+      "name": "Stylish",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.7670053383847081,
+      "popularity": 0.99995499502589
+     },
+     {
+      "id": "urn:tag:ambience:qloo:luxury",
+      "name": "Luxury",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.7486248624862486,
+      "popularity": 0.9857026344639452
+     },
+     {
+      "id": "urn:tag:ambience:qloo:elegant",
+      "name": "Elegant",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.7216715895416257,
+      "popularity": 0.9999305682423854
+     },
+     {
+      "id": "urn:tag:ambience:qloo:romantic",
+      "name": "Romantic",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.7167925428868237,
+      "popularity": 0.9999416427648102
+     },
+     {
+      "id": "urn:tag:ambience:qloo:adventurous",
+      "name": "Adventurous",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.6929723502304147,
+      "popularity": 0.9993088241323426
+     },
+     {
+      "id": "urn:tag:ambience:qloo:scenic",
+      "name": "Scenic",
+      "type": "urn:tag:ambience:qloo",
+      "affinity": 0.6918513467439482,
+      "popularity": 0.9995278012140504
+     }
+    ],
+    "interests": [],
+    "artist": [
+     {
+      "name": "The Smashing Pumpkins",
+      "id": "4E2076A6-D484-45D5-A700-65F57E83A626",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.946,
+      "tags": [
+       "Passionate",
+       "90s",
+       "Diverse",
+       "Intense",
+       "Alienation",
+       "Black Sabbath"
+      ],
+      "image": "https://images.qloo.com/i/4E2076A6-D484-45D5-A700-65F57E83A626-420x-auto.jpg",
+      "detail": "The Smashing Pumpkins"
+     },
+     {
+      "name": "The Cure",
+      "id": "CB36C13A-CC81-4081-98B6-D1EEA8DACC55",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.941,
+      "tags": [
+       "Alternative Rock",
+       "New Wave",
+       "Psychedelic Rock",
+       "Depression",
+       "Keyboards",
+       "Loyal"
+      ],
+      "image": "https://images.qloo.com/i/CB36C13A-CC81-4081-98B6-D1EEA8DACC55-420x-auto.jpg",
+      "detail": "The Cure"
+     },
+     {
+      "name": "Pixies",
+      "id": "C9FC1FE6-2F92-4B49-9EE5-B531B8536B94",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.939,
+      "tags": [
+       "Rock",
+       "Pop Culture",
+       "David Bowie",
+       "Innovative",
+       "Psychology",
+       "Energetic"
+      ],
+      "image": "https://images.qloo.com/i/C9FC1FE6-2F92-4B49-9EE5-B531B8536B94-420x-auto.jpg",
+      "detail": "Pixies"
+     },
+     {
+      "name": "The Smiths",
+      "id": "9FCB92D1-9B48-4ADF-A6DC-350DAA7E91AF",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.936,
+      "tags": [
+       "Melancholic Post-Punk",
+       "Passionate",
+       "Indie",
+       "Influential",
+       "Social Critique",
+       "Poetic Alternative Rock"
+      ],
+      "image": "https://images.qloo.com/i/9FCB92D1-9B48-4ADF-A6DC-350DAA7E91AF-420x-auto.jpg",
+      "detail": "The Smiths"
+     },
+     {
+      "name": "Nirvana",
+      "id": "6700295B-3DBB-4F55-A5B0-80C155EA1186",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.929,
+      "tags": [
+       "Alternative Rock",
+       "Melodic",
+       "Alternative Rock",
+       "Rebellious",
+       "Emotional",
+       "Pixies"
+      ],
+      "image": "https://images.qloo.com/i/6700295B-3DBB-4F55-A5B0-80C155EA1186-420x-auto.jpg",
+      "detail": "Nirvana"
+     },
+     {
+      "name": "David Bowie",
+      "id": "310CF871-2A1F-4CBE-8D30-40B95BAEC054",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.928,
+      "tags": [
+       "Pop Rock",
+       "New Wave",
+       "Versatile",
+       "80s",
+       "Glam Rock",
+       "Expressive"
+      ],
+      "image": "https://images.qloo.com/i/310CF871-2A1F-4CBE-8D30-40B95BAEC054-420x-auto.jpg",
+      "detail": "David Bowie"
+     },
+     {
+      "name": "Interpol",
+      "id": "D55AA58B-0DB2-43EF-B3B9-E2D40B215E7E",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.927,
+      "tags": [
+       "Relationships",
+       "Engaging",
+       "Guitar-Driven Indie Rock",
+       "Existentialism",
+       "3",
+       "Indie Rock"
+      ],
+      "image": "https://images.qloo.com/i/D55AA58B-0DB2-43EF-B3B9-E2D40B215E7E-420x-auto.jpg",
+      "detail": "Interpol"
+     },
+     {
+      "name": "Oasis",
+      "id": "892D4014-60ED-4E06-8417-468F0F620D64",
+      "type": "artist",
+      "popularity": 1,
+      "affinity": 0.925,
+      "tags": [
+       "Britpop",
+       "Keyboards",
+       "Britpop",
+       "Conflicted",
+       "Indie Rock",
+       "Charismatic"
+      ],
+      "image": "https://images.qloo.com/i/892D4014-60ED-4E06-8417-468F0F620D64-420x-auto.jpg",
+      "detail": "Oasis"
+     }
+    ],
+    "brand": [
+     {
+      "name": "MoMA, the Museum of Modern Art",
+      "id": "F39AA5F6-30A9-450C-ABB2-E10A23D3A443",
+      "type": "brand",
+      "popularity": 0.998,
+      "affinity": 0.927,
+      "tags": [
+       "Cultural Arts",
+       "Minimalist Architecture",
+       "Modernist Design",
+       "Clean Typography",
+       "Curated Spatial Layouts",
+       "Artistic Fulfillment"
+      ],
+      "image": "https://images.qloo.com/i/F39AA5F6-30A9-450C-ABB2-E10A23D3A443-420x-auto.jpg",
+      "detail": "MoMA is a leading museum in New York City dedicated to modern and contemporary art, showcasing innovative and boundary-breaking artworks."
+     },
+     {
+      "name": "The New Yorker",
+      "id": "399654ED-B417-49C5-A9AA-8682BE35A85D",
+      "type": "brand",
+      "popularity": 0.999,
+      "affinity": 0.923,
+      "tags": [
+       "Media",
+       "Entertainment",
+       "Advertising Enabled",
+       "Art",
+       "News App",
+       "Reading App"
+      ],
+      "image": "https://images.qloo.com/i/399654ED-B417-49C5-A9AA-8682BE35A85D-420x-auto.jpg",
+      "detail": "The New Yorker is a magazine known for its unparalleled reporting and commentary on politics, culture, humor, cartoons, fiction, and poetry."
+     },
+     {
+      "name": "Burberry",
+      "id": "D630A953-8F2E-42CD-A91A-A2A6C05ECE1D",
+      "type": "brand",
+      "popularity": 0.999,
+      "affinity": 0.913,
+      "tags": [
+       "Health & Beauty",
+       "Other",
+       "Bags & Leather",
+       "Footwear",
+       "High-end / Designer",
+       "Casual"
+      ],
+      "image": "https://images.qloo.com/i/D630A953-8F2E-42CD-A91A-A2A6C05ECE1D-420x-auto.jpg",
+      "detail": "Burberry is a British luxury fashion house known for its clothing, bags, accessories, and fragrances."
+     },
+     {
+      "name": "Getty Images",
+      "id": "8467E9C4-C5BA-4C74-8FAD-49DEEEB7A85D",
+      "type": "brand",
+      "popularity": 0.995,
+      "affinity": 0.912,
+      "tags": [
+       "Mass media companies established in 1995",
+       "Photo agencies",
+       "Entertainment",
+       "Companies formerly listed on the New York Stock Exchange",
+       "Photography awards",
+       "Internet properties established in 1995"
+      ],
+      "image": "https://images.qloo.com/i/8467E9C4-C5BA-4C74-8FAD-49DEEEB7A85D-420x-auto.jpg",
+      "detail": "Getty Images is a global visual content creator and marketplace offering a vast collection of high-quality photos, videos, and editorial images, including sports content."
+     },
+     {
+      "name": "Yves Saint Laurent",
+      "id": "0B67CD5A-152C-470B-9577-A052E3A092F7",
+      "type": "brand",
+      "popularity": 0.999,
+      "affinity": 0.91,
+      "tags": [
+       "Haute Couture",
+       "Fashion accessory brands",
+       "Gucci brands",
+       "Cigarette brands",
+       "Yves Saint Laurent (brand)",
+       "Comité Colbert members"
+      ],
+      "image": "https://images.qloo.com/i/0B67CD5A-152C-470B-9577-A052E3A092F7-420x-auto.jpg",
+      "detail": "Yves Saint Laurent is a French luxury fashion house known for haute couture, ready-to-wear, handbags, shoes, leather goods, accessories, and beauty products including makeup, skincare, and fragrances."
+     },
+     {
+      "name": "Chanel",
+      "id": "212146FD-4F22-446B-BCA2-E8597774A940",
+      "type": "brand",
+      "popularity": 1,
+      "affinity": 0.909,
+      "tags": [
+       "Eyewear brands of France",
+       "Vague or ambiguous time from July 2013",
+       "Design companies established in 1909",
+       "Fashion accessory brands",
+       "Haute couture",
+       "Other"
+      ],
+      "image": "https://images.qloo.com/i/212146FD-4F22-446B-BCA2-E8597774A940-420x-auto.jpg",
+      "detail": "Chanel is a luxury fashion brand known for fashion, accessories, fragrance, skincare, makeup, fine jewellery, and watches."
+     }
+    ],
+    "movie": [
+     {
+      "name": "Lost in Translation",
+      "id": "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+      "type": "movie",
+      "popularity": 0.997,
+      "affinity": 0.92,
+      "tags": [
+       "Age disparate romance",
+       "Postmodern",
+       "Cigarette smoking",
+       "Reflective",
+       "Unhappiness",
+       "Tokyo japan"
+      ],
+      "image": "https://images.qloo.com/i/603C7E42-C952-45CB-8B6F-3B803FEFB2F7-420x-auto.jpg",
+      "detail": "2003, Sofia Coppola"
+     },
+     {
+      "name": "Synecdoche, New York",
+      "id": "5FBAD562-A8AF-4643-A212-936B17AE97E0",
+      "type": "movie",
+      "popularity": 0.988,
+      "affinity": 0.916,
+      "tags": [
+       "Electronic translator",
+       "Earpiece",
+       "Bodily fluids",
+       "Atmospheric",
+       "Real estate agent",
+       "Illness"
+      ],
+      "image": "https://images.qloo.com/i/5FBAD562-A8AF-4643-A212-936B17AE97E0-420x-auto.jpg",
+      "detail": "2008, Charlie Kaufman"
+     },
+     {
+      "name": "Melancholia",
+      "id": "AC2E372C-A61C-4276-B0FC-426D40C747F6",
+      "type": "movie",
+      "popularity": 0.991,
+      "affinity": 0.913,
+      "tags": [
+       "Part of trilogy",
+       "Castle",
+       "Snow",
+       "Depression",
+       "Sister sister relationship",
+       "Misanthropy"
+      ],
+      "image": "https://images.qloo.com/i/AC2E372C-A61C-4276-B0FC-426D40C747F6-420x-auto.jpg",
+      "detail": "2011, Lars von Trier"
+     },
+     {
+      "name": "Magnolia",
+      "id": "BB5B7CFF-8EFB-4CED-BCD1-6DF7E16407DD",
+      "type": "movie",
+      "popularity": 0.993,
+      "affinity": 0.91,
+      "tags": [
+       "Ambulance",
+       "Redemption",
+       "Game show host",
+       "Key",
+       "Death bed",
+       "Redheaded woman"
+      ],
+      "image": "https://images.qloo.com/i/BB5B7CFF-8EFB-4CED-BCD1-6DF7E16407DD-420x-auto.jpg",
+      "detail": "1999, Paul Thomas Anderson"
+     }
+    ],
+    "book": [
+     {
+      "name": "Fleabag: The Scriptures",
+      "id": "D15F5348-B6B3-4605-B016-0BC5DB1D81F0",
+      "type": "book",
+      "popularity": 0.984,
+      "affinity": 0.837,
+      "tags": [
+       "Womens",
+       "Plays",
+       "Romance",
+       "Comedy",
+       "Feminism",
+       "Humor"
+      ],
+      "image": "https://images.qloo.com/i/D15F5348-B6B3-4605-B016-0BC5DB1D81F0-420x-auto.jpg",
+      "detail": "2019, Phoebe Waller-Bridge"
+     },
+     {
+      "name": "How Music Works",
+      "id": "E82B66B1-618B-4EDC-886D-03163F86F2A1",
+      "type": "book",
+      "popularity": 0.924,
+      "affinity": 0.832,
+      "tags": [
+       "Biography",
+       "Nonfiction",
+       "History",
+       "Art",
+       "Science",
+       "Essays"
+      ],
+      "image": "https://images.qloo.com/i/E82B66B1-618B-4EDC-886D-03163F86F2A1-420x-auto.jpg",
+      "detail": "2014, David Byrne"
+     },
+     {
+      "name": "Queer",
+      "id": "93665414-2432-4707-90CE-18530202ACE9",
+      "type": "book",
+      "popularity": 0.95,
+      "affinity": 0.826,
+      "tags": [
+       "Literature",
+       "Gay",
+       "Queer",
+       "LGBT",
+       "Novels",
+       "Literary Fiction"
+      ],
+      "image": "https://images.qloo.com/i/93665414-2432-4707-90CE-18530202ACE9-420x-auto.jpg",
+      "detail": "1985, William S. Burroughs"
+     },
+     {
+      "name": "I Am Not Okay with This",
+      "id": "08427760-8D25-4ECE-8036-535707B64838",
+      "type": "book",
+      "popularity": 0.757,
+      "affinity": 0.826,
+      "tags": [],
+      "image": "https://images.qloo.com/i/08427760-8D25-4ECE-8036-535707B64838-420x-auto.jpg",
+      "detail": "2017, Charles Forsman"
+     }
+    ],
+    "demographics": {
+     "age": {
+      "24_and_younger": -0.03,
+      "25_to_29": -0.05,
+      "30_to_34": -0.35,
+      "35_to_44": 0.06,
+      "45_to_54": -0.04,
+      "55_and_older": -0.33
+     }
+    },
+    "seeds": [
+     {
+      "phrase": "Radiohead",
+      "name": "Radiohead",
+      "id": "70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C",
+      "type": "artist",
+      "popularity": 1,
+      "tags": [
+       "Electronic",
+       "Indie",
+       "Alternative Rock",
+       "Rock",
+       "Loyal",
+       "Intellectual"
+      ],
+      "image": "https://images.qloo.com/i/70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C-420x-auto.jpg",
+      "detail": "Radiohead",
+      "types": [
+       "urn:entity:artist"
+      ]
+     },
+     {
+      "phrase": "Blade Runner",
+      "name": "Blade Runner",
+      "id": "A74A74BB-CE73-4A76-807B-8BD1714BC463",
+      "type": "movie",
+      "popularity": 0.998,
+      "tags": [
+       "Femme fatale",
+       "Production design",
+       "Corporation",
+       "Neon drenched",
+       "Intellectually curious",
+       "Moral ambiguity"
+      ],
+      "image": "https://images.qloo.com/i/A74A74BB-CE73-4A76-807B-8BD1714BC463-420x-auto.jpg",
+      "detail": "1982",
+      "types": [
+       "urn:entity:movie"
+      ]
+     },
+     {
+      "phrase": "Haruki Murakami",
+      "name": "Haruki Murakami",
+      "id": "E96DF441-451B-4C26-9415-257594472F52",
+      "type": "author",
+      "popularity": 1,
+      "tags": [
+       "Asian_literature",
+       "China",
+       "Paranormal:witches",
+       "Gardening",
+       "Childrens:1st_grade",
+       "Mystery:noir"
+      ],
+      "detail": "Haruki Murakami",
+      "types": [
+       "urn:entity:author"
+      ]
+     },
+     {
+      "phrase": "Muji",
+      "name": "Muji",
+      "id": "E12201A5-CC50-40AF-97AE-C54A2CA303F7",
+      "type": "brand",
+      "popularity": 0.984,
+      "tags": [
+       "Retail companies established in 1980",
+       "Retail",
+       "All accuracy disputes",
+       "Japanese companies established in 1980",
+       "Companies listed on the Tokyo Stock Exchange",
+       "Clothing brands of Japan"
+      ],
+      "image": "https://images.qloo.com/i/E12201A5-CC50-40AF-97AE-C54A2CA303F7-420x-auto.jpg",
+      "detail": "Muji is a Japanese retail brand offering minimalist, quality household goods, clothing, stationery, and furniture.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "phrase": "Monocle magazine",
+      "name": "Elle Magazine",
+      "id": "42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+      "type": "brand",
+      "popularity": 0.999,
+      "tags": [
+       "Entertainment",
+       "Fashion",
+       "Media",
+       "Women",
+       "Lifestyle",
+       "Polished"
+      ],
+      "image": "https://images.qloo.com/i/42601B31-8441-4A9C-A0C1-ED8E654BFF6D-420x-auto.jpg",
+      "detail": "Elle Magazine is a global fashion and lifestyle magazine covering beauty, fashion trends, celebrity news, and women's lifestyle topics.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ]
+   },
+   "signals": [
+    {
+     "name": "Radiohead",
+     "kind": "artist",
+     "id": "70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C",
+     "seed": true
+    },
+    {
+     "name": "Blade Runner",
+     "kind": "movie",
+     "id": "A74A74BB-CE73-4A76-807B-8BD1714BC463",
+     "seed": true
+    },
+    {
+     "name": "Haruki Murakami",
+     "kind": "author",
+     "id": "E96DF441-451B-4C26-9415-257594472F52",
+     "seed": true
+    },
+    {
+     "name": "Muji",
+     "kind": "brand",
+     "id": "E12201A5-CC50-40AF-97AE-C54A2CA303F7",
+     "seed": true
+    },
+    {
+     "name": "Elle Magazine",
+     "kind": "brand",
+     "id": "42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "seed": true
+    },
+    {
+     "name": "Japanese",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:japanese",
+     "affinity": 0.8544568245125348
+    },
+    {
+     "name": "Quaint",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:quaint",
+     "affinity": 0.7777777777777778
+    },
+    {
+     "name": "Industrial Chic",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:industrial_chic",
+     "affinity": 0.7541653054557335
+    },
+    {
+     "name": "Dark Wood",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:dark_wood",
+     "affinity": 0.7105327468230693
+    },
+    {
+     "name": "Mediterranean",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:mediterranean",
+     "affinity": 0.7046968403074295
+    },
+    {
+     "name": "Elegant",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:elegant",
+     "affinity": 0.66765886140142
+    },
+    {
+     "name": "Comfortable",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:comfortable",
+     "affinity": 0.6616766467065869
+    },
+    {
+     "name": "Colonial",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:colonial",
+     "affinity": 0.6551724137931034
+    },
+    {
+     "name": "Traditional Japanese",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:traditional_japanese",
+     "affinity": 0.6404827859121488
+    },
+    {
+     "name": "Cozy",
+     "kind": "tag",
+     "id": "urn:tag:decor:qloo:cozy",
+     "affinity": 0.63088017224593
+    },
+    {
+     "name": "Vintage",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:vintage",
+     "affinity": 0.8717948717948718
+    },
+    {
+     "name": "Rustic",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:rustic",
+     "affinity": 0.8658892128279884
+    },
+    {
+     "name": "Homey",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:homey",
+     "affinity": 0.8157166574432761
+    },
+    {
+     "name": "Authentic",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:authentic",
+     "affinity": 0.7793120670979083
+    },
+    {
+     "name": "Stylish",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:stylish",
+     "affinity": 0.7670053383847081
+    },
+    {
+     "name": "Luxury",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:luxury",
+     "affinity": 0.7486248624862486
+    },
+    {
+     "name": "Romantic",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:romantic",
+     "affinity": 0.7167925428868237
+    },
+    {
+     "name": "Adventurous",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:adventurous",
+     "affinity": 0.6929723502304147
+    },
+    {
+     "name": "Scenic",
+     "kind": "tag",
+     "id": "urn:tag:ambience:qloo:scenic",
+     "affinity": 0.6918513467439482
+    },
+    {
+     "name": "The Smashing Pumpkins",
+     "kind": "artist",
+     "id": "4E2076A6-D484-45D5-A700-65F57E83A626",
+     "affinity": 0.946
+    },
+    {
+     "name": "The Cure",
+     "kind": "artist",
+     "id": "CB36C13A-CC81-4081-98B6-D1EEA8DACC55",
+     "affinity": 0.941
+    },
+    {
+     "name": "Pixies",
+     "kind": "artist",
+     "id": "C9FC1FE6-2F92-4B49-9EE5-B531B8536B94",
+     "affinity": 0.939
+    },
+    {
+     "name": "The Smiths",
+     "kind": "artist",
+     "id": "9FCB92D1-9B48-4ADF-A6DC-350DAA7E91AF",
+     "affinity": 0.936
+    },
+    {
+     "name": "Nirvana",
+     "kind": "artist",
+     "id": "6700295B-3DBB-4F55-A5B0-80C155EA1186",
+     "affinity": 0.929
+    },
+    {
+     "name": "David Bowie",
+     "kind": "artist",
+     "id": "310CF871-2A1F-4CBE-8D30-40B95BAEC054",
+     "affinity": 0.928
+    },
+    {
+     "name": "Interpol",
+     "kind": "artist",
+     "id": "D55AA58B-0DB2-43EF-B3B9-E2D40B215E7E",
+     "affinity": 0.927
+    },
+    {
+     "name": "Oasis",
+     "kind": "artist",
+     "id": "892D4014-60ED-4E06-8417-468F0F620D64",
+     "affinity": 0.925
+    },
+    {
+     "name": "MoMA, the Museum of Modern Art",
+     "kind": "brand",
+     "id": "F39AA5F6-30A9-450C-ABB2-E10A23D3A443",
+     "affinity": 0.927
+    },
+    {
+     "name": "The New Yorker",
+     "kind": "brand",
+     "id": "399654ED-B417-49C5-A9AA-8682BE35A85D",
+     "affinity": 0.923
+    },
+    {
+     "name": "Burberry",
+     "kind": "brand",
+     "id": "D630A953-8F2E-42CD-A91A-A2A6C05ECE1D",
+     "affinity": 0.913
+    },
+    {
+     "name": "Getty Images",
+     "kind": "brand",
+     "id": "8467E9C4-C5BA-4C74-8FAD-49DEEEB7A85D",
+     "affinity": 0.912
+    },
+    {
+     "name": "Yves Saint Laurent",
+     "kind": "brand",
+     "id": "0B67CD5A-152C-470B-9577-A052E3A092F7",
+     "affinity": 0.91
+    },
+    {
+     "name": "Chanel",
+     "kind": "brand",
+     "id": "212146FD-4F22-446B-BCA2-E8597774A940",
+     "affinity": 0.909
+    },
+    {
+     "name": "Lost in Translation",
+     "kind": "movie",
+     "id": "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+     "affinity": 0.92
+    },
+    {
+     "name": "Synecdoche, New York",
+     "kind": "movie",
+     "id": "5FBAD562-A8AF-4643-A212-936B17AE97E0",
+     "affinity": 0.916
+    },
+    {
+     "name": "Melancholia",
+     "kind": "movie",
+     "id": "AC2E372C-A61C-4276-B0FC-426D40C747F6",
+     "affinity": 0.913
+    },
+    {
+     "name": "Magnolia",
+     "kind": "movie",
+     "id": "BB5B7CFF-8EFB-4CED-BCD1-6DF7E16407DD",
+     "affinity": 0.91
+    },
+    {
+     "name": "Fleabag: The Scriptures",
+     "kind": "book",
+     "id": "D15F5348-B6B3-4605-B016-0BC5DB1D81F0",
+     "affinity": 0.837
+    },
+    {
+     "name": "How Music Works",
+     "kind": "book",
+     "id": "E82B66B1-618B-4EDC-886D-03163F86F2A1",
+     "affinity": 0.832
+    },
+    {
+     "name": "Queer",
+     "kind": "book",
+     "id": "93665414-2432-4707-90CE-18530202ACE9",
+     "affinity": 0.826
+    },
+    {
+     "name": "I Am Not Okay with This",
+     "kind": "book",
+     "id": "08427760-8D25-4ECE-8036-535707B64838",
+     "affinity": 0.826
+    }
+   ]
+  },
+  {
+   "type": "done",
+   "qlooCalls": [
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Radiohead&take=3",
+     "ms": 409,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Blade+Runner&take=3",
+     "ms": 161,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Haruki+Murakami&take=3",
+     "ms": 174,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Muji&take=3",
+     "ms": 172,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Monocle+magazine&take=3",
+     "ms": 162,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=10",
+     "ms": 1902,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=8",
+     "ms": 1982,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D&take=10",
+     "ms": 3390,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "ms": 374,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "ms": 838,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "ms": 1505,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "ms": 3439,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=70CAE5BF-2F4C-445C-A3E5-4EDACFC3591C%2CA74A74BB-CE73-4A76-807B-8BD1714BC463%2CE96DF441-451B-4C26-9415-257594472F52%2CE12201A5-CC50-40AF-97AE-C54A2CA303F7%2C42601B31-8441-4A9C-A0C1-ED8E654BFF6D",
+     "ms": 148,
+     "ok": true
+    }
+   ]
+  }
+ ],
+ "renders": [
+  {
+   "id": "5603b7b5-1e7f-4a1b-9490-6a4d9d7f71c1",
+   "url": "/img/demo-room-rain-1.jpg",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4aa7/mVujdJUQFKNG5G5u2-Kc-_XGQzmcCX.jpg",
+   "prompt": "Eye-level photograph of a private listening room with dark walnut paneling, tatami-inspired woven flooring, and a low charcoal linen sofa with a camel wool blanket. A vintage turntable with a stack of vinyl sleeves sits on a low walnut sideboard beside a small brass lamp. A rain-streaked window glows with soft amber and teal city light, and a paper floor lantern casts warm pools. A framed abstract film still in muted blue-orange hangs on the wall, and a neat stack of fashion magazines and paperback novels rests on a matte black steel side table. Moody, cinematic, photoreal.",
+   "aspect": "3:2",
+   "model": "gpt-image-2.5/flare",
+   "signals": [
+    "Blade Runner",
+    "Japanese",
+    "Romantic",
+    "Lost in Translation",
+    "Dark Wood",
+    "Industrial Chic",
+    "Japanese",
+    "Muji",
+    "Comfortable",
+    "Elegant",
+    "Homey",
+    "Muji",
+    "Radiohead",
+    "The Cure",
+    "The Smiths",
+    "Interpol",
+    "Haruki Murakami",
+    "Elle Magazine",
+    "Queer",
+    "How Music Works",
+    "MoMA",
+    "Melancholia",
+    "Synecdoche, New York",
+    "Magnolia",
+    "Lost in Translation"
+   ]
+  }
+ ],
+ "baseline": null,
+ "recorded": "2026-10-21T16:38:47.804Z"
+}

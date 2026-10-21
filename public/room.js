@@ -1,5 +1,7 @@
 const $ = id => document.getElementById(id);
-const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+// Model-written text never shows an em or en dash used as punctuation (house style); a comma reads the same.
+const tidy = v => typeof v === 'string' ? v.replace(/(\d)\s*–\s*(\d)/g, '$1-$2').replace(/\s*[—–]\s*/g, ', ') : v;
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = tidy(text); return n; };
 const safeUrl = v => { try { const u = new URL(v, location.origin); return ['https:', 'http:'].includes(u.protocol) ? u.href : ''; } catch { return ''; } };
 let config = {}, render = null, concept = null, taste = null, running = false;
 
@@ -11,16 +13,17 @@ async function api(path, body) {
   return data;
 }
 
-// A preset fills the line and builds straight away; typing builds on Enter or the button.
-document.querySelectorAll('[data-ex]').forEach(b => b.addEventListener('click', () => { $('text').value = b.dataset.ex; build(b.dataset.ex); }));
+// An example replays its recorded run instantly; typing your own favourites builds live.
+document.querySelectorAll('[data-ex]').forEach(b => b.addEventListener('click', () => { $('text').value = b.dataset.ex; build(b.dataset.ex, b.dataset.demo); }));
 $('ask').addEventListener('submit', e => { e.preventDefault(); const t = $('text').value.trim(); if (!t) { toast('Name a few things you love first.'); $('text').focus(); return; } build(t); });
 $('again').addEventListener('click', () => { $('build').hidden = true; $('intro').hidden = false; scrollTo({ top: 0, behavior: 'smooth' }); $('text').focus(); });
 $('change').addEventListener('click', () => { $('refine').hidden = !$('refine').hidden; if (!$('refine').hidden) $('refine-input').focus(); });
 
-async function build(text) {
+async function build(text, demo = null) {
   if (!text || running) return;
-  if (!config.qloo) return toast('This server has no Qloo key yet.');
+  if (!demo && !config.qloo) return toast('This server has no Qloo key yet.');
   running = true; render = null; concept = null; taste = null;
+  $('demo-note').hidden = !demo;
   $('intro').hidden = true; $('build').hidden = false; $('build').classList.remove('complete');
   scrollTo({ top: 0 });
   $('steps').replaceChildren(); $('r-body').hidden = true; $('hero-actions').hidden = true; $('refine').hidden = true;
@@ -30,7 +33,7 @@ async function build(text) {
   try {
     const stall = new AbortController();
     let watchdog = setTimeout(() => stall.abort(), 50000);
-    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: stall.signal });
+    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(demo ? { text, demo } : { text }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The room could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
@@ -71,7 +74,7 @@ function show(ev) {
   concept = ev.concept; render = ev.render; taste = ev.taste;
   const seeds = taste.seeds.map(s => s.name);
   $('r-kicker').textContent = `${concept.scripted ? 'Scripted. ' : ''}A room for someone who loves ${seeds.slice(0, 3).join(', ')}${seeds.length > 3 ? ' and more' : ''}`;
-  $('r-name').textContent = concept.name; $('r-tag').textContent = concept.tagline; $('r-brief').textContent = concept.brief;
+  $('r-name').textContent = tidy(concept.name); $('r-tag').textContent = tidy(concept.tagline); $('r-brief').textContent = tidy(concept.brief);
   const cited = [...new Set(concept.design_choices.flatMap(d => d.signals).filter(s => s.grounded).map(s => s.name))].slice(0, 8);
   $('r-chips').replaceChildren(...tags(cited.map(name => ({ name }))));
   // Six-column grid: the first two choices take half a row each, the rest a third, and the last row always

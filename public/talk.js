@@ -1,5 +1,7 @@
 const $ = id => document.getElementById(id);
-const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+// Model-written text never shows an em or en dash used as punctuation (house style); a comma reads the same.
+const tidy = v => typeof v === 'string' ? v.replace(/(\d)\s*–\s*(\d)/g, '$1-$2').replace(/\s*[—–]\s*/g, ', ') : v;
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = tidy(text); return n; };
 let session = null, view = null, stream = null, recording = false, meDown = false, meMs = 0, meSince = 0, demoTimer = null, xr = null;
 
 function toast(text, ms = 4000) { $('toast').textContent = text; $('toast').hidden = !text; clearTimeout(toast.t); if (text) toast.t = setTimeout(() => { $('toast').hidden = true; }, ms); }
@@ -72,21 +74,23 @@ addEventListener('keyup', e => { if (e.code === 'Space') setMe(false); });
 
 $('say').addEventListener('submit', e => { e.preventDefault(); const t = $('say-input').value.trim(); if (!t || !session) return; $('say-input').value = ''; send({ text: t, who: meDown ? 'me' : 'them' }); });
 
-// --- A scripted sample conversation, so anyone can try it without a second person. ---
-const sample = [
-  ['them', 'Sorry I was late, I was finishing the new Sally Rooney on the train.'],
-  ['me', 'No worries. Is it as good as Normal People?'],
-  ['them', 'Better, honestly. I have been on such a reading kick. That and Phoebe Bridgers on repeat.'],
-  ['them', 'We went to see Past Lives again last weekend and I cried the whole second half.'],
-  ['me', 'I have not seen it yet. Is it sad?'],
-  ['them', 'Quietly sad. Oh, and I cannot stand superhero films, I fell asleep in the last Marvel one.'],
-  ['them', 'Next month I am going to Lisbon, mostly to eat pastries and walk around.']
-];
+// --- A sample conversation, so anyone can try it without a second person. It replays a recorded real run
+// (Qloo, the LLM and all), paced like speech; nothing is listening. ---
 $('demo').addEventListener('click', async () => {
-  try { if (!(await start())) return; } catch (error) { return toast(error.message); }
+  let demo;
+  try { demo = await api('/api/talk/demo', { demo: 'sample' }); } catch (error) { return toast(error.message); }
+  $('setup').hidden = true; $('hud').hidden = false; $('say').hidden = true; $('me').hidden = true;
+  $('demo-note').hidden = false;
+  if (navigator.xr) navigator.xr.isSessionSupported('immersive-ar').then(ar => ar || navigator.xr.isSessionSupported('immersive-vr')).then(ok => { $('xr').hidden = !ok; }).catch(() => {});
   status('Sample conversation');
   let i = 0;
-  const next = () => { if (i >= sample.length) { demoTimer = null; status('Sample finished'); return; } const [who, text] = sample[i++]; send({ text, who }); demoTimer = setTimeout(next, 5200); };
+  const next = () => {
+    if (i >= demo.turns.length) { demoTimer = null; status('Sample finished'); return; }
+    const t = demo.turns[i++];
+    if (t.heard) line(t.who, t.heard);
+    render(t.view);
+    demoTimer = setTimeout(next, 3600);
+  };
   next();
 });
 
@@ -107,7 +111,7 @@ function render(v) {
   $('avoid').replaceChildren(...(v.avoid?.length ? chips(v.avoid, 'no') : [el('span', 'muted', 'Nothing yet')]));
   const label = { artist: 'Music', movie: 'Films', tv_show: 'TV', book: 'Books', podcast: 'Podcasts', brand: 'Brands', destination: 'Places' };
   $('recs').replaceChildren(...Object.entries(v.recs || {}).map(([t, l]) => { const row = el('div', 'rec-row'); row.append(el('b', '', label[t] || t), el('span', '', l.map(e => e.name).join(' · '))); return row; }));
-  if (n[0]) { $('glass-say').textContent = n[0].say; $('glass-why').textContent = `${n[0].about} · ${n[0].why}`; }
+  if (n[0]) { $('glass-say').textContent = tidy(n[0].say); $('glass-why').textContent = tidy(`${n[0].about}: ${n[0].why}`); }
   xr?.update(v);
 }
 

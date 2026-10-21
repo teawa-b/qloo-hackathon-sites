@@ -1,5 +1,7 @@
 const $ = id => document.getElementById(id);
-const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+// Model-written text never shows an em or en dash used as punctuation (house style); a comma reads the same.
+const tidy = v => typeof v === 'string' ? v.replace(/(\d)\s*–\s*(\d)/g, '$1-$2').replace(/\s*[—–]\s*/g, ', ') : v;
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = tidy(text); return n; };
 const safeUrl = v => { try { const u = new URL(v, location.origin); return ['https:', 'http:'].includes(u.protocol) ? u.href : ''; } catch { return ''; } };
 const typeLabel = { restaurant: 'restaurant', cafe: 'café', bar: 'bar', 'live music venue': 'live music venue', 'comedy club': 'comedy club', 'sports bar': 'sports bar', "founders' café with a podcast studio": "founders' café" };
 const slateTitle = b => activation ? 'Run of show' : /music/i.test(b) ? 'Booking slate' : /comedy/i.test(b) ? 'Opening lineup' : /sport/i.test(b) ? 'Watch-party calendar' : /founder|podcast/i.test(b) ? 'Studio & stage calendar' : 'Programming';
@@ -17,22 +19,28 @@ async function api(path, body) {
 }
 
 // --- The globe ----------------------------------------------------------------
+const dark = matchMedia('(prefers-color-scheme: dark)');
+const mapStyle = () => `https://tiles.openfreemap.org/styles/${dark.matches ? 'dark' : 'positron'}`;
 function initMap() {
   if (!window.maplibregl) { toast('The map could not load. Use the search box.'); return; }
-  map = new maplibregl.Map({ container: 'map', style: 'https://tiles.openfreemap.org/styles/positron', center: [-40, 32], zoom: 1.6, attributionControl: false });
+  map = new maplibregl.Map({ container: 'map', style: mapStyle(), center: [-40, 32], zoom: 1.6, attributionControl: false });
   map.on('style.load', () => {
     map.setProjection({ type: 'globe' });
-    // Recolour the base map toward the cream / sky palette.
+    // Cool neutral base map to match the page; water and parks get the faintest tint.
+    const c = dark.matches
+      ? { bg: '#0d0f13', water: '#141b2b', park: '#121a17', building: '#1b1f27', land: '#11141a', extrude: '#232833' }
+      : { bg: '#eef0f3', water: '#d6e0f5', park: '#e1ece4', building: '#e3e6ec', land: '#e9ebef', extrude: '#dde1e8' };
     for (const layer of map.getStyle().layers) {
-      if (layer.id === 'background') map.setPaintProperty(layer.id, 'background-color', '#fff8f1');
-      else if (/water/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', '#cfe0ff');
-      else if (/park|landcover_wood|grass/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', '#dcf8ea');
-      else if (/building/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', '#f1e7da');
-      else if (/landuse|residential|landcover/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', '#fbf1e6');
+      if (layer.id === 'background') map.setPaintProperty(layer.id, 'background-color', c.bg);
+      else if (/water/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.water);
+      else if (/park|landcover_wood|grass/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.park);
+      else if (/building/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.building);
+      else if (/landuse|residential|landcover/.test(layer.id) && layer.type === 'fill') map.setPaintProperty(layer.id, 'fill-color', c.land);
     }
     // Soft 3D buildings for the close, tilted fly-in to a listing.
-    if (!map.getLayer('buildings-3d')) map.addLayer({ id: 'buildings-3d', type: 'fill-extrusion', source: 'openmaptiles', 'source-layer': 'building', minzoom: 15, paint: { 'fill-extrusion-color': '#efe2d1', 'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 8], 'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0], 'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.85] } });
+    if (!map.getLayer('buildings-3d')) map.addLayer({ id: 'buildings-3d', type: 'fill-extrusion', source: 'openmaptiles', 'source-layer': 'building', minzoom: 15, paint: { 'fill-extrusion-color': c.extrude, 'fill-extrusion-height': ['coalesce', ['get', 'render_height'], 8], 'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0], 'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.85] } });
   });
+  dark.addEventListener('change', () => map.setStyle(mapStyle()));
   const spin = () => { if (!spinning || map.isMoving()) return; const c = map.getCenter(); map.easeTo({ center: [c.lng + 12, c.lat], duration: 4000, easing: t => t }); };
   map.on('load', spin); map.on('moveend', spin);
   ['mousedown', 'touchstart', 'wheel'].forEach(e => map.on(e, () => { spinning = false; }));
@@ -268,14 +276,33 @@ const say = {
   finalize_concept: () => 'Writing it up'
 };
 
-async function openStudio(space, photo = null) {
+// --- Instant examples: replay a recorded real run (see lib/demos.js) ----------------------------------
+let demoSlug = null, demoList = null;
+document.querySelectorAll('[data-demo]').forEach(b => b.addEventListener('click', () => openDemo(b.dataset.demo)));
+async function openDemo(slug) {
   if (running) return;
-  if (!config.qloo) return toast('This server has no Qloo key yet, so the agent can’t run.');
-  running = true; render = null; concept = null; taste = {}; baseRender = null; todCache = {}; runId = null;
+  try {
+    demoList ||= (await api('/api/demos')).demos;
+    const demo = demoList.find(d => d.slug === slug); if (!demo) return toast('That example is not available.');
+    const { spaces } = await api('/api/spaces');
+    const space = spaces.find(s => s.id === demo.request.spaceId); if (!space) return toast('That example space is missing.');
+    business = demo.request.business || 'activation'; activation = demo.request.activation || null;
+    point = { lat: space.lat, lng: space.lng, label: `${space.neighborhood}, ${space.city}` };
+    $('hint').hidden = true; spinning = false;
+    map?.jumpTo({ center: [space.lng, space.lat], zoom: 15 });
+    openStudio(space, null, slug);
+  } catch (error) { toast(error.message); }
+}
+
+async function openStudio(space, photo = null, demo = null) {
+  if (running) return;
+  if (!demo && !config.qloo) return toast('This server has no Qloo key yet, so the agent cannot run.');
+  running = true; render = null; concept = null; taste = {}; baseRender = null; todCache = {}; runId = null; demoSlug = demo;
+  $('demo-note').hidden = !demo;
   $('charts').hidden = true; $('timeline').hidden = true; $('handle').hidden = true; $('c-baseline')?.remove();
   $('sheet').hidden = true; $('drawer').hidden = true;
   const studio = $('studio'); studio.hidden = false; studio.classList.remove('enter'); void studio.offsetWidth; studio.classList.add('enter');
-  $('studio-place').textContent = `${activation ? 'Activation · ' : ''}${bizLabel()} · ${space.neighborhood || space.city}`;
+  $('studio-place').textContent = `${activation ? 'Activation: ' : ''}${bizLabel()}, ${space.neighborhood || space.city}`;
   $('c-name').textContent = activation ? 'Reading the fans…' : 'Reading the neighborhood…'; $('c-tag').textContent = space.title; $('c-body').hidden = true;
   $('before').src = safeUrl(photo || space.photo); $('after-wrap').hidden = true; $('slider').hidden = true; $('l-after').hidden = true; $('shimmer').hidden = false;
   $('live').className = 'live'; $('live-text').textContent = 'Starting the agent…'; $('steps').replaceChildren(); $('log').replaceChildren(); $('walk-status').hidden = true;
@@ -285,7 +312,7 @@ async function openStudio(space, photo = null) {
     // Image edits can take a minute; the server pings every 15 s, so three missed pings means the stream is dead.
     const stall = new AbortController();
     let watchdog = setTimeout(() => stall.abort(), 50000);
-    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}) }), signal: stall.signal });
+    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}), ...(demo ? { demo } : {}) }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The agent could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
@@ -335,9 +362,9 @@ function handle(ev, pending) {
   } else if (ev.type === 'final') {
     concept = ev.concept; if (ev.render && !render) showRender(ev.render, { sweep: true }); showConcept(ev.concept); renderCharts();
     if (ev.concept.heatmap) paintHeat(ev.concept.heatmap);
-    $('live').className = 'live done'; $('live-text').textContent = render ? 'Done — drag the image to compare' : 'Done (no image model on this server)';
+    $('live').className = 'live done'; $('live-text').textContent = render ? 'Done. Drag the image to compare.' : 'Done (no image model on this server)';
   } else if (ev.type === 'error') { fail(ev.message); logItem('err', ev.message); }
-  else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && runId && config.llm) offerBaseline(); }
+  else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && (demoSlug || (runId && config.llm))) offerBaseline(); }
 }
 
 // "Why not just ask a chatbot?": the same brief with no tools, each pick checked against Qloo.
@@ -352,7 +379,7 @@ function offerBaseline() {
   run.addEventListener('click', async () => {
     run.disabled = true; run.textContent = 'Asking the chatbot…';
     try {
-      const b = await api('/api/baseline', { runId });
+      const b = await api('/api/baseline', demoSlug ? { demo: demoSlug } : { runId });
       run.remove(); p.remove();
       const verdicts = { ranked: ['✓', 'In Qloo\'s top results for this crowd'], known: ['·', 'Real, but Qloo does not rank it for this crowd'], unknown: ['✗', 'Not in Qloo\'s graph'] };
       box.append(el('p', 'baseline-score', `${b.counts.ranked} of ${b.total} chatbot picks hold up for this crowd`));
@@ -471,19 +498,14 @@ function heatChart(h) {
 }
 const palette = ['#0052ff', '#18b47b', '#ff5fa2', '#f5b700', '#7a5cff'];
 // Location affinities cluster near 1, so bars show each item relative to the strongest in its set.
-function bars(title, items, value, { note = '', color = 0, wide = false, max = 6 } = {}) {
-  const rows = items.slice(0, max).map(x => ({ name: x.name, v: Number(value(x)) || 0 })).filter(x => x.name);
+// Qloo's ranked results as a plain list: the name, then its score (affinity, or a share of top venues).
+function bars(title, items, value, { note = '', wide = false, max = 6 } = {}) {
+  const rows = items.slice(0, max).map(x => ({ name: x.name, v: Number(value(x)) })).filter(x => x.name);
   if (!rows.length) return null;
-  const hi = Math.max(...rows.map(r => r.v)), lo = Math.min(...rows.map(r => r.v));
-  const box = el('div', `chart${wide ? ' wide' : ''}`), h = el('h4', '', title);
+  const box = el('div', `chart${wide ? ' wide' : ''}`), h = el('h4', '', title), list = el('ol', 'rank');
   if (note) h.append(el('small', '', note));
-  box.append(h);
-  rows.forEach(r => {
-    const row = el('div', 'hbar'), track = el('i'), fill = el('b');
-    const pct = hi === lo ? 100 : 22 + 78 * (r.v - lo) / (hi - lo);
-    fill.style.setProperty('--c', palette[color % palette.length]); fill.dataset.w = `${pct}%`;
-    track.append(fill); row.append(el('span', '', r.name), track); row.title = `${r.name}: ${r.v}`; box.append(row);
-  });
+  rows.forEach(r => { const li = el('li'); li.append(el('span', '', r.name), el('span', '', Number.isFinite(r.v) ? (r.v <= 1 ? r.v.toFixed(2) : String(Math.round(r.v * 100) / 100)) : '')); list.append(li); });
+  box.append(h, list);
   return box;
 }
 function columns(title, items, note) {
@@ -493,7 +515,7 @@ function columns(title, items, note) {
   const hi = Math.max(...rows.map(r => r.venues || r.score || 0)) || 1;
   const box = el('div', 'chart'), h = el('h4', '', title), cols = el('div', 'cols');
   h.append(el('small', '', note)); box.append(h, cols);
-  rows.forEach((r, i) => { const c = el('div'), b = el('b'); b.style.setProperty('--c', palette[(i + 1) % palette.length]); b.dataset.h = `${Math.max(8, 100 * (r.venues || r.score || 0) / hi)}%`; c.append(b, el('span', '', r.name.replace(' ', '–'))); cols.append(c); });
+  rows.forEach((r, i) => { const c = el('div'), b = el('b'); b.style.setProperty('--c', palette[(i + 1) % palette.length]); b.dataset.h = `${Math.max(8, 100 * (r.venues || r.score || 0) / hi)}%`; c.append(b, el('span', '', r.name.replace(' ', '-'))); cols.append(c); });
   return box;
 }
 function renderCharts() {
@@ -508,7 +530,7 @@ function renderCharts() {
     (taste.beverage_offering || taste.cuisine || taste.menu_highlight) && bars(taste.beverage_offering ? 'Drinks' : 'Food', (taste.beverage_offering || taste.cuisine || taste.menu_highlight).tags, val, { note: 'share of top venues', color: 1 }),
     taste.interests && bars('Interests', taste.interests.tags, val, { note: share(taste.interests), color: 4 }),
     taste.heatmap && heatChart(taste.heatmap),
-    taste.venues && bars(fans ? `Fans' picks nearby${taste.venues.tag ? ` · ${taste.venues.tag.name}` : ''}` : `Nearby ${taste.venues.tag?.name || 'favourites'}`, taste.venues.venues, v => fans ? v.affinity ?? v.popularity : v.popularity, { note: fans ? 'fan affinity' : 'Qloo popularity', color: 0, wide: true, max: 5 }),
+    taste.venues && bars(fans ? `Fans' picks nearby${taste.venues.tag ? `, ${taste.venues.tag.name}` : ''}` : `Nearby ${taste.venues.tag?.name || 'favourites'}`, taste.venues.venues, v => fans ? v.affinity ?? v.popularity : v.popularity, { note: fans ? 'fan affinity' : 'Qloo popularity', color: 0, wide: true, max: 5 }),
     taste.artist && bars(fans ? 'The playlist' : 'On their playlists', taste.artist.entities, e => e.affinity ?? e.popularity, { note: aff, color: 2 }),
     taste.brand && bars(fans ? 'Brands both love' : 'Brands they rate', taste.brand.entities, e => e.affinity ?? e.popularity, { note: aff, color: 1 }),
     taste.podcast && bars('Podcasts', taste.podcast.entities, e => e.affinity ?? e.popularity, { note: aff, color: 4 })
@@ -523,7 +545,7 @@ function renderCharts() {
 }
 
 function showConcept(c) {
-  $('c-name').textContent = c.name; $('c-tag').textContent = c.tagline;
+  $('c-name').textContent = tidy(c.name); $('c-tag').textContent = tidy(c.tagline);
   const who = c.design_choices.flatMap(d => d.signals).filter(s => s.grounded).map(s => s.name);
   $('c-who').replaceChildren(...[...new Set(who)].slice(0, 6).map((n, i) => el('span', `chip c${i % 4}`, n)));
   $('c-choices').replaceChildren(...c.design_choices.map(d => {
@@ -592,7 +614,7 @@ $('refine').addEventListener('submit', async e => {
   e.preventDefault();
   const instruction = $('refine-input').value.trim(); if (!instruction || !render) return;
   $('shimmer').hidden = false; $('live').className = 'live'; $('live-text').textContent = 'Applying your change…';
-  try { const { render: next } = await api('/api/refine', { renderId: render.id, instruction }); showRender(next); $('refine-input').value = ''; $('live').className = 'live done'; $('live-text').textContent = 'Updated — drag to compare'; }
+  try { const { render: next } = await api('/api/refine', { renderId: render.id, instruction }); showRender(next); $('refine-input').value = ''; $('live').className = 'live done'; $('live-text').textContent = 'Updated. Drag to compare.'; }
   catch (error) { $('live').className = 'live fail'; $('live-text').textContent = error.message; }
   finally { $('shimmer').hidden = true; }
 });
@@ -616,7 +638,7 @@ async function pollWorld(id) {
     try { data = await api(`/api/world/${encodeURIComponent(id)}`); } catch (error) { status.textContent = error.message; break; }
     if (data.done) {
       if (data.error) { status.textContent = `3D build failed: ${data.error}`; break; }
-      status.replaceChildren(); const a = el('a', '', 'Your 3D space is ready — step inside ↗'); a.href = `/walk?id=${encodeURIComponent(id)}`; a.target = '_blank'; status.append(a);
+      status.replaceChildren(); const a = el('a', '', 'Your 3D space is ready. Step inside.'); a.href = `/walk?id=${encodeURIComponent(id)}`; a.target = '_blank'; status.append(a);
       break;
     }
     status.textContent = `Building the 3D space… ${data.progress != null ? Math.round(data.progress) + '%' : `${((Date.now() - started) / 60000).toFixed(1)} min`} (about 5 min)`;
@@ -628,7 +650,7 @@ async function pollWorld(id) {
 $('why').addEventListener('click', () => { $('drawer').hidden = false; });
 $('drawer-close').addEventListener('click', () => { $('drawer').hidden = true; });
 $('studio-close').addEventListener('click', () => {
-  if (running) return toast('Hang on — the agent is still working.');
+  if (running) return toast('Hang on, the agent is still working.');
   $('studio').hidden = true; $('hint').hidden = false;
   // After an activation, pull back to the fan heatmap around the venue.
   if (concept?.heatmap && map) map.flyTo({ center: [concept.heatmap.center.lng, concept.heatmap.center.lat], zoom: 10.6, pitch: 35, duration: 1800, essential: true });
