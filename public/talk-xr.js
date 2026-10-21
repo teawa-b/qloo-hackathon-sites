@@ -7,7 +7,7 @@ const W = 1024, H = 640;
 function draw(ctx, view) {
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = 'rgba(11,7,18,0.82)'; roundRect(ctx, 0, 0, W, H, 48); ctx.fill();
-  ctx.fillStyle = '#71f0bd'; ctx.font = '500 26px "DM Mono", monospace'; ctx.fillText('OPENHERE · TALK', 48, 66);
+  ctx.fillStyle = '#71f0bd'; ctx.font = '500 26px "DM Mono", monospace'; ctx.fillText('TALK COACH', 48, 66);
   const nudges = view?.nudges || [];
   let y = 140;
   if (!nudges.length) { ctx.fillStyle = '#c9c2b1'; ctx.font = '600 40px "Bricolage Grotesque", sans-serif'; wrap(ctx, 'Listening for what they love…', 48, y, W - 96, 50); }

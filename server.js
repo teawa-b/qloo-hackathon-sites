@@ -27,6 +27,17 @@ const files = {
   // Taste Lab, the raw Qloo explorer, mounted under /lab.
   '/lab': ['../lab/public/index.html', 'text/html'], '/lab/app.js': ['../lab/public/app.js', 'text/javascript'], '/lab/style.css': ['../lab/public/style.css', 'text/css']
 };
+// Five separate sites share this code. Each runs on its own (SITE=pitch, or --site=pitch) with its own
+// home page at "/", its own pages and only its own API routes. Without SITE (tests, quick local runs)
+// every page is served at its own path and "/" is Openhere.
+export const sites = {
+  openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
+  room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
+  pitch: { name: 'Pitch Brief', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js'], api: ['/api/pitch'] },
+  talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
+  lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
+};
+const sharedPages = ['/style.css', '/favicon.svg'], sharedApi = ['/api/config', '/api/health'];
 const cdn = 'https://cdn.jsdelivr.net';
 // The walkthrough's import map is inline, so it is allowed by hash rather than 'unsafe-inline'.
 const walkHtml = await readFile(new URL('./public/walk.html', import.meta.url), 'utf8');
@@ -65,6 +76,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
   const qlooHost = qlooHosts.includes(env.QLOO_API_HOST) ? env.QLOO_API_HOST : qlooHosts[0];
+  const siteKey = sites[env.SITE] ? env.SITE : null, site = siteKey ? sites[siteKey] : null;
   const limit = createLimiter({
     agent: [Number(env.AGENT_RUNS_PER_HOUR || 8), 3600e3],
     refine: [Number(env.REFINES_PER_HOUR || 12), 3600e3],
@@ -100,9 +112,15 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     try {
       const url = new URL(req.url, 'http://localhost');
       const path = url.pathname;
-      if (req.method === 'GET' && files[path]) {
-        const [name, type] = files[path];
-        const page = ['walk', 'live', 'room', 'lab', 'pitch', 'talk'].find(p => path.startsWith(`/${p}`));
+      // A single site only answers for its own pages and API routes.
+      if (site) {
+        const own = path === '/' || sharedPages.includes(path) || site.pages.includes(path) || [...sharedApi, ...site.api].some(p => path === p || (p.endsWith('/') ? path.startsWith(p) : path.startsWith(`${p}/`) || path === p));
+        if (!own) return send(404, { error: 'Not found' });
+      }
+      const entry = site && path === '/' ? [site.home, 'text/html'] : files[path];
+      if (req.method === 'GET' && entry) {
+        const [name, type] = entry;
+        const page = site && path === '/' ? site.csp : ['walk', 'live', 'room', 'lab', 'pitch', 'talk'].find(p => path.startsWith(`/${p}`));
         res.setHeader('Content-Security-Policy', csp[page] || csp.app);
         if (page === 'talk') res.setHeader('Permissions-Policy', 'microphone=(self), xr-spatial-tracking=(self)');
         res.writeHead(200, { 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-cache' });
@@ -118,7 +136,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (!videos.has(q)) {
           if (!limit.take('geocode', ip)) return send(429, { error: 'Too many lookups. Slow down a little.' });
           videos.set(q, (async () => {
-            const page = await fetcher(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, { headers: { 'user-agent': 'Mozilla/5.0 (Openhere taste room)', 'accept-language': 'en' }, signal: AbortSignal.timeout(10000) });
+            const page = await fetcher(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, { headers: { 'user-agent': 'Mozilla/5.0 (Taste Room)', 'accept-language': 'en' }, signal: AbortSignal.timeout(10000) });
             const ids = [...(await page.text()).matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)].map(m => m[1]);
             const id = ids.find((v, i) => ids.indexOf(v) === i);
             if (!id) throw Object.assign(new Error('No video found.'), { status: 404 });
@@ -128,7 +146,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         return send(200, { id: await videos.get(q) });
       }
       if (req.method === 'GET' && path === '/api/config') {
-        return send(200, { qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
+        return send(200, { site: siteKey || 'openhere', siteName: (site || sites.openhere).name, qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
       }
       if (req.method === 'GET' && (path === '/api/geocode' || path === '/api/reverse')) {
         if (!limit.take('geocode', ip)) return send(429, { error: 'Too many searches. Slow down a little.' });
@@ -493,7 +511,12 @@ async function readBody(req, max) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const port = Number(process.env.PORT || 3300);
+  // node server.js --site=pitch   (or SITE=pitch). Each site has its own default port for local runs.
+  const arg = process.argv.find(a => a.startsWith('--site='));
+  if (arg) process.env.SITE = arg.slice(7);
+  if (process.env.SITE && !sites[process.env.SITE]) { console.error(`Unknown site "${process.env.SITE}". Use one of: ${Object.keys(sites).join(', ')}`); process.exit(1); }
+  const site = sites[process.env.SITE] || sites.openhere;
+  const port = Number(process.env.PORT || site.port);
   const host = process.env.HOST || (process.env.PORT ? '0.0.0.0' : '127.0.0.1');
-  http.createServer(createApp()).listen(port, host, () => console.log(`Openhere running at http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`));
+  http.createServer(createApp()).listen(port, host, () => console.log(`${site.name} running at http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`));
 }

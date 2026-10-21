@@ -20,9 +20,14 @@ const times = {
 
 let pc, channel, liveId, world, heartbeat, busyPrompt = false;
 $('live-name').textContent = concept.name || 'Your redesign';
-// A taste room walks back to /room; everything else to the map.
-if (params.get('back') === '/room') document.querySelector('.live-logo').href = '/room';
-document.title = `${concept.name || 'Walk inside'} — Openhere`;
+document.title = concept.name || 'Walk inside';
+// The walkthrough is shared by Openhere and Taste Room: wear the brand of the site that opened it.
+const logos = { openhere: ['open', 'here'], room: ['taste', 'room'] };
+fetch('/api/config').then(r => r.json()).then(c => {
+  const [a, b] = logos[c.site] || [c.siteName || '', ''];
+  const logo = $('live-logo'); logo.textContent = a; if (b) logo.append(Object.assign(document.createElement('b'), { textContent: b }));
+  document.title = `${concept.name || 'Walk inside'} — ${c.siteName}`;
+}).catch(() => {});
 if (!renderId) $('gate-status').textContent = 'Open this from a finished redesign.';
 
 $('enter').addEventListener('click', async () => {

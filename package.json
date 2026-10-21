@@ -1,12 +1,17 @@
 {
-  "name": "openhere",
+  "name": "qloo-hackathon-sites",
   "version": "1.0.0",
-  "description": "An agent that profiles a neighborhood's taste with Qloo, picks a concept for your restaurant, cafe or bar, and redesigns the real space.",
+  "description": "Five Qloo-powered sites sharing one codebase: Openhere (venue redesign), Taste Room, Pitch Brief, Talk Coach and Taste Lab.",
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "dev": "node dev.js",
     "start": "node --env-file-if-exists=.env server.js",
-    "dev": "node --env-file-if-exists=.env --watch server.js",
+    "start:openhere": "node --env-file-if-exists=.env server.js --site=openhere",
+    "start:room": "node --env-file-if-exists=.env server.js --site=room",
+    "start:pitch": "node --env-file-if-exists=.env server.js --site=pitch",
+    "start:talk": "node --env-file-if-exists=.env server.js --site=talk",
+    "start:lab": "node --env-file-if-exists=.env server.js --site=lab",
     "test": "node --test"
   },
   "engines": { "node": ">=22" }

@@ -1,25 +1,37 @@
-# Openhere
+# Qloo hackathon sites
+
+Five separate sites built on [Qloo](https://www.qloo.com)'s taste graph. They share one codebase (one Qloo client, one agent loop, one set of image and world-model clients), but each runs, looks and deploys on its own: its own name, its own home page at `/`, and only its own API routes.
+
+| Site | Idea | Run locally | Deploy with |
+|---|---|---|---|
+| **Openhere** | Find a space, redesign it for the people around it, walk inside. Includes brand activations for an event's fans | `npm run start:openhere` (port 3300) | `SITE=openhere` |
+| **Taste Room** | Name what you love; walk into the room it makes, with the music on | `npm run start:room` (3301) | `SITE=room` |
+| **Pitch Brief** | Research an investor (cited) and tailor the pitch with Qloo | `npm run start:pitch` (3302) | `SITE=pitch` |
+| **Talk Coach** | Hear what the other person loves; know what to say next, on glasses or in AR/VR | `npm run start:talk` (3303) | `SITE=talk` |
+| **Taste Lab** | The raw Qloo explorer: every match, request and response | `npm run start:lab` (3304) | `SITE=lab` |
+
+`npm run dev` starts all five at once. The names are working names, set in one place (`sites` in [`server.js`](server.js)) plus each page's logo.
+
+## Openhere
 
 **Pick a real space on the globe. Say who it's for. An agent designs it from what those people actually love, paints it into the real photo, and lets you walk inside.**
 
-Openhere is a taste-grounded design agent for physical spaces, built on [Qloo](https://www.qloo.com)'s taste graph. It has three modes:
-
 | Mode | Who it's for | What Qloo decides |
 |---|---|---|
-| **Venues** (`/`) | Anyone about to sign a lease: a restaurant, café, bar, live-music room, comedy club, sports bar or founders' café | What the people who go out *near that address* want a room to feel like, what they eat, drink and listen to, who to book, and which brands to partner with |
-| **Activations** (`/`, "Brand activation") | Sponsorship and experiential teams: a brand's pop-up, booth or takeover for one event's fans, inside a real room near the venue | How well the brand fits that fanbase, what the fans want a room to feel like, the playlist, the co-sponsors both audiences already love, local partners, and where the fans live around the venue |
-| **Taste room** (`/room`) | Anyone: name a few things you love and walk into the room they make | Which decor and mood people with that taste rate highest, their playlist, the brands, films and books on the shelves |
+| **Venues** | Anyone about to sign a lease: a restaurant, café, bar, live-music room, comedy club, sports bar or founders' café | What the people who go out *near that address* want a room to feel like, what they eat, drink and listen to, who to book, and which brands to partner with |
+| **Activations** ("Brand activation") | Sponsorship and experiential teams: a brand's pop-up, booth or takeover for one event's fans, inside a real room near the venue | How well the brand fits that fanbase, what the fans want a room to feel like, the playlist, the co-sponsors both audiences already love, local partners, and where the fans live around the venue |
 
-Two more pages are about people rather than rooms:
+## The other sites
 
-| Page | Who it's for | What Qloo decides |
+| Site | Who it's for | What Qloo decides |
 |---|---|---|
-| **Pitch** (`/pitch`) | A founder before an investor meeting | Web research (cited) finds the investor's public record: thesis, stages, cheques, portfolio, and the things they publicly host, own or recommend. Qloo then scores every portfolio company for *your* customers (`filter.results.entities`), compares the two crowds' ages, and finds openers in what fans of the investor's public interests also love. The brief says which companies to name, how to fix the deck and what to open with; invented names are flagged |
-| **Talk** (`/talk`) | Anyone in a conversation, on glasses, a Quest headset or a phone on the table | It hears what the other person mentions (speech to text in 6-second chunks), resolves every band, film, book, place or brand in Qloo, and builds their taste live: what else people with that taste love, what you have in common (from your own favourites, with explainability), what to steer clear of, and three nudges you can say next. Hold "I'm talking", Space or the headset trigger while you speak. Glasses view shows one nudge, huge; **Enter AR / VR** floats the nudges in front of you in WebXR (Quest passthrough when available). It will not listen until you confirm the other person knows |
+| **Taste Room** | Anyone: name a few things you love and walk into the room they make | Which decor and mood people with that taste rate highest, their playlist, the brands, films and books on the shelves |
+| **Pitch Brief** | A founder before an investor meeting | Web research (cited) finds the investor's public record: thesis, stages, cheques, portfolio, and the things they publicly host, own or recommend. Qloo then scores every portfolio company for *your* customers (`filter.results.entities`), compares the two crowds' ages, and finds openers in what fans of the investor's public interests also love. The brief says which companies to name, how to fix the deck and what to open with; invented names are flagged |
+| **Talk Coach** | Anyone in a conversation, on glasses, a Quest headset or a phone on the table | It hears what the other person mentions (speech to text in 6-second chunks), resolves every band, film, book, place or brand in Qloo, and builds their taste live: what else people with that taste love, what you have in common (from your own favourites, with explainability), what to steer clear of, and three nudges you can say next. Hold "I'm talking", Space or the headset trigger while you speak. Glasses view shows one nudge, huge; **Enter AR / VR** floats the nudges in front of you in WebXR (Quest passthrough when available). It will not listen until you confirm the other person knows |
 
-**Lab** (`/lab`) is the raw Qloo explorer the project started from: type interests, review every match, and see the exact request and response behind each recommendation.
+| **Taste Lab** | Builders | The Qloo explorer the project started from: type interests, review every match, and see the exact request and response behind each recommendation |
 
-In every mode the result is a concept, a photoreal render, a live walkthrough and an evidence trail. **Every design choice cites the exact Qloo signal behind it, and anything the model cites that Qloo did not return in that run is flagged as unverified.** A "Why not just ask a chatbot?" panel answers the same brief with no tools and checks each of its picks against what Qloo actually ranks for that crowd.
+In Openhere and Taste Room the result is a concept, a photoreal render, a live walkthrough and an evidence trail. **Every design choice cites the exact Qloo signal behind it, and anything the model cites that Qloo did not return in that run is flagged as unverified.** A "Why not just ask a chatbot?" panel answers the same brief with no tools and checks each of its picks against what Qloo actually ranks for that crowd.
 
 ## Venues: open the right thing here
 
@@ -88,7 +100,8 @@ Requires Node.js 22+. No dependencies to install.
 
 ```bash
 cp .env.example .env   # add your keys
-npm start              # http://127.0.0.1:3300
+npm run dev            # all five sites, on ports 3300–3304
+npm run start:pitch    # or just one
 ```
 
 | Variable | Needed for |
@@ -108,7 +121,7 @@ Tests use mock upstreams and cover the documented Qloo parameters, the full venu
 
 ## Deploy
 
-One Node process, no build step: Railway, Render or Fly all work. Set the variables above; `PORT` is honoured and the server binds to `0.0.0.0` when it is set. Keys stay on the server; the browser only talks to this origin (plus map tiles, fonts and the YouTube embed). Per-IP and daily caps (`AGENT_RUNS_PER_HOUR`, `WORLDS_PER_HOUR`, `LIVE_SESSIONS_PER_HOUR`, `BASELINES_PER_HOUR`…) protect the paid APIs on a public demo. Renders and uploads live in memory and clear on restart.
+Each site is its own service from this one repo: same start command (`npm start`), plus `SITE=openhere|room|pitch|talk|lab`. One Node process per site, no build step: Railway, Render or Fly all work. Set the variables above; `PORT` is honoured and the server binds to `0.0.0.0` when it is set. Keys stay on the server; the browser only talks to this origin (plus map tiles, fonts and the YouTube embed). Per-IP and daily caps (`AGENT_RUNS_PER_HOUR`, `WORLDS_PER_HOUR`, `LIVE_SESSIONS_PER_HOUR`, `BASELINES_PER_HOUR`…) protect the paid APIs on a public demo. Renders and uploads live in memory and clear on restart.
 
 ## Stack
 

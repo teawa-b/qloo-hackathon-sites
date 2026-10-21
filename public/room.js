@@ -118,7 +118,7 @@ function charts() {
 
 $('walk').addEventListener('click', () => {
   if (!render) return;
-  const q = new URLSearchParams({ render: render.id, name: concept.name, tagline: concept.tagline, back: '/room' });
+  const q = new URLSearchParams({ render: render.id, name: concept.name, tagline: concept.tagline});
   window.open(`/live?${q}`, '_blank', 'noopener');
 });
 $('refine').addEventListener('submit', async e => {
