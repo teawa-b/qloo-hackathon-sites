@@ -11,7 +11,7 @@ async function serve(t, env) {
 }
 
 test('each site serves its own home at "/" with its own name, and nothing that belongs to another site', async t => {
-  const brands = { openhere: 'open<b>here</b>', room: 'taste<b>room</b>', pitch: 'pitch<b>brief</b>', talk: 'talk<b>coach</b>', lab: 'taste<span class="brand-mark">lab</span>' };
+  const brands = { openhere: 'open<b>here</b>', room: 'Taste <i>Room</i>', pitch: 'pitch<b>brief</b>', talk: 'talk<b>coach</b>', lab: 'taste<span class="brand-mark">lab</span>' };
   const others = { openhere: ['/pitch', '/api/talk/start', '/room.js'], room: ['/pitch', '/api/agent', '/talk.js'], pitch: ['/talk', '/api/room', '/app.js'], talk: ['/pitch', '/api/pitch', '/live'], lab: ['/talk', '/api/pitch'] };
   for (const key of Object.keys(sites)) {
     const base = await serve(t, { SITE: key });
