@@ -20,6 +20,8 @@ const times = {
 
 let pc, channel, liveId, world, heartbeat, busyPrompt = false;
 $('live-name').textContent = concept.name || 'Your redesign';
+// A taste room walks back to /room; everything else to the map.
+if (params.get('back') === '/room') document.querySelector('.live-logo').href = '/room';
 document.title = `${concept.name || 'Walk inside'} — Openhere`;
 if (!renderId) $('gate-status').textContent = 'Open this from a finished redesign.';
 

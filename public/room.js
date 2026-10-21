@@ -82,10 +82,15 @@ function playlist() {
   }));
   play(first.name);
 }
-function play(name) {
-  const f = el('iframe'); f.src = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(name + ' official')}&autoplay=1`;
-  f.allow = 'autoplay; encrypted-media'; f.referrerPolicy = 'strict-origin-when-cross-origin'; f.title = `${name} on YouTube`;
-  $('yt').replaceChildren(f);
+async function play(name) {
+  $('yt').replaceChildren(el('p', 'yt-status', `Finding ${name}…`));
+  try {
+    const { id } = await api(`/api/yt?q=${encodeURIComponent(`${name} official audio`)}`);
+    if (!/^[A-Za-z0-9_-]{11}$/.test(id)) throw new Error('Bad video id.');
+    const f = el('iframe'); f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.referrerPolicy = 'strict-origin-when-cross-origin'; f.title = `${name} on YouTube`;
+    $('yt').replaceChildren(f);
+  } catch (error) { $('yt').replaceChildren(el('p', 'yt-status', `Couldn't load ${name}: ${error.message}`)); }
 }
 
 const palette = ['#71f0bd', '#ffe276', '#ff86bb', '#cfe0ff', '#7a5cff'];

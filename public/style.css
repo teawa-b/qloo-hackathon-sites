@@ -304,6 +304,7 @@ img { display: block; }
 .track.on { background: var(--mint); color: var(--ink); border-color: var(--mint); }
 .yt { aspect-ratio: 16 / 9; background: #000; }
 .yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+.yt-status { margin: 0; height: 100%; display: grid; place-items: center; font: 500 12px var(--mono); color: #8d867a; }
 @media (max-width: 860px) { .room-build { grid-template-columns: 1fr; } .room-stage { position: static; } }
 
 /* Live walkthrough (real-time world model) */

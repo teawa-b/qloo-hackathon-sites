@@ -53,7 +53,7 @@ function boundedMap(limit) {
 }
 
 export function createApp({ env = process.env, fetcher = fetch } = {}) {
-  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100);
+  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100), videos = new Map();
   const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
@@ -99,6 +99,23 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       }
       if (req.method === 'GET' && path === '/api/health') return send(200, { ok: true });
       if (req.method === 'GET' && path === '/api/lab/config') return send(200, { hasKey: Boolean(env.QLOO_API_KEY), host: qlooHost });
+      // The taste room's player: the first YouTube result for an artist, found without an API key (the
+      // results page lists video ids inline). Cached per query; the browser then embeds that one video.
+      if (req.method === 'GET' && path === '/api/yt') {
+        const q = (url.searchParams.get('q') || '').trim().slice(0, 80);
+        if (!q) return send(400, { error: 'Name an artist.' });
+        if (!videos.has(q)) {
+          if (!limit.take('geocode', ip)) return send(429, { error: 'Too many lookups. Slow down a little.' });
+          videos.set(q, (async () => {
+            const page = await fetcher(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, { headers: { 'user-agent': 'Mozilla/5.0 (Openhere taste room)', 'accept-language': 'en' }, signal: AbortSignal.timeout(10000) });
+            const ids = [...(await page.text()).matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)].map(m => m[1]);
+            const id = ids.find((v, i) => ids.indexOf(v) === i);
+            if (!id) throw Object.assign(new Error('No video found.'), { status: 404 });
+            return id;
+          })().catch(error => { videos.delete(q); throw error; }));
+        }
+        return send(200, { id: await videos.get(q) });
+      }
       if (req.method === 'GET' && path === '/api/config') {
         return send(200, { qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
       }
