@@ -32,17 +32,20 @@
     {
       "id": "slate",
       "say": "It books acts the locals already love, small enough to fill the room.",
-      "caption": "Booked from what locals love"
+      "caption": "Booked from what locals love",
+      "min": 6.5
     },
     {
       "id": "choices",
       "say": "Every design choice cites the Qloo signal behind it.",
-      "caption": "Every choice cites Qloo"
+      "caption": "Every choice cites Qloo",
+      "min": 8.5
     },
     {
       "id": "baseline",
       "say": "Ask a model alone for the same room, and none of its eight picks hold up for this crowd.",
-      "caption": "Without Qloo, 0 of 8 hold up"
+      "caption": "Without Qloo, 0 of 8 hold up",
+      "min": 7
     },
     {
       "id": "fit",
@@ -58,8 +61,9 @@
     },
     {
       "id": "walk",
-      "say": "Then walk inside, live, in a world model.",
-      "caption": "Walk inside"
+      "say": "And you don't just look at it. Step inside your creation. A live world model, right in the app, lets you walk the redesigned room with your keyboard, so you get a real feel for the place before anything is built.",
+      "caption": "Step inside, in a live world model",
+      "min": 11
     },
     {
       "id": "end",

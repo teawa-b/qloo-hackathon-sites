@@ -81,20 +81,23 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
   const qlooHost = qlooHosts.includes(env.QLOO_API_HOST) ? env.QLOO_API_HOST : qlooHosts[0];
   const siteKey = sites[env.SITE] ? env.SITE : null, site = siteKey ? sites[siteKey] : null;
   const limit = createLimiter({
-    agent: [Number(env.AGENT_RUNS_PER_HOUR || 8), 3600e3],
-    refine: [Number(env.REFINES_PER_HOUR || 12), 3600e3],
+    agent: [Number(env.AGENT_RUNS_PER_HOUR || 5), 3600e3],
+    agentIpDaily: [Number(env.AGENT_RUNS_PER_IP_PER_DAY || 12), 86400e3],
+    refine: [Number(env.REFINES_PER_HOUR || 8), 3600e3],
     baseline: [Number(env.BASELINES_PER_HOUR || 12), 3600e3],
-    relight: [Number(env.RELIGHTS_PER_HOUR || 90), 3600e3],
+    relight: [Number(env.RELIGHTS_PER_HOUR || 20), 3600e3],
     world: [Number(env.WORLDS_PER_HOUR || 3), 3600e3],
     upload: [20, 3600e3],
     geocode: [120, 3600e3],
     listings: [Number(env.LISTING_SEARCHES_PER_HOUR || 20), 3600e3],
     worldDaily: [Number(env.WORLDS_PER_DAY || 25), 86400e3, true],
-    agentDaily: [Number(env.AGENT_RUNS_PER_DAY || 300), 86400e3, true],
-    live: [Number(env.LIVE_SESSIONS_PER_HOUR || 4), 3600e3],
+    agentDaily: [Number(env.AGENT_RUNS_PER_DAY || 200), 86400e3, true],
+    live: [Number(env.LIVE_SESSIONS_PER_HOUR || 2), 3600e3],
+    liveIpDaily: [Number(env.LIVE_SESSIONS_PER_IP_PER_DAY || 3), 86400e3],
     talk: [Number(env.TALK_SESSIONS_PER_HOUR || 6), 3600e3],
     talkTurn: [Number(env.TALK_TURNS_PER_HOUR || 400), 3600e3],
-    liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 30), 86400e3, true]
+    talkDaily: [Number(env.TALK_SESSIONS_PER_DAY || 100), 86400e3, true],
+    liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 20), 86400e3, true]
   });
 
   const findSpace = id => demoSpaces.find(s => s.id === id) || custom.get(id);
@@ -111,7 +114,9 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     const send = (status, value, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(value)); };
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
-    const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+    // Who is asking, for the limits. Behind a proxy (Railway) the real address is the one the proxy adds: X-Real-IP,
+    // or the last X-Forwarded-For entry. The first entry is whatever the visitor sent, so it can't be trusted.
+    const ip = String(req.headers['x-real-ip'] || String(req.headers['x-forwarded-for'] || '').split(',').pop() || req.socket.remoteAddress || '').trim();
     try {
       const url = new URL(req.url, 'http://localhost');
       const path = url.pathname;
@@ -307,7 +312,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (activation && !llm) return send(503, { error: 'Activations need an LLM key on the server (OPENROUTER_API_KEY, ANTHROPIC_API_KEY or OPENAI_API_KEY).' });
         if (!business) return send(400, { error: 'Choose a business type.' });
         if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
-        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'The agent is busy: run limit reached. Try again in a while.' });
+        if (!limit.take('agent', ip) || !limit.take('agentIpDaily', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'The agent is busy: run limit reached. Try again in a while.' });
         res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
         const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
         const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
@@ -381,7 +386,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (!startup || !comps.length) return send(400, { error: 'Describe your startup and name at least one product your customers already use.' });
         if (!llm?.research) return send(503, { error: 'Investor research needs OPENROUTER_API_KEY on the server.' });
         if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
-        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
+        if (!limit.take('agent', ip) || !limit.take('agentIpDaily', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
         res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
         const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
         const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
@@ -397,7 +402,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (!llm) return send(503, { error: 'Talk needs an LLM key on the server.' });
         if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
         if (body.consent !== true) return send(400, { error: 'Confirm the other person knows you are using a conversation assistant.' });
-        if (!limit.take('talk', ip)) return send(429, { error: 'Too many conversations this hour. Try again later.' });
+        if (!limit.take('talk', ip) || !limit.take('talkDaily', 'all')) return send(429, { error: 'Too many conversations this hour. Try again later.' });
         const id = randomUUID();
         const talk = createTalk({ qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }), llm: llm.fast || llm });
         const mine = (Array.isArray(body.mine) ? body.mine : String(body.mine || '').split(',')).map(s => String(s).trim().slice(0, 60)).filter(Boolean);
@@ -439,7 +444,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         const text = String(body.text || '').trim().slice(0, 600);
         if (!text) return send(400, { error: 'Name a few things you love.' });
         if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
-        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
+        if (!limit.take('agent', ip) || !limit.take('agentIpDaily', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'Run limit reached. Try again in a while.' });
         res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
         const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
         const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
@@ -515,7 +520,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (path === '/api/live/start') {
           const render = renders.get(String(body.renderId || ''));
           if (!render?.remoteUrl) return send(404, { error: 'That render has expired. Run the agent again.' });
-          if (!limit.take('live', ip) || !limit.take('liveDaily', 'all')) return send(429, { error: 'Live walkthrough limit reached. Try again later.' });
+          if (!limit.take('live', ip) || !limit.take('liveIpDaily', ip) || !limit.take('liveDaily', 'all')) return send(429, { error: 'Live walkthrough limit reached. Try again later.' });
           const concept = body.concept && typeof body.concept === 'object' ? { name: String(body.concept.name || '').slice(0, 80), tagline: String(body.concept.tagline || '').slice(0, 160) } : {};
           const world = { url: render.remoteUrl, prompt: `Walking through ${concept.name || 'a redesigned venue'}, a newly renovated interior. ${String(render.prompt || '').split('\n')[0].slice(0, 900)}`, concept };
           return send(200, { ...(await live.start(world)), world });

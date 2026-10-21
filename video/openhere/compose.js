@@ -51,13 +51,27 @@ function globe(from, to, l, t0, t1, push = 0) {
   const k = clamp((l - t0) / (t1 - t0)), s = 1 + push * k;
   shoot(`g${Math.round(lerp(from, to - 1, k))}`, { s, x: VW / 2 * (1 - s), y: VH / 2 * (1 - s) });
 }
-function film(l, d) { $('film').style.opacity = ease(l / .3) * (1 - ease((l - (d - .3)) / .3)); }
-// A studio panel: the camera snaps from the full studio onto the panel, which gets an amber ring, then glides
-// down it for the rest of the scene so it never sits still.
-function panel(name, l, d, at = .6) {
-  const r = SHOTS[name], focus = { x: r.x - 10, y: Math.max(0, r.y - 20), w: r.w + 20, h: Math.min(r.h + 40, 400) };
-  const drift = Math.max(0, Math.min(r.h, 820) - 360) * ease((l - 1.2) / Math.max(1, d - 1.6));
-  shoot(name, mix(full, camera({ ...focus, y: focus.y + drift }, 30), out((l - .1) / .8)), { ...r, h: Math.min(r.h, 500) }, ease((l - at) / .4));
+// Scenes in the same studio flow into each other without a dip to black; only real changes of place fade.
+const studio = new Set(['slate', 'choices', 'baseline']);
+let edges = { in: true, out: true };
+function film(l, d) { $('film').style.opacity = (edges.in ? ease(l / .3) : 1) * (edges.out ? 1 - ease((l - (d - .3)) / .3) : 1); }
+// A studio panel: it lifts out of the page (the studio dims and blurs behind it) into a centred card with an
+// amber edge, then scrolls slowly through its own content. glide 0 starts already centred, for panels that follow
+// one another in the same place.
+function panel(name, l, d, glide = 1) {
+  const r = SHOTS[name], k = 2, viewH = Math.min(r.h, 330), W = r.w * k, H = viewH * k;
+  const home = { x: full.x + r.x * full.s, y: full.y + r.y * full.s, w: r.w * full.s, h: viewH * full.s };
+  const goal = { x: (VW - W) / 2, y: Math.max(30, (VH - 150 - H) / 2), w: W, h: H };
+  const m = glide ? ease(l / glide) : 1, box = { x: lerp(home.x, goal.x, m), y: lerp(home.y, goal.y, m), w: lerp(home.w, goal.w, m), h: lerp(home.h, goal.h, m) };
+  shoot(name, full, null, 0, .9 * m);
+  const card = $('pcard'), img = $('pcardImg'), sc = box.w / r.w;
+  if (img.dataset.src !== name) { img.dataset.src = name; img.src = sources[name]; }
+  // Scroll through what doesn't fit, gently, after the card has landed.
+  const scroll = Math.max(0, r.h - viewH) * ease((l - glide - .9) / Math.max(2, d - glide - 1.4));
+  Object.assign(card.style, { opacity: 1, left: `${box.x}px`, top: `${box.y}px`, width: `${box.w}px`, height: `${box.h}px` });
+  img.style.width = '1440px';
+  img.style.transform = `scale(${sc}) translate(${-r.x}px, ${-(r.y + scroll)}px)`;
+  $('pcardEdge').style.opacity = ease((l - glide) / .4);
 }
 // Before and after: k is how far the redesign has been wiped across (0 = all before, 1 = all after).
 function wipe(before, after, k, zoom = 1, where = '') {
@@ -88,7 +102,7 @@ function kicker(words, l, at = 0, gap = .18) {
   [...el.children].forEach((s, i) => { const k = spring((l - at - i * gap) / .5); s.style.opacity = clamp(k * 1.5); s.style.transform = `translateY(${(1 - k) * 60}px)`; });
 }
 const hide = () => {
-  for (const id of ['pin', 'pulse', 'coord', 'place', 'wipe', 'log']) $(id).style.opacity = 0;
+  for (const id of ['pin', 'pulse', 'coord', 'place', 'wipe', 'log', 'pcard', 'livetag']) $(id).style.opacity = 0;
   $('labels').replaceChildren(); $('kicker').replaceChildren(); $('kicker').dataset.t = '';
 };
 
@@ -139,14 +153,15 @@ const draw = {
     const k = path([[.4, 0], [1.6, 1], [2.6, .3], [3.5, .75], [4.3, .15], [5.3, 1]], l);
     wipe('parkdale', 'afterParkdale', k, 1 + .07 * clamp(l / d), 'Parkdale, Toronto  ·  same walls, windows and camera');
   },
-  slate(l, d) { film(l, d); panel('slate', l, d, .5); },
-  choices(l, d) { film(l, d); l < d * .55 ? panel('choices', l, d * .55, .4) : panel('audience', l - d * .55, d * .45, .3); },
-  baseline(l, d) { film(l, d); panel('baseline', l, d, .6); },
+  slate(l, d) { film(l, d); panel('slate', l, d); },
+  // Panels that follow one another cut straight from card to card, already centred.
+  choices(l, d) { film(l, d); l < d * .55 ? panel('choices', l, d * .55, 0) : panel('audience', l - d * .55, d * .45, 0); },
+  baseline(l, d) { film(l, d); panel('baseline', l, d, 0); },
   // The same room for a brand: wipe to the Red Bull version, then the fit score.
   fit(l, d) {
     film(l, d);
     if (l < 3.2) wipe('parkdale', 'afterRedbull', path([[.2, 0], [1.2, 1], [1.9, .4], [2.6, 1]], l), 1 + .05 * clamp(l / 3.2), 'Red Bull  ×  Phoebe Bridgers fans');
-    else panel('fit', l - 3.2, d - 3.2, .3);
+    else panel('fit', l - 3.2, d - 3.2);
   },
   // Back out to the map and over to Chelsea, New York: the same idea anywhere.
   anywhere(l, d) {
@@ -160,6 +175,7 @@ const draw = {
   walk(l, d) {
     film(l, d);
     if (!WALK) return shoot('venue', full);
+    const tag = $('livetag'), k = spring((l - .5) / .6); tag.style.opacity = clamp(k); tag.style.transform = `translateY(${(1 - k) * -20}px)`;
     const s = 1 + .05 * clamp(l / d);
     shoot(`w${Math.min(WALK - 1, Math.floor(clamp(l / d) * WALK))}`, { s: full.s * s, x: VW / 2 * (1 - s), y: full.y * s + VH / 2 * (1 - s) });
   },
@@ -168,7 +184,8 @@ const draw = {
 
 window.renderAt = t => {
   for (const id of ['cardTitle', 'film', 'cardEnd']) $(id).style.opacity = 0;
-  const s = scenes.find(s => t >= s.start && t < s.start + s.dur) || scenes[scenes.length - 1];
+  const found = scenes.findIndex(s => t >= s.start && t < s.start + s.dur), i = found < 0 ? scenes.length - 1 : found, s = scenes[i];
+  edges = { in: !(studio.has(s.id) && studio.has(scenes[i - 1]?.id)), out: !(studio.has(s.id) && studio.has(scenes[i + 1]?.id)) };
   hide();
   const l = t - s.start;
   draw[s.id](l, s.dur);
