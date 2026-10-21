@@ -1,0 +1,313 @@
+import http from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { randomUUID, createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { createQloo, qlooHosts } from './lib/qloo.js';
+import { chooseLlm } from './lib/llm.js';
+import { chooseImageModel, aspectRatios } from './lib/images.js';
+import { createWorlds } from './lib/world.js';
+import { createTools } from './lib/tools.js';
+import { runAgent, runScripted } from './lib/agent.js';
+import { demoSpaces, demoCities, matchDemo, geocode, reverseGeocode, distanceKm, liveSearch } from './lib/listings.js';
+import { createLimiter } from './lib/limits.js';
+import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
+import { createLive } from './lib/live.js';
+
+const files = {
+  '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'],
+  '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
+  '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript']
+};
+const cdn = 'https://cdn.jsdelivr.net';
+// The walkthrough's import map is inline, so it is allowed by hash rather than 'unsafe-inline'.
+const walkHtml = await readFile(new URL('./public/walk.html', import.meta.url), 'utf8');
+const importMap = walkHtml.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1];
+const importMapHash = createHash('sha256').update(importMap).digest('base64');
+const csp = {
+  // The map is MapLibre GL from jsDelivr with OpenFreeMap tiles (free, no key).
+  app: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; worker-src 'self' blob:; child-src blob:; connect-src 'self' https://tiles.openfreemap.org; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+  // The live walkthrough plays a WebRTC stream; media flows peer-to-peer, signalling goes through this server.
+  live: "default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+  walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`
+};
+
+// Time-of-day lighting, written per Pruna's edit formula ("Change X. Keep Y identical.").
+const timesOfDay = {
+  morning: 'Change the lighting to early morning: soft cool daylight from the windows, interior lamps switched off, pale blue-white tones.',
+  golden: 'Change the lighting to golden hour: low warm sunset light streaming in from the windows, long soft shadows, pendant lights glowing amber.',
+  night: 'Change the lighting to night: deep navy darkness outside the windows, warm amber pendant and candle light inside, glowing tables.'
+};
+
+// Bounded in-memory stores. A single instance is enough for a demo; restarts clear them.
+function boundedMap(limit) {
+  const map = new Map();
+  return { get: k => map.get(k), set(k, v) { map.set(k, v); while (map.size > limit) map.delete(map.keys().next().value); return v; }, has: k => map.has(k), values: () => [...map.values()] };
+}
+
+export function createApp({ env = process.env, fetcher = fetch } = {}) {
+  const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200);
+  const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
+  const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
+  const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
+  const qlooHost = qlooHosts.includes(env.QLOO_API_HOST) ? env.QLOO_API_HOST : qlooHosts[0];
+  const limit = createLimiter({
+    agent: [Number(env.AGENT_RUNS_PER_HOUR || 8), 3600e3],
+    refine: [Number(env.REFINES_PER_HOUR || 12), 3600e3],
+    relight: [Number(env.RELIGHTS_PER_HOUR || 90), 3600e3],
+    world: [Number(env.WORLDS_PER_HOUR || 3), 3600e3],
+    upload: [20, 3600e3],
+    geocode: [120, 3600e3],
+    listings: [Number(env.LISTING_SEARCHES_PER_HOUR || 20), 3600e3],
+    worldDaily: [Number(env.WORLDS_PER_DAY || 25), 86400e3, true],
+    agentDaily: [Number(env.AGENT_RUNS_PER_DAY || 300), 86400e3, true],
+    live: [Number(env.LIVE_SESSIONS_PER_HOUR || 4), 3600e3],
+    liveDaily: [Number(env.LIVE_SESSIONS_PER_DAY || 30), 86400e3, true]
+  });
+
+  const findSpace = id => demoSpaces.find(s => s.id === id) || custom.get(id);
+  const publicSpace = s => { const { photoBytes, photoType, ...rest } = s; return { ...rest, photo: s.photoBytes ? `/api/photo/${s.id}` : s.photo }; };
+  async function saveRender(result) {
+    const id = randomUUID();
+    const render = { id, url: result.url || `/api/render/${id}`, model: result.model, prompt: result.prompt, aspect: result.aspect, signals: result.signals, listingId: result.listingId, parent: result.parent };
+    renders.set(id, { ...render, remoteUrl: result.url, bytes: result.bytes, type: result.type });
+    return render;
+  }
+  const renderImage = r => r.remoteUrl ? { url: r.remoteUrl } : { bytes: r.bytes, type: r.type };
+
+  return async function handle(req, res) {
+    const send = (status, value, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(value)); };
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+    try {
+      const url = new URL(req.url, 'http://localhost');
+      const path = url.pathname;
+      if (req.method === 'GET' && files[path]) {
+        const [name, type] = files[path];
+        res.setHeader('Content-Security-Policy', path.startsWith('/walk') ? csp.walk : path.startsWith('/live') ? csp.live : csp.app);
+        res.writeHead(200, { 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-cache' });
+        return res.end(await readFile(new URL(`./public/${name}`, import.meta.url)));
+      }
+      if (req.method === 'GET' && path === '/api/health') return send(200, { ok: true });
+      if (req.method === 'GET' && path === '/api/config') {
+        return send(200, { qloo: Boolean(env.QLOO_API_KEY), qlooHost, llm: llm?.label || null, image: imageModel?.label || null, world: Boolean(worldClient), liveWorld: live ? { model: live.model, maxSeconds: live.maxSeconds } : null, live: Boolean(env.REALTYAPI_KEY || env.APIFY_TOKEN), demoCities });
+      }
+      if (req.method === 'GET' && (path === '/api/geocode' || path === '/api/reverse')) {
+        if (!limit.take('geocode', ip)) return send(429, { error: 'Too many searches. Slow down a little.' });
+        if (path === '/api/geocode') {
+          const q = (url.searchParams.get('q') || '').trim().slice(0, 160);
+          if (!q) return send(400, { error: 'Type a place.' });
+          const place = await geocode(q, fetcher);
+          return place ? send(200, { place }) : send(404, { error: `Couldn't find “${q}”.` });
+        }
+        const lat = Number(url.searchParams.get('lat')), lng = Number(url.searchParams.get('lng'));
+        if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return send(400, { error: 'Invalid point.' });
+        return send(200, { place: await reverseGeocode(lat, lng, fetcher) });
+      }
+      if (req.method === 'GET' && path === '/api/spaces') {
+        const location = (url.searchParams.get('location') || '').slice(0, 120);
+        const lat = Number(url.searchParams.get('lat')), lng = Number(url.searchParams.get('lng'));
+        const near = url.searchParams.has('lat') && Number.isFinite(lat) && Number.isFinite(lng);
+        const pool = [...demoSpaces, ...custom.values().filter(s => s.kind === 'own')];
+        let spaces = (near ? pool.map(s => ({ ...s, distanceKm: Math.round(distanceKm({ lat, lng }, s) * 10) / 10 })).sort((a, b) => a.distanceKm - b.distanceKm) : matchDemo(location)).map(publicSpace), source = 'demo', note = '';
+        if (near && env.REALTYAPI_KEY) {
+          if (!limit.take('listings', ip)) note = 'Live listing searches are paused for a bit; showing sample spaces.';
+          else {
+            try {
+              const live = await nearbyListings({ key: env.REALTYAPI_KEY, lat, lng, fetcher });
+              // A listing without coordinates is pinned to the searched point so Qloo still profiles the right area.
+              const located = live.spaces.map(s => ({ ...s, lat: s.lat ?? lat, lng: s.lng ?? lng, approximate: s.lat == null }));
+              located.forEach(s => custom.set(s.id, s));
+              spaces = [...located.map(s => publicSpace({ ...s, distanceKm: Math.round(distanceKm({ lat, lng }, s) * 10) / 10 })).sort((a, b) => a.distanceKm - b.distanceKm), ...spaces];
+              source = 'live';
+              if (!located.length) note = 'No restaurant or retail spaces listed for lease right around here.';
+            } catch (error) { note = `Live listings unavailable: ${error.message}`; }
+          }
+        }
+        if (env.APIFY_TOKEN && location && url.searchParams.get('live') === '1') {
+          try { const live = await liveSearch({ token: env.APIFY_TOKEN, actor: env.APIFY_ACTOR || undefined, location, fetcher }); live.forEach(s => custom.set(s.id, s)); spaces = [...live.map(publicSpace), ...spaces]; source = 'live'; }
+          catch (error) { note = `Live listings unavailable: ${error.message}`; }
+        }
+        if (!spaces.length && !near) note ||= `No demo spaces in “${location}” yet. Add a space you're touring with a photo and address.`;
+        return send(200, { spaces, source, note });
+      }
+      let match = path.match(/^\/api\/spaces\/([\w-]+)\/details$/);
+      if (req.method === 'GET' && match) {
+        const space = findSpace(match[1]);
+        if (!space) return send(404, { error: 'Unknown space.' });
+        if (space.kind !== 'live' || !env.REALTYAPI_KEY) return send(200, { space: publicSpace(space) });
+        if (!space.details) {
+          if (!limit.take('listings', ip)) return send(429, { error: 'Too many listing lookups. Try again shortly.' });
+          const details = await listingDetails({ key: env.REALTYAPI_KEY, listingId: space.listingId, fetcher });
+          Object.assign(space, { details, photos: details.photos.length ? details.photos : [space.photo], rentText: details.rentText || space.rentText, sizeText: details.sizeText || space.sizeText, title: space.title });
+          // Put usable interior shots first so the picker (and the default choice) starts with a real room.
+          if (llm?.look && space.photos.length > 1) {
+            const { interiors } = await rankInteriors({ photos: space.photos, look: llm.look, fetcher }).catch(() => ({ interiors: [] }));
+            space.interiors = interiors;
+            space.photos = [...interiors, ...space.photos.filter(p => !interiors.includes(p))];
+          }
+        }
+        return send(200, { space: publicSpace(space) });
+      }
+      match = path.match(/^\/api\/photo\/([\w-]+)$/);
+      if (req.method === 'GET' && match) {
+        const space = custom.get(match[1]);
+        if (!space?.photoBytes) return send(404, { error: 'Not found' });
+        res.writeHead(200, { 'Content-Type': space.photoType, 'Cache-Control': 'private, max-age=3600' });
+        return res.end(space.photoBytes);
+      }
+      match = path.match(/^\/api\/render\/([\w-]+)$/);
+      if (req.method === 'GET' && match) {
+        const render = renders.get(match[1]);
+        if (!render) return send(404, { error: 'This render has expired.' });
+        if (render.remoteUrl) { res.writeHead(302, { Location: render.remoteUrl }); return res.end(); }
+        res.writeHead(200, { 'Content-Type': render.type, 'Cache-Control': 'private, max-age=3600' });
+        return res.end(render.bytes);
+      }
+      match = path.match(/^\/api\/world\/([\w.:-]+)(\/asset)?$/);
+      if (req.method === 'GET' && match) {
+        const world = worlds.get(match[1]);
+        if (!world || !worldClient) return send(404, { error: 'Unknown walkthrough.' });
+        if (!world.result?.done) {
+          const status = await worldClient.status(world.operationId);
+          if (status.done) world.result = status; else return send(200, { done: false, progress: status.progress, startedAt: world.startedAt, render: world.render });
+        }
+        if (!match[2]) return send(200, { ...world.result, splats: undefined, collider: undefined, render: world.render, concept: world.concept, assets: { splat: Object.keys(world.result.splats || {}).filter(k => world.result.splats[k]), collider: Boolean(world.result.collider) } });
+        // Assets are proxied so the browser only talks to this origin, and only to URLs World Labs returned.
+        const kind = url.searchParams.get('kind');
+        const target = kind === 'collider' ? world.result.collider : world.result.splats?.[url.searchParams.get('res') || '500k'];
+        if (!target) return send(404, { error: 'Asset not available.' });
+        const upstream = await fetcher(target, { signal: AbortSignal.timeout(120000) });
+        if (!upstream.ok) return send(502, { error: `World asset returned HTTP ${upstream.status}.` });
+        res.writeHead(200, { 'Content-Type': kind === 'collider' ? 'model/gltf-binary' : 'application/octet-stream', 'Cache-Control': 'private, max-age=86400' });
+        for await (const chunk of upstream.body) res.write(chunk);
+        return res.end();
+      }
+
+      if (req.method !== 'POST') return send(404, { error: 'Not found' });
+      const origin = req.headers.origin;
+      if (origin) { let host; try { host = new URL(origin).host; } catch {} if (host !== req.headers.host) return send(403, { error: 'Requests must come from this app.' }); }
+      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : 32_000);
+
+      if (path === '/api/spaces/custom') {
+        if (!limit.take('upload', ip)) return send(429, { error: 'Too many uploads. Try again later.' });
+        let address = String(body.address || '').trim().slice(0, 200);
+        const pin = Number.isFinite(body.lat) && Number.isFinite(body.lng) && Math.abs(body.lat) <= 90 && Math.abs(body.lng) <= 180 ? { lat: body.lat, lng: body.lng } : null;
+        const m = String(body.photo || '').match(/^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/);
+        if (!address && !pin) return send(400, { error: 'Add the street address of the space.' });
+        if (!m) return send(400, { error: 'Add a JPEG, PNG or WebP photo of the space.' });
+        const bytes = Buffer.from(m[2], 'base64');
+        if (bytes.length > 6_000_000) return send(413, { error: 'Use a photo under 6 MB.' });
+        const place = pin ? { ...pin, ...(await reverseGeocode(pin.lat, pin.lng, fetcher).catch(() => ({}))) } : await geocode(address, fetcher);
+        address ||= place.display || `${pin.lat.toFixed(5)}, ${pin.lng.toFixed(5)}`;
+        if (!place) return send(400, { error: 'Could not find that address. Add the city and postcode.' });
+        const space = { id: `own-${randomUUID().slice(0, 8)}`, kind: 'own', title: String(body.title || '').slice(0, 80) || address.split(',')[0], address, city: place.city || '', neighborhood: place.neighborhood || '', lat: pin?.lat ?? place.lat, lng: pin?.lng ?? place.lng, formerUse: String(body.formerUse || '').slice(0, 160) || 'Not specified', sqftApprox: Number(body.sqft) || undefined, rentText: String(body.rent || '').slice(0, 40) || undefined, photoBytes: bytes, photoType: m[1], credit: { author: 'Uploaded by you', license: 'Private' } };
+        custom.set(space.id, space);
+        return send(200, { space: publicSpace(space) });
+      }
+
+      if (path === '/api/agent') {
+        const found = findSpace(String(body.spaceId || ''));
+        // A live listing has a gallery; the user picks which room to redesign (only photos from that listing).
+        const chosen = found && body.photo && found.photos?.includes(body.photo) ? { ...found, photo: body.photo } : found;
+        const space = chosen && aspectRatios.includes(body.aspect) ? { ...chosen, aspect: body.aspect } : chosen;
+        const business = String(body.business || '').trim().replace(/\s+/g, ' ').slice(0, 60);
+        if (!space) return send(400, { error: 'Choose a space first.' });
+        if (!business) return send(400, { error: 'Choose a business type.' });
+        if (!env.QLOO_API_KEY) return send(503, { error: 'This server has no Qloo API key configured.' });
+        if (!limit.take('agent', ip) || !limit.take('agentDaily', 'all')) return send(429, { error: 'The agent is busy: run limit reached. Try again in a while.' });
+        res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+        const emit = event => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(event)}\n\n`); };
+        const heartbeat = setInterval(() => !res.writableEnded && res.write(': ping\n\n'), 15000);
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        const tools = createTools({ qloo, listing: space, business, imageModel, saveRender, look: llm?.look });
+        try {
+          if (llm) await runAgent({ llm, tools, business, listing: space, notes: String(body.notes || ''), emit });
+          else await runScripted({ tools, business, emit, hasImages: Boolean(imageModel) });
+        } catch (error) { emit({ type: 'error', message: error.message }); }
+        finally { clearInterval(heartbeat); emit({ type: 'done', qlooCalls: qloo.calls }); res.end(); }
+        return;
+      }
+
+      // Time-of-day variants of a render. The studio requests all three as soon as a redesign lands,
+      // so they are usually ready before anyone clicks; results are cached per render.
+      if (path === '/api/relight') {
+        const render = renders.get(String(body.renderId || ''));
+        const tod = String(body.tod || '');
+        if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
+        if (!timesOfDay[tod]) return send(400, { error: 'Unknown time of day.' });
+        if (!imageModel) return send(503, { error: 'No image model is configured.' });
+        render.relights ||= {};
+        if (!render.relights[tod]) {
+          if (!limit.take('relight', ip)) return send(429, { error: 'Relight limit reached. Try again later.' });
+          const prompt = `${timesOfDay[tod]} Keep every wall, window, door, piece of furniture, material and sign identical, with the same camera angle and framing.`;
+          const relight = imageModel.relight || (opts => imageModel.edit({ ...opts, fast: true }));
+          render.relights[tod] = relight({ image: renderImage(render), prompt, aspect: render.aspect })
+            .then(result => saveRender({ ...result, prompt: timesOfDay[tod], aspect: render.aspect, listingId: render.listingId, signals: render.signals, parent: render.id }));
+          render.relights[tod].catch(() => { delete render.relights[tod]; });
+        }
+        return send(200, { render: await render.relights[tod] });
+      }
+
+      if (path === '/api/refine') {
+        const render = renders.get(String(body.renderId || ''));
+        const instruction = String(body.instruction || '').trim().slice(0, 400);
+        if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
+        if (!instruction) return send(400, { error: 'Describe the change.' });
+        if (!imageModel) return send(503, { error: 'No image model is configured.' });
+        if (!limit.take('refine', ip)) return send(429, { error: 'Change limit reached. Try again later.' });
+        const prompt = `${instruction} Keep everything else in the photo identical: every wall, window, door, piece of furniture, material and the camera angle and framing.`;
+        // Quick lighting tweaks (time of day) use the fast path; free-form changes use full quality.
+        const result = await imageModel.edit({ image: renderImage(render), prompt, aspect: render.aspect, fast: body.fast === true });
+        return send(200, { render: await saveRender({ ...result, prompt: instruction, aspect: render.aspect, listingId: render.listingId, signals: render.signals, parent: render.id }) });
+      }
+
+      if (path.startsWith('/api/live/')) {
+        if (!live) return send(503, { error: 'Live walkthroughs need a fal key on the server.' });
+        const liveId = String(body.liveId || '');
+        if (path === '/api/live/start') {
+          const render = renders.get(String(body.renderId || ''));
+          if (!render?.remoteUrl) return send(404, { error: 'That render has expired. Run the agent again.' });
+          if (!limit.take('live', ip) || !limit.take('liveDaily', 'all')) return send(429, { error: 'Live walkthrough limit reached. Try again later.' });
+          const concept = body.concept && typeof body.concept === 'object' ? { name: String(body.concept.name || '').slice(0, 80), tagline: String(body.concept.tagline || '').slice(0, 160) } : {};
+          const world = { url: render.remoteUrl, prompt: `Walking through ${concept.name || 'a redesigned venue'}, a newly renovated interior. ${String(render.prompt || '').split('\n')[0].slice(0, 900)}`, concept };
+          return send(200, { ...(await live.start(world)), world });
+        }
+        if (path === '/api/live/session') return send(200, await live.session(liveId, body.sdp, body.type));
+        if (path === '/api/live/heartbeat') return send(200, await live.heartbeat(liveId));
+        if (path === '/api/live/end') { live.end(liveId); return send(200, { ok: true }); }
+        return send(404, { error: 'Not found' });
+      }
+
+      if (path === '/api/world') {
+        if (!worldClient) return send(503, { error: 'This server has no World Labs key, so 3D walkthroughs are off.' });
+        const render = renders.get(String(body.renderId || ''));
+        if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
+        if (render.worldOp) return send(200, { worldId: render.worldOp });
+        if (!limit.take('world', ip) || !limit.take('worldDaily', 'all')) return send(429, { error: '3D walkthrough limit reached. Try again later.' });
+        const concept = body.concept && typeof body.concept === 'object' ? { name: String(body.concept.name || '').slice(0, 80), tagline: String(body.concept.tagline || '').slice(0, 160) } : null;
+        const { operationId } = await worldClient.start({ image: renderImage(render), caption: `Interior of ${concept?.name || 'a redesigned venue'}: ${render.prompt}`, name: concept?.name || 'Openhere walkthrough' });
+        worlds.set(operationId, { operationId, startedAt: Date.now(), render: { id: render.id, url: render.url }, concept });
+        render.worldOp = operationId;
+        return send(200, { worldId: operationId });
+      }
+      return send(404, { error: 'Not found' });
+    } catch (error) {
+      if (res.headersSent) { try { res.end(); } catch {} return; }
+      send(error.status && error.status < 600 ? error.status : 400, { error: error.message, ...(error.details ? { details: error.details } : {}) });
+    }
+  };
+}
+
+async function readBody(req, max) {
+  let raw = '';
+  for await (const chunk of req) { raw += chunk; if (raw.length > max) throw Object.assign(new Error('Request too large.'), { status: 413 }); }
+  try { const body = JSON.parse(raw); if (body && typeof body === 'object') return body; } catch {}
+  throw Object.assign(new Error('Invalid JSON.'), { status: 400 });
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const port = Number(process.env.PORT || 3300);
+  const host = process.env.HOST || (process.env.PORT ? '0.0.0.0' : '127.0.0.1');
+  http.createServer(createApp()).listen(port, host, () => console.log(`Openhere running at http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`));
+}

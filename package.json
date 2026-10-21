@@ -1,0 +1,13 @@
+{
+  "name": "openhere",
+  "version": "1.0.0",
+  "description": "An agent that profiles a neighborhood's taste with Qloo, picks a concept for your restaurant, cafe or bar, and redesigns the real space.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env --watch server.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22" }
+}
