@@ -126,3 +126,6 @@ $('xr').addEventListener('click', async () => {
     xr = await enterXR({ view, onTalking: setMe, onEnd: () => { xr = null; } });
   } catch (error) { toast(`Couldn't start AR/VR: ${error.message}`); }
 });
+
+// Deep link to the sample conversation: /?demo=sample
+if (new URLSearchParams(location.search).get('demo') === 'sample') $('demo').click();

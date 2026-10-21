@@ -168,3 +168,6 @@ $('refine').addEventListener('submit', async e => {
 try { config = await api('/api/config'); } catch { toast('Could not reach the server.'); }
 const preset = new URLSearchParams(location.search).get('q');
 if (preset) { $('text').value = preset; build(preset); }
+// Deep link to an example, e.g. /?demo=rain
+const linked = new URLSearchParams(location.search).get('demo');
+if (linked) document.querySelector(`[data-demo="${CSS.escape(linked)}"]`)?.click();

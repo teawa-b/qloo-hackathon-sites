@@ -7,7 +7,7 @@ Tweets for the Qloo Agentic Hackathon submission. Each line block is one post; s
 **1/**
 I pointed an agent at an empty Dollarama in Toronto and asked for a live-music room.
 
-It asked Qloo who goes out there, what rooms they rate, who they'd actually pay to see — then redesigned the real photo and let me walk inside.
+It asked Qloo who goes out there, what rooms they rate, who they'd actually pay to see, then redesigned the real photo and let me walk inside.
 
 Here's Openhere. 🧵
 

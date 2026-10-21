@@ -1,137 +1,82 @@
 # Qloo hackathon sites
 
-Five separate sites built on [Qloo](https://www.qloo.com)'s taste graph. They share one codebase (one Qloo client, one agent loop, one set of image and world-model clients), but each runs, looks and deploys on its own: its own name, its own home page at `/`, and only its own API routes.
+Five small sites built on [Qloo](https://www.qloo.com)'s taste graph for the [Qloo Agentic Hackathon](https://qloo.devpost.com). Each takes what people love and turns it into a decision: what to build in a room, what to say to an investor, what to say next in a conversation.
 
-| Site | Idea | Run locally | Deploy with |
+![Openhere: a Red Bull pop-up for Phoebe Bridgers fans, redesigned into a real room in Parkdale](docs/img/openhere-studio.png)
+
+| Site | In one line | Instant example | More |
 |---|---|---|---|
-| **Openhere** | Find a space, redesign it for the people around it, walk inside. Includes brand activations for an event's fans | `npm run start:openhere` (port 3300) | `SITE=openhere` |
-| **Taste Room** | Name what you love; walk into the room it makes, with the music on | `npm run start:room` (3301) | `SITE=room` |
-| **Pitch Brief** | Research an investor (cited) and tailor the pitch with Qloo | `npm run start:pitch` (3302) | `SITE=pitch` |
-| **Talk Coach** | Hear what the other person loves; know what to say next, on glasses or in AR/VR | `npm run start:talk` (3303) | `SITE=talk` |
-| **Taste Lab** | The raw Qloo explorer: every match, request and response | `npm run start:lab` (3304) | `SITE=lab` |
+| **Openhere** | Pick a real space on the globe and say who it's for. An agent redesigns the photo from what those people love, then you walk inside | `/?demo=redbull-bridgers` | [docs/openhere.md](docs/openhere.md) |
+| **Taste Room** | Name a few things you love and walk into the room they make, with the music on | `/?demo=rain` | [docs/taste-room.md](docs/taste-room.md) |
+| **Pitch Brief** | Research an investor with cited sources, then let Qloo say which of their companies your customers already love | `/?demo=boehly` | [docs/pitch-brief.md](docs/pitch-brief.md) |
+| **Talk Coach** | It hears what the other person mentions and tells you what to say next, on a phone, display glasses or a Quest headset | `/?demo=sample` | [docs/talk-coach.md](docs/talk-coach.md) |
+| **Taste Lab** | The raw Qloo explorer: every match, request and response | `/` | [docs/taste-lab.md](docs/taste-lab.md) |
 
-`npm run dev` starts all five at once. The names are set in one place (`sites` in [`server.js`](server.js)) plus each page's logo.
-
-## Openhere
-
-**Pick a real space on the globe. Say who it's for. An agent designs it from what those people actually love, paints it into the real photo, and lets you walk inside.**
-
-| Mode | Who it's for | What Qloo decides |
-|---|---|---|
-| **Venues** | Anyone about to sign a lease: a restaurant, café, bar, live-music room, comedy club, sports bar or founders' café | What the people who go out *near that address* want a room to feel like, what they eat, drink and listen to, who to book, and which brands to partner with |
-| **Activations** ("Brand activation") | Sponsorship and experiential teams: a brand's pop-up, booth or takeover for one event's fans, inside a real room near the venue | How well the brand fits that fanbase, what the fans want a room to feel like, the playlist, the co-sponsors both audiences already love, local partners, and where the fans live around the venue |
-
-## The other sites
-
-| Site | Who it's for | What Qloo decides |
-|---|---|---|
-| **Taste Room** | Anyone: name a few things you love and walk into the room they make | Which decor and mood people with that taste rate highest, their playlist, the brands, films and books on the shelves |
-| **Pitch Brief** | A founder before an investor meeting | Web research (cited) finds the investor's public record: thesis, stages, cheques, portfolio, and the things they publicly host, own or recommend. Qloo then scores every portfolio company for *your* customers (`filter.results.entities`), compares the two crowds' ages, and finds openers in what fans of the investor's public interests also love. The brief says which companies to name, how to fix the deck and what to open with; invented names are flagged |
-| **Talk Coach** | Anyone in a conversation, on glasses, a Quest headset or a phone on the table | It hears what the other person mentions (speech to text in 6-second chunks), resolves every band, film, book, place or brand in Qloo, and builds their taste live: what else people with that taste love, what you have in common (from your own favourites, with explainability), what to steer clear of, and three nudges you can say next. Hold "I'm talking", Space or the headset trigger while you speak. Glasses view shows one nudge, huge; **Enter AR / VR** floats the nudges in front of you in WebXR (Quest passthrough when available). It will not listen until you confirm the other person knows |
-
-| **Taste Lab** | Builders | The Qloo explorer the project started from: type interests, review every match, and see the exact request and response behind each recommendation |
-
-In Openhere and Taste Room the result is a concept, a photoreal render, a live walkthrough and an evidence trail. **Every design choice cites the exact Qloo signal behind it, and anything the model cites that Qloo did not return in that run is flagged as unverified.** A "Why not just ask a chatbot?" panel answers the same brief with no tools and checks each of its picks against what Qloo actually ranks for that crowd.
-
-## Venues: open the right thing here
-
-1. Click anywhere on the globe (or use your location), choose what you want to open, then pick a real commercial listing for lease nearby and the room to redesign. You can also upload a photo of the space you're touring.
-2. The agent **profiles the local audience with Qloo**: who goes out near the address (customer identity, age, interests), the ambience and decor they favour, what they eat and drink, the venues they rate highest, the artists and brands they love.
-3. It **checks each design idea against the crowd**. Qloo knows the age and gender skew of every decor and ambience tag; tags that draw a different crowd from the locals are dropped and the swap is explained.
-4. It **finds the gap** against nearby competitors, then **redesigns the real photo** (GPT Image 2.5 Flare via fal, ~25 s) keeping the windows, columns, framing and camera angle, so the before/after wipe is believable. Morning, golden-hour and night versions render in parallel.
-5. For event venues it **books the room**: a slate of artists, comedians, teams or podcasts that people near that address already love, sized to the room's capacity so acts can fill it, and seeded with similar venues nearby.
-6. **Walk inside.** fal's real-time world model (Lingbot World 2) streams a walkable world that starts from the redesign; change the time of day while you walk. With a World Labs key, a Gaussian-splat world with WebXR is the alternative.
-
-## Activations: a brand's night for the fans who'll show up
-
-Type a brand and an event (a headliner, a team, a show) and pick the room near the venue. The agent:
-
-1. **Resolves both audiences** in Qloo (`/search`): the fans of the event and the brand's own followers.
-2. **Measures the overlap.** Qloo's demographics for each side, the similarity of their age profiles, how much their top-15 brands and artists overlap (Jaccard), and the combined-signal results with `feature.explainability`, so each shared pick shows how much the fans and the followers each drove it. That becomes a plain **fit score** out of 100 with the arithmetic shown.
-3. **Profiles the fans** the way the venue mode profiles a neighborhood, but signalled by interests: the ambience, decor, drinks and interests of the venues the fans rate highest; the brands both audiences love (co-sponsors); the playlist; the places near the venue the fans rate (bar partner, pre-show pop-up); and a **heatmap** of where the fans live around the venue (drawn on the globe when you close the studio).
-4. **Checks the design tags against the fans' own skew**, renders the room with the brand unmistakable in it, and finalizes: concept, design choices, **partners and playlist**, **run of show**, fit. Partners and acts must be names Qloo returned; anything else is sent back once and then flagged.
-
-## Taste room
-
-Name what you love. Qloo turns the favourites into entities, says what rooms people with that taste rate highest and who is on their playlist, an LLM writes the room (every choice cites a Qloo name), GPT Image paints it, and the first track plays. "Walk inside" opens the same live walkthrough. Change the room in a sentence.
+The examples open in seconds. Each is a recording of a real run (live Qloo, LLM and image calls) replayed at reading speed. Every site also runs live on your own input.
 
 ## Why Qloo is the product, not a feature
 
-Ask an LLM what a bar for this neighborhood should look like and it answers the same for every neighborhood. Ask it to design a brand's booth for a fanbase and it guesses. Here the audience comes from Qloo: a point on the map, or two sets of entities, turned into the ambience, decor, drinks, music, brands, venues and demographics that crowd actually rates. The model only chooses among what Qloo returned and writes the prose; the scores (fit, audience checks, booking caps) are computed in code from Qloo's numbers. The chatbot check makes the difference visible on every run.
+Ask a chatbot what a bar in Parkdale should look like and it gives the answer it would give for any neighbourhood. Here the audience comes from Qloo: a point on a map, a list of favourites, an investor's portfolio, or a few things someone mentioned, turned into the decor, music, brands, places and demographics that crowd actually rates. The model chooses among what Qloo returned and writes the prose. Scores are computed in code from Qloo's numbers. **Any name the model cites that Qloo did not return in that run is flagged as unverified on screen.**
 
-## How the agent works
+Qloo endpoints used: Insights (`/v2/insights` with entity, tag, demographics and heatmap types; `signal.location`, `signal.interests.entities`, `filter.results.entities`, `feature.explainability`, `filter.popularity.max`), Search, Tags and Analysis Compare.
 
-The LLM (Claude Sonnet 5.5 through OpenRouter by default; the Anthropic Messages API or OpenAI also work) runs a multi-step tool loop in [`lib/agent.js`](lib/agent.js). It decides which Qloo questions to ask, reads the answers, and adapts when a call comes back empty. Tools live in [`lib/tools.js`](lib/tools.js); the Qloo client in [`lib/qloo.js`](lib/qloo.js).
+## Run it
 
-| Tool | What it calls |
-|---|---|
-| `get_listing` | The chosen space: rent, size, sub-type, lease terms, walk/transit scores and street traffic counts (live listings), plus a one-time vision survey of the photo (permanent architecture, camera, depth zones) |
-| `local_taste_tags` | `GET /v2/insights?filter.type=urn:tag&signal.location=POINT(lng lat)&filter.parents.types=urn:entity:place&filter.tag.types=urn:tag:<facet>:qloo`. Where Qloo ranks a facet directly for a location it uses that; otherwise it ranks the tags of the ~40 venues Qloo scores highest for local taste and says so |
-| `local_venues` | `GET /v2/insights?filter.type=urn:entity:place&filter.location=POINT&filter.location.radius=…&filter.tags=<genre tag>` (tag resolved through `/v2/tags`) |
-| `local_entities` | `GET /v2/insights?filter.type=urn:entity:artist\|brand\|…&signal.location=POINT` |
-| `book_slate` | Sizes the room from the listing, caps `filter.popularity.max` so acts fit it, seeds `signal.interests.entities` with similar venues nearby, returns candidates per type |
-| `check_audience_fit` | `filter.type=urn:demographics` for the design tags and for the crowd (top local venues, or the event's fans); cosine similarity of age profiles, judged against the other options surfaced for that run |
-| `resolve_audience` | `GET /search?types=urn:entity:artist\|brand\|person…` for the event and the brand |
-| `audience_overlap` | Demographics of both sides; each side's top-15 brands and artists; combined `signal.interests.entities` with `feature.explainability=true`; `GET /v2/analysis/compare` for how Qloo describes each audience |
-| `fan_taste_tags` | `filter.type=urn:tag&filter.parents.types=urn:entity:place&filter.tag.types=…&signal.interests.entities=<fans>` |
-| `fan_favourites` | `filter.type=urn:entity:<type>&signal.interests.entities=<fans and/or followers>` with explainability for shared picks, optional genre `filter.tags` |
-| `fan_places` | `filter.type=urn:entity:place&filter.location=POINT&filter.location.radius=…&signal.interests.entities=<fans>` |
-| `fan_heatmap` | `filter.type=urn:heatmap&filter.location=POINT&filter.location.radius=12000&signal.interests.entities=<fans>` |
-| `render_redesign` | Photo edit with GPT Image 2.5 Flare (`openai/gpt-image-2.5/flare/edit` on fal). The agent writes concrete changes; the app appends a keep-list of the room's permanent structure from the vision survey. Pruna p-image-edit (with a depth map) and FLUX 3 Edit are fallbacks |
-| `finalize_concept` | Validates every cited signal, partner and act against the names collected during the run; sends unverified citations back once |
-
-The taste room runs a fixed pipeline over the same client ([`lib/room.js`](lib/room.js)); the chatbot check lives in `server.js` (`/api/baseline`).
-
-Steps stream to the browser over server-sent events. The studio shows one live status line, and **How the agent decided** opens the full reasoning, every tool call and the raw Qloo request log. Without an LLM key the venue mode runs the same tools in a fixed order and labels the result as scripted.
-
-## Live walkthrough
-
-`/live` plays fal's `robbyant/lingbot-world-2` over WebRTC, following fal's WMA bridge protocol: `POST /ice` for TURN credentials, `POST /session` with one complete SDP offer, `POST /session/heartbeat` every 5 s. The browser then talks to the GPU peer directly and sends movement, look and time-of-day prompts on the `control` data channel. All three bridge calls go through this server, so the fal key never reaches the browser, and the server stops renewing the heartbeat after `LIVE_MAX_SECONDS` to bound cost.
-
-## Spaces
-
-- **Live listings (`REALTYAPI_KEY`):** LoopNet spaces for lease within about 1.5 miles of the point, with the full gallery (interiors ranked first by a vision pass), rent, size and traffic counts. Each card credits LoopNet and links back.
-- **Sample spaces:** five real rooms that are vacant or closed, with openly licensed Wikimedia Commons photos (credited in [`data/spaces.json`](data/spaces.json)). Their rents are illustrative.
-- **Your own photo:** upload the space you're touring, pinned where you clicked.
-
-## Run locally
-
-Requires Node.js 22+. No dependencies to install.
+Node.js 22 or newer. Nothing to install.
 
 ```bash
-cp .env.example .env   # add your keys
-npm run dev            # all five sites, on ports 3300–3304
-npm run start:pitch    # or just one
+cp .env.example .env
 ```
 
-| Variable | Needed for |
+Add your keys to `.env`. The instant examples replay with no keys at all; live runs need at least `QLOO_API_KEY` and `QLOO_API_HOST`.
+
+```bash
+npm run dev
+```
+
+That starts all five sites on ports 3300 to 3304. To run just one:
+
+```bash
+npm run start:pitch
+```
+
+| Variable | What it unlocks |
 |---|---|
-| `QLOO_API_KEY`, `QLOO_API_HOST` | Required. Hackathon keys use `https://hackathon.api.qloo.com` |
-| `OPENROUTER_API_KEY` (or `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`) | Agent reasoning, the taste-room brief, the chatbot check (venues fall back to scripted mode without one; activations need one) |
-| `FAL_KEY` | Redesigns and relights (GPT Image 2.5 Flare), taste-room paintings (text to image), depth maps, the live walkthrough |
-| `PRUNAAI_KEY` | Optional: Pruna p-image-edit as fallback or primary (`IMAGE_PROVIDER=pruna`) |
-| `REALTYAPI_KEY` | Live LoopNet listings near the clicked point |
-| `WORLDLABS_API_KEY` | Optional alternative walkthrough: Gaussian-splat worlds with WebXR |
+| `QLOO_API_KEY`, `QLOO_API_HOST` | Every live run. Hackathon keys use `https://hackathon.api.qloo.com` |
+| `OPENROUTER_API_KEY` (or `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`) | The agent, the briefs and web research (Claude Sonnet 5.5 by default) |
+| `FAL_KEY` | Redesigns and room paintings (GPT Image 2.5 Flare), the live walkthrough (Lingbot World 2), speech to text (ElevenLabs) |
+| `REALTYAPI_KEY` | Optional: live commercial listings near the clicked point in Openhere |
+| `PRUNAAI_KEY`, `WORLDLABS_API_KEY` | Optional fallbacks: Pruna image edits, World Labs splat worlds |
+
+## Tests
 
 ```bash
 npm test
 ```
 
-Tests use mock upstreams and cover the documented Qloo parameters, the full venue agent loop, the activation loop (audience resolution, explainability-based overlap, heatmap, grounded partners), the chatbot check, listing mapping, the live-walkthrough signalling, image fallbacks, key redaction, origin checks and rate limits. Live access needs real keys.
+The tests use mock upstreams. They cover the documented Qloo parameters, the Openhere agent and activation loops, Pitch Brief and Talk Coach, site isolation (each site serves only its own pages and API), that every recorded example replays with no keys and only local images, rate limits, origin checks and key redaction.
 
 ## Deploy
 
-Each site is its own service from this one repo: same start command (`npm start`), plus `SITE=openhere|room|pitch|talk|lab`. One Node process per site, no build step: Railway, Render or Fly all work. Set the variables above; `PORT` is honoured and the server binds to `0.0.0.0` when it is set. Keys stay on the server; the browser only talks to this origin (plus map tiles, fonts and the YouTube embed). Per-IP and daily caps (`AGENT_RUNS_PER_HOUR`, `WORLDS_PER_HOUR`, `LIVE_SESSIONS_PER_HOUR`, `BASELINES_PER_HOUR`…) protect the paid APIs on a public demo. Renders and uploads live in memory and clear on restart.
+One repo, five services. Every service runs `npm start`; one variable picks the site: `SITE=openhere`, `room`, `pitch`, `talk` or `lab`. There is no build step, so Railway, Render and Fly all work, and `PORT` is honoured. Keys stay on the server. Per-IP and daily caps (`AGENT_RUNS_PER_HOUR` and the rest in `.env.example`) protect the paid APIs on a public demo.
 
-## Stack
+## Layout
 
-- Server: Node 22 `http`, no framework. Front end: vanilla JS, Bricolage Grotesque and DM Mono.
-- Map: MapLibre GL globe with OpenFreeMap tiles; Qloo heatmaps as a heatmap layer.
-- Images: GPT Image 2.5 Flare (edit and text-to-image) via fal; Pruna and FLUX 3 as fallbacks; fal Depth Anything v2.
-- Worlds: fal Lingbot World 2 over WebRTC; optional World Labs Marble via three.js + Spark with WebXR.
-- Music: YouTube embeds, resolved server-side without an API key.
-- APIs: Qloo Insights, Search, Tags, Analysis Compare, Demographics and Heatmaps; Claude via OpenRouter; RealtyAPI (LoopNet); OpenStreetMap Nominatim.
+```
+server.js        one HTTP server, gated per site (the `sites` map)
+lib/qloo.js      the Qloo client every site shares
+lib/agent.js     Openhere's tool-using agent (tools in lib/tools.js)
+lib/room.js      Taste Room
+lib/pitch.js     Pitch Brief
+lib/talk.js      Talk Coach
+lib/demos.js     instant examples: load and replay recorded runs
+data/demos/      the recorded runs
+public/          front ends (no framework, no build)
+lab/             Taste Lab
+scripts/         record-demos.js, screenshots.js, backtest-sponsors.js
+test/            node --test suites
+```
 
 ## License
 
-[MIT](LICENSE). Sample-space photos keep their own Creative Commons licences, listed per photo. Generated images are labelled as generated.
+[MIT](LICENSE). Sample-space photos in Openhere keep their own Creative Commons licences, credited per photo in [`data/spaces.json`](data/spaces.json). Generated images are labelled as generated.

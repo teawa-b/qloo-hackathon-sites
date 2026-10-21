@@ -2,6 +2,7 @@
 // exact event stream to data/demos/<site>-<slug>.json and copy every render into public/img so it never expires.
 //   node --env-file=.env scripts/record-demos.js            (all)
 //   node --env-file=.env scripts/record-demos.js room pitch (only some sites)
+//   node --env-file=.env scripts/record-demos.js pitch:boehly (one example)
 import http from 'node:http';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createApp } from '../server.js';
@@ -59,8 +60,9 @@ async function localise(site, slug, list) {
 }
 
 for (const [site, list] of Object.entries(demos)) {
-  if (only.length && !only.includes(site)) continue;
+  if (only.length && !only.some(o => o.split(':')[0] === site)) continue;
   for (const demo of list) {
+    if (!only.some(o => o === site || o === `${site}:${demo.slug}`) && only.length) continue;
     const started = Date.now();
     let record;
     if (site === 'talk') {

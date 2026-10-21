@@ -660,3 +660,6 @@ addEventListener('resize', () => { if (!$('ask').hidden) showAsk(); });
 
 try { config = await api('/api/config'); } catch { toast('Could not reach the server.'); }
 initMap();
+// Deep link to an example, e.g. /?demo=redbull-bridgers (used in the write-up and for screenshots).
+const linked = new URLSearchParams(location.search).get('demo');
+if (linked) openDemo(linked);

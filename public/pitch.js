@@ -56,7 +56,9 @@ function handle(ev, pending) {
 function show({ dossier, resolved, fit, rapport, brief }) {
   $('o-kicker').textContent = `Pitch brief · ${new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}`;
   $('o-name').textContent = dossier.name || $('investor').value;
-  $('o-role').textContent = [dossier.role, dossier.firm].filter(Boolean).join(', ');
+  // Research often names the firm inside the role already; don't repeat it, and don't leave ".," behind.
+  const role = String(dossier.role || '').replace(/[.\s]+$/, ''), firmName = String(dossier.firm || '');
+  $('o-role').textContent = tidy([role, role.toLowerCase().includes(firmName.split(' ')[0].toLowerCase()) ? '' : firmName].filter(Boolean).join(', '));
   if (fit?.score != null) { $('o-fit').hidden = false; $('o-fit').style.setProperty('--p', `${fit.score}%`); $('o-fit').querySelector('b').textContent = fit.score; }
   $('o-headline').textContent = tidy(brief?.headline || '');
   $('o-thesis').textContent = tidy(dossier.thesis || 'No public thesis found.');
@@ -88,3 +90,6 @@ function show({ dossier, resolved, fit, rapport, brief }) {
 
 const preset = new URLSearchParams(location.search);
 if (preset.get('investor')) { $('investor').value = preset.get('investor'); $('firm').value = preset.get('firm') || ''; $('startup').value = preset.get('startup') || ''; $('comps').value = preset.get('comps') || ''; if ($('startup').value && $('comps').value) run(); }
+// Deep link to a judge's recorded brief, e.g. /?demo=calacanis
+const linked = preset.get('demo');
+if (linked) [...document.querySelectorAll('[data-i]')].find(b => b.dataset.i.toLowerCase().endsWith(linked))?.click();
