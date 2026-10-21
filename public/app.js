@@ -194,7 +194,7 @@ async function goToSpace(space) {
 function card(space) {
   const b = el('button', 'card'); b.dataset.id = space.id;
   const img = el('img'); img.src = safeUrl(space.photo); img.alt = ''; img.loading = 'lazy'; img.referrerPolicy = 'no-referrer';
-  const over = el('div', 'over'); over.append(el('h3', '', space.title), el('p', 'sub', `${space.neighborhood ? `${space.neighborhood} · ` : ''}${space.city}${space.distanceKm != null && space.distanceKm > 1 ? ` · ${space.distanceKm < 40 ? space.distanceKm + ' km' : 'far'}` : ''}`));
+  const over = el('div', 'over'); over.append(el('h3', '', space.title), el('p', 'sub', `${space.neighborhood ? `${space.neighborhood}, ` : ''}${space.city}${space.distanceKm != null && space.distanceKm > 1 ? `, ${space.distanceKm < 40 ? space.distanceKm + ' km' : 'far'}` : ''}`));
   b.append(img, over);
   const price = space.rentEstimate ? `~${short(space.rentEstimate.low, space.rentEstimate.currency)}/mo` : space.rentText;
   if (price) b.append(el('span', 'price', price));
@@ -472,7 +472,7 @@ function paintHeat(h) {
   }
   heatLegend?.remove();
   heatLegend = el('div', 'heat-legend');
-  heatLegend.append(el('b', '', `Where ${activation?.event || 'the'} fans are`), el('span', '', 'Qloo heatmap · affinity around the venue'));
+  heatLegend.append(el('b', '', `Where ${activation?.event || 'the'} fans are`), el('span', '', 'Qloo heatmap of affinity around the venue'));
   const x = el('button', 'x small', '×'); x.setAttribute('aria-label', 'Hide heatmap');
   x.addEventListener('click', () => { map.setLayoutProperty('fanheat', 'visibility', 'none'); heatLegend.remove(); heatLegend = null; });
   heatLegend.append(x); document.body.append(heatLegend);
@@ -550,7 +550,7 @@ function showConcept(c) {
   $('c-who').replaceChildren(...[...new Set(who)].slice(0, 6).map((n, i) => el('span', `chip c${i % 4}`, n)));
   $('c-choices').replaceChildren(...c.design_choices.map(d => {
     const li = el('li'), chips = el('div', 'chips');
-    d.signals.forEach((s, i) => chips.append(el('span', `chip ${s.grounded ? `c${i % 4}` : 'no'}`, s.grounded ? s.name : `${s.name} · unverified`)));
+    d.signals.forEach((s, i) => chips.append(el('span', `chip ${s.grounded ? `c${i % 4}` : 'no'}`, s.grounded ? s.name : `${s.name} (unverified)`)));
     li.append(el('b', '', d.element), el('p', '', d.choice), chips); return li;
   }));
   $('c-fit')?.remove();
@@ -560,7 +560,7 @@ function showConcept(c) {
     const text = el('div');
     text.append(el('h3', '', `${c.activation?.brand?.[0] || activation?.brand} × ${c.activation?.event?.[0] || activation?.event}`));
     text.append(el('p', '', c.fit?.summary || `Fans skew ${o.fans.skew}; the brand's followers skew ${o.followers.skew}. Age profiles match ${Math.round(((o.demoFit + 1) / 2) * 100)}%.`));
-    if (o.overlap) text.append(el('p', 'fit-meta', `Age match ${Math.round(((o.demoFit + 1) / 2) * 100)}% · top brands overlap ${Math.round(o.overlap.brands * 100)}% · artists ${Math.round(o.overlap.artists * 100)}%`));
+    if (o.overlap) text.append(el('p', 'fit-meta', `Age match ${Math.round(((o.demoFit + 1) / 2) * 100)}%, top brands overlap ${Math.round(o.overlap.brands * 100)}%, artists ${Math.round(o.overlap.artists * 100)}%`));
     const chips = el('div', 'chips');
     [...o.sharedBrands, ...o.sharedArtists].slice(0, 8).forEach((e, i) => chips.append(el('span', `chip c${i % 4}`, e.name)));
     if (chips.children.length) { text.append(el('p', 'fit-note', 'Both audiences already love'), chips); }

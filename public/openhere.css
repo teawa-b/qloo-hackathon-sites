@@ -47,7 +47,7 @@ img { display: block; }
 .bar > * { pointer-events: auto; }
 .logo { height: 50px; display: inline-flex; align-items: center; padding: 0 18px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); font-weight: 700; font-size: 19px; letter-spacing: -.03em; text-decoration: none; }
 .logo b { font-weight: 700; color: var(--accent); }
-.search { flex: 0 1 460px; margin-left: auto; height: 50px; display: flex; align-items: center; gap: 2px; padding: 5px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); border: 1px solid transparent; transition: border-color .2s; }
+.search { flex: 0 1 460px; min-width: 0; margin-left: auto; height: 50px; display: flex; align-items: center; gap: 2px; padding: 5px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); border: 1px solid transparent; transition: border-color .2s; }
 .search:focus-within { border-color: var(--accent); }
 .search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; padding: 0 14px; font-size: 15px; }
 .search input::placeholder { color: var(--faint); }
