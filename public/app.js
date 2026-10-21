@@ -440,7 +440,8 @@ function paintHeat(h) {
   if (map.getSource('fanheat')) map.getSource('fanheat').setData(data);
   else {
     map.addSource('fanheat', { type: 'geojson', data });
-    map.addLayer({ id: 'fanheat', type: 'heatmap', source: 'fanheat', paint: { 'heatmap-weight': ['get', 'w'], 'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 14, 12, 40], 'heatmap-intensity': 1, 'heatmap-opacity': .75, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .3, '#cfe0ff', .6, '#0052ff', 1, '#ff5fa2'] } });
+    // Grid cells are ~1 km apart; keep the radius near that so the map reads as neighborhoods, not a blob.
+    map.addLayer({ id: 'fanheat', type: 'heatmap', source: 'fanheat', paint: { 'heatmap-weight': ['interpolate', ['linear'], ['get', 'w'], 0, 0, 0.6, 0.15, 1, 1], 'heatmap-radius': ['interpolate', ['exponential', 2], ['zoom'], 8, 4, 11, 16, 14, 60], 'heatmap-intensity': .7, 'heatmap-opacity': .6, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .25, '#cfe0ff', .55, '#0052ff', .85, '#ff5fa2', 1, '#ff2d7a'] } }, map.getLayer('buildings-3d') ? 'buildings-3d' : undefined);
   }
   heatLegend?.remove();
   heatLegend = el('div', 'heat-legend');
@@ -456,15 +457,16 @@ function heatChart(h) {
   head.append(el('small', '', 'Qloo heatmap · 12 km')); box.append(head);
   const holder = el('div', 'heat'); box.append(holder);
   if (!window.maplibregl) return box;
-  requestAnimationFrame(() => {
+  // The box must be in the DOM before MapLibre measures it (a timeout, not rAF: background tabs pause rAF).
+  setTimeout(() => {
     const mini = new maplibregl.Map({ container: holder, style: 'https://tiles.openfreemap.org/styles/positron', center: [h.center.lng, h.center.lat], zoom: 10.2, interactive: false, attributionControl: false });
     mini.on('load', () => {
       const max = Math.max(...h.cells.map(c => c.affinity || 0)) || 1;
       mini.addSource('heat', { type: 'geojson', data: { type: 'FeatureCollection', features: h.cells.map(c => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { w: (c.affinity || 0) / max } })) } });
-      mini.addLayer({ id: 'heat', type: 'heatmap', source: 'heat', paint: { 'heatmap-weight': ['get', 'w'], 'heatmap-radius': 22, 'heatmap-intensity': 1.1, 'heatmap-opacity': .8, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .3, '#cfe0ff', .6, '#0052ff', 1, '#ff5fa2'] } });
+      mini.addLayer({ id: 'heat', type: 'heatmap', source: 'heat', paint: { 'heatmap-weight': ['interpolate', ['linear'], ['get', 'w'], 0, 0, 0.6, 0.15, 1, 1], 'heatmap-radius': 12, 'heatmap-intensity': .8, 'heatmap-opacity': .7, 'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,82,255,0)', .25, '#cfe0ff', .55, '#0052ff', .85, '#ff5fa2', 1, '#ff2d7a'] } });
       new maplibregl.Marker({ element: el('div', 'drop') }).setLngLat([h.center.lng, h.center.lat]).addTo(mini);
     });
-  });
+  }, 0);
   return box;
 }
 const palette = ['#0052ff', '#18b47b', '#ff5fa2', '#f5b700', '#7a5cff'];
