@@ -1,1 +1,999 @@
-{"site":"pitch","slug":"calacanis","title":"Jason Calacanis","request":{"investor":"Jason Calacanis","firm":"LAUNCH","startup":"A live-events app that turns a concert ticket into a night out: pre-show bars, merch and rides, picked for each fanbase","comps":"Ticketmaster, Spotify, Uber"},"events":[{"type":"step","id":"research","label":"Researching Jason Calacanis on the web"},{"type":"step_done","id":"research","summary":"LAUNCH · 5 portfolio companies · 11 sources"},{"type":"step","id":"resolve","label":"Finding the portfolio, their interests and your product in Qloo"},{"type":"step_done","id":"resolve","summary":"4/5 portfolio · 4 interests · comps: Ticketmaster, Spotify, Uber"},{"type":"step","id":"fit","label":"Scoring their portfolio against your customers"},{"type":"step_done","id":"fit","summary":"fit 68/100 · closest: Robinhood, Thumbtack, Calm"},{"type":"step","id":"rapport","label":"Finding common ground in what they publicly love"},{"type":"step_done","id":"rapport","summary":"The Prosperity Paradox: How Innovation Can Lift Nations Out of Poverty, How to Make the World Add Up: Ten Rules for Thinking Differently About Numbers, How Innovation Works: Serendipity, Energy and the Saving of Time, Anthro-Vision: A New Way to See in Business and Life"},{"type":"step","id":"brief","label":"Writing your pitch brief"},{"type":"step_done","id":"brief","summary":"Jason Calacanis writes many small pre-seed and seed cheques and rewards fast, clear-speaking founders, which suits an ea"},{"type":"final","dossier":{"name":"Jason Calacanis","firm":"LAUNCH","role":"Founder and CEO of LAUNCH. He also runs the LAUNCH Accelerator, The Syndicate and Founder University, and is a fund manager.","thesis":"He backs early-stage founders at pre-seed and seed, and writes a lot of small cheques across about 100 new companies a year. LAUNCH combines an accelerator, funds, a syndicate and a media platform (podcasts, events) to source deals and help founders.","stages":"Pre-seed and seed, with follow-ons through The Syndicate","cheque":"Figures vary by source and are not officially published. Third-party profiles put his personal angel cheques at about $25K–$100K. The LAUNCH Accelerator is commonly reported at $125K, and syndicate SPVs can reach $250K–$2M+. Confirm exact terms with LAUNCH directly.","looks_for":["High-agency founders","Technical founders who execute fast","Clear communicators","Founders who can state the problem and why they are the right team (third-party summary)","Early customer discovery or usage"],"portfolio":["Uber","Thumbtack","Robinhood","Calm","Superhuman"],"public_interests":[{"name":"This Week in Startups","kind":"podcast","why":"Founded and hosts it"},{"name":"All-In Podcast","kind":"podcast","why":"Co-host and executive producer"},{"name":"This Week in AI","kind":"podcast","why":"Launched this new podcast in March 2026 (per his Substack archive)"},{"name":"Angel: How to Invest in Technology Startups","kind":"book","why":"Author; published by HarperCollins in 2017"},{"name":"LAUNCH Accelerator","kind":"brand","why":"Founded and runs it"},{"name":"Founder University","kind":"brand","why":"Runs this pre-accelerator for year-zero startups"},{"name":"LAUNCH Festival","kind":"brand","why":"Hosts the founder demo event (San Francisco, March 2026)"}],"recent":["Sep 2026: LAUNCH participated in Go.AI's $85M Series A (led by Updata Partners)","Jul 2026: LAUNCH participated in 8090 Labs' $135M Series A (Salesforce led, per the TechCrunch report)","Apr 2026: SEC Form D filing for LAUNCH Fund II, with a target of $70M (Fund I, filed Feb 2024, had a $100M target)"],"sources":[{"url":"https://launch.co/","title":"launch.co/"},{"url":"https://allin.com/about/jason-calacanis","title":"allin.com/about/jason-calacanis"},{"url":"https://valueaddvc.com/vc/launch","title":"valueaddvc.com/vc/launch"},{"url":"https://calacanis.substack.com/archive","title":"calacanis.substack.com/archive"},{"url":"https://hub.causo.ai/guides/how-to-apply-to-launch-accelerator-2026","title":"hub.causo.ai/guides/how-to-apply-to-launch-accelerator-2026"},{"url":"https://www.capitaly.vc/blog/jason-calacanis-investment-thesis-check-sizes-red-flags-2025-guide","title":"capitaly.vc/blog/jason-calacanis-investment-thesis-check-sizes-red-flags-2025-gu"},{"url":"https://www.capitaly.vc/blog/how-jason-calacanis-built-launch-into-a-founder-deal-flow-machine","title":"capitaly.vc/blog/how-jason-calacanis-built-launch-into-a-founder-deal-flow-machi"},{"url":"https://www.capitaly.vc/blog/jason-calacanis-launch-fund-ai-founders-evaluation-2026","title":"capitaly.vc/blog/jason-calacanis-launch-fund-ai-founders-evaluation-2026"},{"url":"https://www.hustlefund.vc/post/angel-squad-jason-calacanis-investments-the-original-super-angels-playbook-for-backing-100-startups-a-year","title":"hustlefund.vc/post/angel-squad-jason-calacanis-investments-the-original-super-an"},{"url":"https://thisweekinstartups.com/hosts/ZcvyOkgNTKu","title":"thisweekinstartups.com/hosts/ZcvyOkgNTKu"},{"url":"https://www.podchaser.com/creators/jason-calacanis-107Zznfis7/appearances","title":"podchaser.com/creators/jason-calacanis-107Zznfis7/appearances"}]},"resolved":{"portfolio":[{"name":"Uber","id":"DAA03219-916F-491D-9F1C-E780DFA8A5DB","type":"brand","popularity":0.99,"tags":["Travel App","2019 initial public offerings","Mobile App","American companies established in 2009","Software","Transport companies established in 2009"],"image":"https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg","detail":"Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.","types":["urn:entity:brand"]},{"name":"Thumbtack","id":"C97FAC3C-67C9-4158-A596-083ABDEC2CC7","type":"brand","popularity":0.64,"tags":["Professional Services","Website","Clean Interface","Functional Design","Blue Color Palette","Minimalist Typography"],"image":"https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg","detail":"Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website.","types":["urn:entity:brand"]},{"name":"Robinhood","id":"117146D1-9BD1-4FEC-8243-D171D4E5AC9A","type":"brand","popularity":0.963,"tags":["Companies listed on the Nasdaq","Financial services companies based in California","Online financial services companies of the United States","Mobile App","2013 establishments in California","Robinhood (company)"],"image":"https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg","detail":"Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services.","types":["urn:entity:brand"]},{"name":"Calm","id":"47DD40B2-E2BC-421A-9466-C229D9DFDA09","type":"brand","popularity":0.983,"tags":["Mobile App","Healthcare App","Soft Color Palettes","Minimalist Typography","Nature-Inspired Imagery","Clean Interface"],"image":"https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg","detail":"Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health.","types":["urn:entity:brand"]}],"interests":[{"name":"This Week in Startups","id":"3F0EB23C-390B-4D2C-92AF-D1114FF3D67F","type":"podcast","popularity":0.947,"tags":["Podcasts","Technology"],"image":"https://images.qloo.com/i/3F0EB23C-390B-4D2C-92AF-D1114FF3D67F-420x-auto.jpg","detail":"Jason Calacanis discusses startups, technology, and business trends while interviewing leading founders and investors.","types":["urn:entity:podcast"],"why":"Founded and hosts it"},{"name":"Stories Podcast: A Bedtime Show for Kids of All Ages","id":"56401B80-41AF-48AC-A611-72D77D640885","type":"podcast","popularity":0.993,"tags":["Kids & Family","Stories for Kids","Fiction","Podcasts"],"image":"https://images.qloo.com/i/56401B80-41AF-48AC-A611-72D77D640885-420x-auto.jpg","detail":"A weekly podcast featuring G-rated stories for children, including fairy tales, classics, and original works.","types":["urn:entity:podcast"],"why":"Co-host and executive producer"},{"name":"The TWIML AI Podcast (formerly This Week in Machine Learning & Artificial Intelligence)","id":"6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31","type":"podcast","popularity":0.644,"tags":["Technology","Podcasts","Tech News","News"],"image":"https://images.qloo.com/i/6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31-420x-auto.jpg","detail":"Exploring the impact of machine learning and AI through insights from leading experts in the field.","types":["urn:entity:podcast"],"why":"Launched this new podcast in March 2026 (per his Substack archive)"},{"name":"United Launch Alliance","id":"1BDA1155-1DED-453E-8D5F-305925CF83B2","type":"brand","popularity":0.937,"tags":["Industrials","Industrial","Technical","Utilitarian","Minimalist","Deep Space Exploration"],"image":"https://images.qloo.com/i/1BDA1155-1DED-453E-8D5F-305925CF83B2-420x-auto.jpg","detail":"United Launch Alliance is a leading American space launch service provider known for reliable and accurate rocket launches, including the Atlas V and Vulcan rockets.","types":["urn:entity:brand"],"why":"Founded and runs it"}],"comps":[{"name":"Ticketmaster","id":"177ABEBD-6662-4362-98A1-17257CA783C8","type":"brand","popularity":0.988,"tags":["Mobile App","Live Nation Entertainment","Ticket sales companies","West Hollywood","2010 mergers and acquisitions","Monopolies"],"image":"https://images.qloo.com/i/177ABEBD-6662-4362-98A1-17257CA783C8-420x-auto.jpg","detail":"Ticketmaster is a global platform for buying and selling verified tickets for concerts, sports, theater, and other live events.","types":["urn:entity:brand"]},{"name":"Spotify","id":"99CBD9B1-F023-4034-97E7-E95A4A85BDD2","type":"brand","popularity":0.998,"tags":["Streaming Service App","Advertising Enabled","Mobile App","Music App","Minimalist","High-Contrast"],"image":"https://images.qloo.com/i/99CBD9B1-F023-4034-97E7-E95A4A85BDD2-420x-auto.jpg","detail":"Spotify is a global audio streaming platform offering music, podcasts, and personalized listening experiences.","types":["urn:entity:brand"]},{"name":"Uber","id":"DAA03219-916F-491D-9F1C-E780DFA8A5DB","type":"brand","popularity":0.99,"tags":["Travel App","2019 initial public offerings","Mobile App","American companies established in 2009","Software","Transport companies established in 2009"],"image":"https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg","detail":"Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.","types":["urn:entity:brand"]}]},"fit":{"ranked":[{"name":"Robinhood","id":"117146D1-9BD1-4FEC-8243-D171D4E5AC9A","type":"brand","popularity":0.963,"affinity":0.788,"tags":["Companies listed on the Nasdaq","Financial services companies based in California","Online financial services companies of the United States","Mobile App","2013 establishments in California","Robinhood (company)"],"image":"https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg","detail":"Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services."},{"name":"Thumbtack","id":"C97FAC3C-67C9-4158-A596-083ABDEC2CC7","type":"brand","popularity":0.64,"affinity":0.782,"tags":["Professional Services","Website","Clean Interface","Functional Design","Blue Color Palette","Minimalist Typography"],"image":"https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg","detail":"Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website."},{"name":"Calm","id":"47DD40B2-E2BC-421A-9466-C229D9DFDA09","type":"brand","popularity":0.983,"affinity":0.773,"tags":["Mobile App","Healthcare App","Soft Color Palettes","Minimalist Typography","Nature-Inspired Imagery","Clean Interface"],"image":"https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg","detail":"Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health."}],"score":68,"mean":0.78,"ageMatch":0.58,"yourCrowd":"25–29","theirCrowd":"35–44"},"rapport":{"books":[{"name":"The Prosperity Paradox: How Innovation Can Lift Nations Out of Poverty","id":"2ECB65E7-10D5-40E0-AA25-A3882C0851E7","type":"book","popularity":0.888,"affinity":0.937,"tags":[],"image":"https://images.qloo.com/i/2ECB65E7-10D5-40E0-AA25-A3882C0851E7-420x-auto.jpg","detail":"2019, Clayton M. Christensen"},{"name":"How to Make the World Add Up: Ten Rules for Thinking Differently About Numbers","id":"67D89DD0-D9EA-45E2-9B1C-D92E351BEAE8","type":"book","popularity":0.956,"affinity":0.931,"tags":["Psychology","Social Science","Science","Nonfiction","History","Popular Science"],"image":"https://images.qloo.com/i/67D89DD0-D9EA-45E2-9B1C-D92E351BEAE8-420x-auto.jpg","detail":"2020, Tim Harford"},{"name":"How Innovation Works: Serendipity, Energy and the Saving of Time","id":"F283CE50-9AF1-45ED-B4C1-A660F0D38067","type":"book","popularity":0.933,"affinity":0.927,"tags":["Audiobook","Business","Nonfiction","Leadership","Politics","Science"],"image":"https://images.qloo.com/i/F283CE50-9AF1-45ED-B4C1-A660F0D38067-420x-auto.jpg","detail":"2020, Matt Ridley"},{"name":"Anthro-Vision: A New Way to See in Business and Life","id":"0972826C-94B2-46CD-B321-008D66EA480E","type":"book","popularity":0.787,"affinity":0.927,"tags":["Psychology","Anthropology","Audiobook","Nonfiction","Cultural","History"],"image":"https://images.qloo.com/i/0972826C-94B2-46CD-B321-008D66EA480E-420x-auto.jpg","detail":"2021, Gillian Tett"},{"name":"Mine!: How the Hidden Rules of Ownership Control Our Lives","id":"389B0B8A-01E8-4910-9416-6A00EB99DEFF","type":"book","popularity":0.833,"affinity":0.921,"tags":[],"image":"https://images.qloo.com/i/389B0B8A-01E8-4910-9416-6A00EB99DEFF-420x-auto.jpg","detail":"2021, Michael A. Heller"},{"name":"Reimagining Capitalism in a World on Fire","id":"13B736F2-8832-444B-B27C-EF1AFF231344","type":"book","popularity":0.837,"affinity":0.918,"tags":["Finance","Audiobook","Economics","Politics","Sustainability","Business"],"image":"https://images.qloo.com/i/13B736F2-8832-444B-B27C-EF1AFF231344-420x-auto.jpg","detail":"2020, Rebecca Henderson"}],"podcasts":[{"name":"Data Skeptic","id":"749F13E6-4188-467A-8F01-621187D06A7C","type":"podcast","popularity":0.816,"affinity":0.892,"tags":["Mathematics","Science","Technology","Podcasts"],"image":"https://images.qloo.com/i/749F13E6-4188-467A-8F01-621187D06A7C-420x-auto.jpg","detail":"Interviews and discussions on data science, statistics, and AI, emphasizing critical thinking and scientific evaluation."},{"name":"Science Friday","id":"F57D9658-BDC5-4C19-A901-EBBA66744FA8","type":"podcast","popularity":0.943,"affinity":0.887,"tags":["Podcasts","Natural Sciences","Science","Life Sciences"],"image":"https://images.qloo.com/i/F57D9658-BDC5-4C19-A901-EBBA66744FA8-420x-auto.jpg","detail":"Entertaining and educational stories about science, technology, and nature, hosted by Ira Flatow."},{"name":"The Kevin Rose Show","id":"B57102A1-2043-4DB7-B691-9C1170C8F9B2","type":"podcast","popularity":0.903,"affinity":0.887,"tags":["Business","Entrepreneurship","Technology","Podcasts"],"image":"https://images.qloo.com/i/B57102A1-2043-4DB7-B691-9C1170C8F9B2-420x-auto.jpg","detail":"Insights on tech, finance, longevity, and performance from experts, aimed at personal and professional growth."},{"name":"The After On Podcast","id":"DC6A823F-83D3-4779-9FA5-76FFD3A569A3","type":"podcast","popularity":0.94,"affinity":0.886,"tags":["Technology","Science","Podcasts"],"image":"https://images.qloo.com/i/DC6A823F-83D3-4779-9FA5-76FFD3A569A3-420x-auto.jpg","detail":"Exploring science, technology, and social issues inspired by the novel 'After On,' accessible to all listeners."},{"name":"Planetary Radio: Space Exploration, Astronomy and Science","id":"96ACA6D9-0FD5-49A3-AF38-BBFD88A8AF31","type":"podcast","popularity":0.892,"affinity":0.884,"tags":["Science","Podcasts","Technology"],"image":"https://images.qloo.com/i/96ACA6D9-0FD5-49A3-AF38-BBFD88A8AF31-420x-auto.jpg","detail":"Exploring space science and exploration through interviews with scientists, engineers, and astronauts, hosted by Sarah Al-Ahmed."},{"name":"Machine Learning Guide","id":"4AC4B1C5-6E70-43DD-84C0-38621C67B578","type":"podcast","popularity":0.718,"affinity":0.883,"tags":["Education","Technology","Courses","Podcasts"],"image":"https://images.qloo.com/i/4AC4B1C5-6E70-43DD-84C0-38621C67B578-420x-auto.jpg","detail":"An audio course teaching the fundamentals of machine learning and artificial intelligence, covering models, math, and frameworks."}],"brands":[{"name":"Salesforce","id":"2C2B0CB0-C320-42D3-A33E-9AA9238F1F05","type":"brand","popularity":0.973,"affinity":0.952,"tags":["Customer relationship management software","Companies formerly listed on the New York Stock Exchange","Business intelligence companies","Companies listed on the New York Stock Exchange","Software companies established in 1999","Companies based in San Francisco"],"image":"https://images.qloo.com/i/2C2B0CB0-C320-42D3-A33E-9AA9238F1F05-420x-auto.jpg","detail":"Salesforce is a leading cloud-based CRM platform offering AI-powered sales, service, marketing, and analytics solutions for businesses of all sizes."},{"name":"TechCrunch","id":"ADEAD7B9-D51D-421D-BE45-7FE8E08AB129","type":"brand","popularity":0.998,"affinity":0.944,"tags":["Entertainment","Technology","Business","Media","Advertising Enabled","Website"],"image":"https://images.qloo.com/i/ADEAD7B9-D51D-421D-BE45-7FE8E08AB129-420x-auto.jpg","detail":"TechCrunch is a global online newspaper providing technology news, analysis, and coverage focused on startups and high-tech companies."},{"name":"Square","id":"376A66CE-AC37-4116-8965-DE0AABC672A9","type":"brand","popularity":0.949,"affinity":0.942,"tags":["Companies based in San Francisco","IOS software","American companies established in 2009","South of Market","Financial Services","Online payments"],"image":"https://images.qloo.com/i/376A66CE-AC37-4116-8965-DE0AABC672A9-420x-auto.jpg","detail":"Square is a financial services and business management platform powering over 4 million businesses globally with payment processing, point of sale hardware, and business software solutions."},{"name":"Kaggle","id":"9F6756F6-5BD0-4B89-82DF-6E4A879E8756","type":"brand","popularity":0.9,"affinity":0.939,"tags":["Applied machine learning","Google acquisitions","Google Cloud","Website","Analytics companies","Artificial intelligence"],"image":"https://images.qloo.com/i/9F6756F6-5BD0-4B89-82DF-6E4A879E8756-420x-auto.jpg","detail":"Kaggle is an online community and platform for data scientists and machine learning practitioners to compete, learn, and share datasets and projects."},{"name":"Medium","id":"7ECCF237-DFEA-45D2-AABF-8F77E974C9E9","type":"brand","popularity":0.99,"affinity":0.939,"tags":["Reading App","Website","Entertainment","Advertising Enabled","Mobile App","Minimalist Typography"],"image":"https://images.qloo.com/i/7ECCF237-DFEA-45D2-AABF-8F77E974C9E9-420x-auto.jpg","detail":"Medium is an online publishing platform where users can read, write, and share stories, ideas, and perspectives."},{"name":"GitHub","id":"E61FB036-6B73-40CB-AB7A-512A08C79AC8","type":"brand","popularity":0.989,"affinity":0.938,"tags":["Mozilla","Remote companies","Software","Microsoft acquisitions","Firefox","Microsoft subsidiaries"],"image":"https://images.qloo.com/i/E61FB036-6B73-40CB-AB7A-512A08C79AC8-420x-auto.jpg","detail":"GitHub is the world's most widely adopted AI-powered developer platform for building, collaborating, and securing software projects."}]},"brief":{"headline":"Jason Calacanis writes many small pre-seed and seed cheques and rewards fast, clear-speaking founders, which suits an early live-events app that can show real usage.","angle":"Pitch it as a simple problem with a sharp team behind it: a concert ticket is the start of a night out, and nobody owns the bars, merch and rides around it. Show you move fast with early usage or customer discovery, and say plainly that you are asking for a small cheque with a possible path to follow-on support through The Syndicate.","name_drop":[{"company":"Robinhood","line":"Our customer data shows a strong taste overlap with Robinhood's audience, which suggests our fans are comfortable doing everything in one app.","name":"Robinhood","grounded":true},{"company":"Thumbtack","line":"Like Thumbtack, we connect people to local providers, except ours are bars, merch and rides, matched to a specific fanbase on a specific night.","name":"Thumbtack","grounded":true},{"company":"Calm","line":"Our customers also overlap strongly with Calm's audience, which tells us they value an app that takes the stress out of a plan.","name":"Calm","grounded":true}],"deck":["Open with one slide that states the problem and why your team is the right one to solve it, since he looks for founders who can say both clearly.","Show early customer discovery or usage up front, even if it is small, because he backs founders who execute fast.","Walk through one real concert night from ticket to pre-show bar, merch and ride, with the picks tailored to that fanbase.","Use Ticketmaster, Spotify and Uber as shorthand for ticketing, taste-based curation and rides, then show your own numbers rather than leaning on the names.","Close with a small, specific ask and what you will ship and learn with it, since he spreads small cheques across about 100 companies a year."],"openers":[{"line":"You built This Week in Startups around founders explaining their business in plain terms, so I will try to do the same in two minutes.","based_on":"This Week in Startups","name":"This Week in Startups","grounded":true},{"line":"I'm interested in how innovation actually spreads, and our app is a small case of it: ticketing already works, but the night around it was never connected.","based_on":"How Innovation Works: Serendipity, Energy and the Saving of Time","name":"How Innovation Works: Serendipity, Energy and the Saving of Time","grounded":true},{"line":"We lean on data to decide which bars and merch each fanbase gets, so I would love your read on where we should trust the numbers and where we should not.","based_on":"Data Skeptic","name":"Data Skeptic","grounded":true}],"avoid":["Do not pitch a big lead round or a late-stage story, since his focus is small cheques at pre-seed and seed.","Do not stay vague on the problem or the team, because he looks for founders who state both clearly.","Do not rely on big comparables or projections without any early usage or customer discovery to back them."],"questions":["Why are you the right team to build this, and what have you already shipped?","What early usage or customer discovery do you have, and what did it teach you?","Why would a fan use your app instead of just buying a ticket and sorting out the night themselves?"]}},{"type":"done","qlooCalls":[{"url":"https://hackathon.api.qloo.com/search?query=Spotify&types=urn%3Aentity%3Abrand&take=3","ms":420,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Ticketmaster&types=urn%3Aentity%3Abrand&take=3","ms":436,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3","ms":435,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Thumbtack&types=urn%3Aentity%3Abrand&take=3","ms":191,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Robinhood&types=urn%3Aentity%3Abrand&take=3","ms":191,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3","ms":192,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Superhuman&types=urn%3Aentity%3Abrand&take=3","ms":140,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Calm&types=urn%3Aentity%3Abrand&take=3","ms":158,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=This+Week+in+Startups&types=urn%3Aentity%3Apodcast&take=3","ms":122,"ok":false,"status":429},{"url":"https://hackathon.api.qloo.com/search?query=All-In+Podcast&types=urn%3Aentity%3Apodcast&take=3","ms":140,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=This+Week+in+AI&types=urn%3Aentity%3Apodcast&take=3","ms":140,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=This+Week+in+Startups&types=urn%3Aentity%3Apodcast&take=3","ms":171,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=LAUNCH+Accelerator&types=urn%3Aentity%3Abrand&take=3","ms":162,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Founder+University&types=urn%3Aentity%3Abrand&take=3","ms":162,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=Angel%3A+How+to+Invest+in+Technology+Startups&types=urn%3Aentity%3Abook&take=3","ms":280,"ok":true},{"url":"https://hackathon.api.qloo.com/search?query=LAUNCH+Festival&types=urn%3Aentity%3Abrand&take=3","ms":172,"ok":true},{"url":"https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB&filter.results.entities=C97FAC3C-67C9-4158-A596-083ABDEC2CC7%2C117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09&take=3","ms":157,"ok":true},{"url":"https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB%2CC97FAC3C-67C9-4158-A596-083ABDEC2CC7%2C117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09","ms":164,"ok":true},{"url":"https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2","ms":263,"ok":true},{"url":"https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Apodcast&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2","ms":451,"ok":true},{"url":"https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C56401B80-41AF-48AC-A611-72D77D640885%2C6AF5F2EC-9028-4C00-AE7B-3AA5108EDE31%2C1BDA1155-1DED-453E-8D5F-305925CF83B2","ms":604,"ok":true}]}],"renders":[],"baseline":null,"recorded":"2026-10-21T16:52:32.020Z"}
+{
+ "site": "pitch",
+ "slug": "calacanis",
+ "title": "Jason Calacanis",
+ "request": {
+  "investor": "Jason Calacanis",
+  "firm": "LAUNCH",
+  "startup": "A live-events app that turns a concert ticket into a night out: pre-show bars, merch and rides, picked for each fanbase",
+  "comps": "Ticketmaster, Spotify, Uber"
+ },
+ "events": [
+  {
+   "type": "step",
+   "id": "research",
+   "label": "Researching Jason Calacanis on the web"
+  },
+  {
+   "type": "step_done",
+   "id": "research",
+   "summary": "LAUNCH · 15 portfolio companies · 10 sources"
+  },
+  {
+   "type": "step",
+   "id": "resolve",
+   "label": "Finding the portfolio, their interests and your product in Qloo"
+  },
+  {
+   "type": "step_done",
+   "id": "resolve",
+   "summary": "5/15 portfolio · 3 interests · comps: Ticketmaster, Spotify, Uber"
+  },
+  {
+   "type": "step",
+   "id": "fit",
+   "label": "Scoring their portfolio against your customers"
+  },
+  {
+   "type": "step_done",
+   "id": "fit",
+   "summary": "fit 71/100 · closest: Robinhood, Thumbtack, Calm, Wealthfront"
+  },
+  {
+   "type": "step",
+   "id": "rapport",
+   "label": "Finding common ground in what they publicly love"
+  },
+  {
+   "type": "step_done",
+   "id": "rapport",
+   "summary": "Prepared: What Kids Need for a Fulfilled Life, British dogs : their varieties, history, characteristics, breeding, management, and exhibition : illustrated with portraits of dogs of the day 1882 [Leather Bound], From the Ground Up: A Journey to Reimagine the Promise of America, How Innovation Works: Serendipity, Energy and the Saving of Time"
+  },
+  {
+   "type": "step",
+   "id": "brief",
+   "label": "Writing your pitch brief"
+  },
+  {
+   "type": "step_done",
+   "id": "brief",
+   "summary": "LAUNCH's focus on high-agency technical founders with early traction, plus a 71 fit score against his Qloo audience, mak"
+  },
+  {
+   "type": "step",
+   "id": "baseline",
+   "label": "Asking the same question without Qloo"
+  },
+  {
+   "type": "step_done",
+   "id": "baseline",
+   "summary": "Uber: not in Qloo, Thumbtack: Qloo #2 of 4"
+  },
+  {
+   "type": "final",
+   "dossier": {
+    "name": "Jason Calacanis",
+    "firm": "LAUNCH",
+    "role": "Founder & CEO",
+    "thesis": "LAUNCH invests in early-stage startups through an accelerator, venture funds, and an angel syndicate. It aims to back high-agency, technical founders with capital, education, and network access.",
+    "stages": "Pre-seed and seed for the fund; accelerator aimed at pre-Series A; syndicate spans pre-seed through late-stage",
+    "cheque": "$25K to $5M across LAUNCH's vehicles; accelerator reported at $125K for 7% equity (third-party figure)",
+    "looks_for": [
+     "high-agency, technical founders",
+     "pre-Series A startups with some traction",
+     "founders with traction for the LAUNCH Accelerator",
+     "founders with $1M+ ARR for the syndicate"
+    ],
+    "portfolio": [
+     "Uber",
+     "Robinhood",
+     "Calm",
+     "Wealthfront",
+     "Desktop Metal",
+     "Datastax",
+     "Thumbtack",
+     "Superhuman",
+     "Trello",
+     "Neurometric",
+     "Orreco",
+     "8090 Solutions",
+     "Secludy",
+     "Recall",
+     "Go.AI"
+    ],
+    "public_interests": [
+     {
+      "name": "This Week in Startups",
+      "kind": "podcast",
+      "why": "hosts it"
+     },
+     {
+      "name": "All-In",
+      "kind": "podcast",
+      "why": "co-hosts it alongside David Sacks, Chamath Palihapitiya and David Friedberg"
+     },
+     {
+      "name": "ANGEL",
+      "kind": "book",
+      "why": "authored it"
+     },
+     {
+      "name": "LAUNCH Festival",
+      "kind": "brand",
+      "why": "founded and produces the annual startup conference"
+     },
+     {
+      "name": "The Syndicate",
+      "kind": "brand",
+      "why": "leads it as an angel investing club"
+     },
+     {
+      "name": "Founder University",
+      "kind": "brand",
+      "why": "part of the LAUNCH family of founder education programs"
+     }
+    ],
+    "recent": [
+     "Sep 2026: participated in Go.AI's $85M Series A",
+     "Jul 2026: participated in 8090 Labs' $135M Series A (other sources list 8090 Solutions at $140M, so figures differ)",
+     "Apr 2026: filed SEC Form D for LAUNCH Fund II, targeting $70M"
+    ],
+    "sources": [
+     {
+      "url": "https://launch.co/",
+      "title": "launch.co/"
+     },
+     {
+      "url": "https://startupintros.com/orgs/launch",
+      "title": "startupintros.com/orgs/launch"
+     },
+     {
+      "url": "https://thesyndicate.com/",
+      "title": "thesyndicate.com/"
+     },
+     {
+      "url": "https://valueaddvc.com/vc/launch",
+      "title": "valueaddvc.com/vc/launch"
+     },
+     {
+      "url": "https://signal.nfx.com/investors/jason-calacanis",
+      "title": "signal.nfx.com/investors/jason-calacanis"
+     },
+     {
+      "url": "https://www.caplight.com/investor/launch",
+      "title": "caplight.com/investor/launch"
+     },
+     {
+      "url": "https://tracxn.com/d/people/jason-calacanis/__ruS5ieeSNTXX3GxNj1rETNzr3URFzZqJccuaOyuYqZk",
+      "title": "tracxn.com/d/people/jason-calacanis/__ruS5ieeSNTXX3GxNj1rETNzr3URFzZqJccuaOyuYqZ"
+     },
+     {
+      "url": "https://wellfound.com/p/jason",
+      "title": "wellfound.com/p/jason"
+     },
+     {
+      "url": "https://en.wikipedia.org/wiki/Jason_Calacanis",
+      "title": "en.wikipedia.org/wiki/Jason_Calacanis"
+     },
+     {
+      "url": "https://pitchbook.com/profiles/investor/539052-22",
+      "title": "pitchbook.com/profiles/investor/539052-22"
+     }
+    ]
+   },
+   "resolved": {
+    "portfolio": [
+     {
+      "name": "Uber",
+      "id": "DAA03219-916F-491D-9F1C-E780DFA8A5DB",
+      "type": "brand",
+      "popularity": 0.99,
+      "tags": [
+       "Travel App",
+       "2019 initial public offerings",
+       "Mobile App",
+       "American companies established in 2009",
+       "Software",
+       "Transport companies established in 2009"
+      ],
+      "image": "https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg",
+      "detail": "Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Robinhood",
+      "id": "117146D1-9BD1-4FEC-8243-D171D4E5AC9A",
+      "type": "brand",
+      "popularity": 0.963,
+      "tags": [
+       "Companies listed on the Nasdaq",
+       "Financial services companies based in California",
+       "Online financial services companies of the United States",
+       "Mobile App",
+       "2013 establishments in California",
+       "Robinhood (company)"
+      ],
+      "image": "https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg",
+      "detail": "Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Calm",
+      "id": "47DD40B2-E2BC-421A-9466-C229D9DFDA09",
+      "type": "brand",
+      "popularity": 0.983,
+      "tags": [
+       "Mobile App",
+       "Healthcare App",
+       "Soft Color Palettes",
+       "Minimalist Typography",
+       "Nature-Inspired Imagery",
+       "Clean Interface"
+      ],
+      "image": "https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg",
+      "detail": "Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Wealthfront",
+      "id": "03EE3F81-3946-4A11-AA9D-E3DFA828EC57",
+      "type": "brand",
+      "popularity": 0.73,
+      "tags": [
+       "Financial Services",
+       "Financial Services App",
+       "Companies based in Redwood City",
+       "Website",
+       "Robo-advisors",
+       "American companies established in 2008"
+      ],
+      "image": "https://images.qloo.com/i/03EE3F81-3946-4A11-AA9D-E3DFA828EC57-420x-auto.jpg",
+      "detail": "Wealthfront is a financial services brand offering automated investment portfolios, high-yield cash accounts, and tax-efficient strategies through a robo-advisor platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Thumbtack",
+      "id": "C97FAC3C-67C9-4158-A596-083ABDEC2CC7",
+      "type": "brand",
+      "popularity": 0.64,
+      "tags": [
+       "Professional Services",
+       "Website",
+       "Clean Interface",
+       "Functional Design",
+       "Blue Color Palette",
+       "Minimalist Typography"
+      ],
+      "image": "https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg",
+      "detail": "Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ],
+    "interests": [
+     {
+      "name": "This Week in Startups",
+      "id": "3F0EB23C-390B-4D2C-92AF-D1114FF3D67F",
+      "type": "podcast",
+      "popularity": 0.947,
+      "tags": [
+       "Podcasts",
+       "Technology"
+      ],
+      "image": "https://images.qloo.com/i/3F0EB23C-390B-4D2C-92AF-D1114FF3D67F-420x-auto.jpg",
+      "detail": "Jason Calacanis discusses startups, technology, and business trends while interviewing leading founders and investors.",
+      "types": [
+       "urn:entity:podcast"
+      ],
+      "why": "hosts it"
+     },
+     {
+      "name": "All In",
+      "id": "09DF7942-5B4F-464A-BA8B-FC4CA9B568D6",
+      "type": "podcast",
+      "popularity": 0.992,
+      "tags": [
+       "Christianity",
+       "Podcasts",
+       "Religion & Spirituality"
+      ],
+      "image": "https://images.qloo.com/i/09DF7942-5B4F-464A-BA8B-FC4CA9B568D6-420x-auto.jpg",
+      "detail": "Exploring what it means to be fully committed to the Gospel of Jesus Christ through the experiences of Latter-day Saints.",
+      "types": [
+       "urn:entity:podcast"
+      ],
+      "why": "co-hosts it alongside David Sacks, Chamath Palihapitiya and David Friedberg"
+     },
+     {
+      "name": "Angel",
+      "id": "FB7F41EC-8005-486F-B806-43B6C788031C",
+      "type": "book",
+      "popularity": 0.916,
+      "tags": [
+       "Contemporary",
+       "Historical",
+       "Fiction",
+       "Historical Romance",
+       "Audiobook",
+       "Historical Fiction"
+      ],
+      "image": "https://images.qloo.com/i/FB7F41EC-8005-486F-B806-43B6C788031C-420x-auto.jpg",
+      "detail": "2004, Colleen McCullough",
+      "types": [
+       "urn:entity:book"
+      ],
+      "why": "authored it"
+     }
+    ],
+    "comps": [
+     {
+      "name": "Ticketmaster",
+      "id": "177ABEBD-6662-4362-98A1-17257CA783C8",
+      "type": "brand",
+      "popularity": 0.988,
+      "tags": [
+       "Mobile App",
+       "Live Nation Entertainment",
+       "Ticket sales companies",
+       "West Hollywood",
+       "2010 mergers and acquisitions",
+       "Monopolies"
+      ],
+      "image": "https://images.qloo.com/i/177ABEBD-6662-4362-98A1-17257CA783C8-420x-auto.jpg",
+      "detail": "Ticketmaster is a global platform for buying and selling verified tickets for concerts, sports, theater, and other live events.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Spotify",
+      "id": "99CBD9B1-F023-4034-97E7-E95A4A85BDD2",
+      "type": "brand",
+      "popularity": 0.998,
+      "tags": [
+       "Streaming Service App",
+       "Advertising Enabled",
+       "Mobile App",
+       "Music App",
+       "Minimalist",
+       "High-Contrast"
+      ],
+      "image": "https://images.qloo.com/i/99CBD9B1-F023-4034-97E7-E95A4A85BDD2-420x-auto.jpg",
+      "detail": "Spotify is a global audio streaming platform offering music, podcasts, and personalized listening experiences.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     },
+     {
+      "name": "Uber",
+      "id": "DAA03219-916F-491D-9F1C-E780DFA8A5DB",
+      "type": "brand",
+      "popularity": 0.99,
+      "tags": [
+       "Travel App",
+       "2019 initial public offerings",
+       "Mobile App",
+       "American companies established in 2009",
+       "Software",
+       "Transport companies established in 2009"
+      ],
+      "image": "https://images.qloo.com/i/DAA03219-916F-491D-9F1C-E780DFA8A5DB-420x-auto.jpg",
+      "detail": "Uber is a global technology company known for its ride-hailing service and Uber Eats, a popular food delivery platform.",
+      "types": [
+       "urn:entity:brand"
+      ]
+     }
+    ]
+   },
+   "fit": {
+    "ranked": [
+     {
+      "name": "Robinhood",
+      "id": "117146D1-9BD1-4FEC-8243-D171D4E5AC9A",
+      "type": "brand",
+      "popularity": 0.963,
+      "affinity": 0.788,
+      "tags": [
+       "Companies listed on the Nasdaq",
+       "Financial services companies based in California",
+       "Online financial services companies of the United States",
+       "Mobile App",
+       "2013 establishments in California",
+       "Robinhood (company)"
+      ],
+      "image": "https://images.qloo.com/i/117146D1-9BD1-4FEC-8243-D171D4E5AC9A-420x-auto.jpg",
+      "detail": "Robinhood is a financial services brand offering commission-free trading of stocks, options, crypto, and futures with expert portfolio management and banking services."
+     },
+     {
+      "name": "Thumbtack",
+      "id": "C97FAC3C-67C9-4158-A596-083ABDEC2CC7",
+      "type": "brand",
+      "popularity": 0.64,
+      "affinity": 0.782,
+      "tags": [
+       "Professional Services",
+       "Website",
+       "Clean Interface",
+       "Functional Design",
+       "Blue Color Palette",
+       "Minimalist Typography"
+      ],
+      "image": "https://images.qloo.com/i/C97FAC3C-67C9-4158-A596-083ABDEC2CC7-420x-auto.jpg",
+      "detail": "Thumbtack is a technology platform that connects people with local professionals for home improvement and care services through an app and website."
+     },
+     {
+      "name": "Calm",
+      "id": "47DD40B2-E2BC-421A-9466-C229D9DFDA09",
+      "type": "brand",
+      "popularity": 0.983,
+      "affinity": 0.773,
+      "tags": [
+       "Mobile App",
+       "Healthcare App",
+       "Soft Color Palettes",
+       "Minimalist Typography",
+       "Nature-Inspired Imagery",
+       "Clean Interface"
+      ],
+      "image": "https://images.qloo.com/i/47DD40B2-E2BC-421A-9466-C229D9DFDA09-420x-auto.jpg",
+      "detail": "Calm is the #1 app for meditation, sleep, and relaxation, offering science-backed content to reduce stress and improve mental health."
+     },
+     {
+      "name": "Wealthfront",
+      "id": "03EE3F81-3946-4A11-AA9D-E3DFA828EC57",
+      "type": "brand",
+      "popularity": 0.73,
+      "affinity": 0.712,
+      "tags": [
+       "Financial Services",
+       "Financial Services App",
+       "Companies based in Redwood City",
+       "Website",
+       "Robo-advisors",
+       "American companies established in 2008"
+      ],
+      "image": "https://images.qloo.com/i/03EE3F81-3946-4A11-AA9D-E3DFA828EC57-420x-auto.jpg",
+      "detail": "Wealthfront is a financial services brand offering automated investment portfolios, high-yield cash accounts, and tax-efficient strategies through a robo-advisor platform."
+     }
+    ],
+    "score": 71,
+    "mean": 0.76,
+    "ageMatch": 0.65,
+    "yourCrowd": "25-29",
+    "theirCrowd": "45-54"
+   },
+   "rapport": {
+    "books": [
+     {
+      "name": "Prepared: What Kids Need for a Fulfilled Life",
+      "id": "52BD348B-DE5D-48A2-A7A6-61E99040F519",
+      "type": "book",
+      "popularity": 0.923,
+      "affinity": 0.846,
+      "tags": [],
+      "image": "https://images.qloo.com/i/52BD348B-DE5D-48A2-A7A6-61E99040F519-420x-auto.jpg",
+      "detail": "2019, Diane Tavenner"
+     },
+     {
+      "name": "British dogs : their varieties, history, characteristics, breeding, management, and exhibition : illustrated with portraits of dogs of the day 1882 [Leather Bound]",
+      "id": "18B3739A-B030-4ADF-8BDB-4ED1C4E1BA22",
+      "type": "book",
+      "popularity": 0.09,
+      "affinity": 0.845,
+      "tags": [],
+      "image": "https://images.qloo.com/i/18B3739A-B030-4ADF-8BDB-4ED1C4E1BA22-420x-auto.jpg",
+      "detail": "2007, Hugh Dalziel"
+     },
+     {
+      "name": "From the Ground Up: A Journey to Reimagine the Promise of America",
+      "id": "8B88DDA3-A025-405F-8ACE-6F15545C7666",
+      "type": "book",
+      "popularity": 0.804,
+      "affinity": 0.842,
+      "tags": [],
+      "image": "https://images.qloo.com/i/8B88DDA3-A025-405F-8ACE-6F15545C7666-420x-auto.jpg",
+      "detail": "2019, Howard Schultz"
+     },
+     {
+      "name": "How Innovation Works: Serendipity, Energy and the Saving of Time",
+      "id": "F283CE50-9AF1-45ED-B4C1-A660F0D38067",
+      "type": "book",
+      "popularity": 0.933,
+      "affinity": 0.841,
+      "tags": [
+       "Audiobook",
+       "Business",
+       "Nonfiction",
+       "Leadership",
+       "Politics",
+       "Science"
+      ],
+      "image": "https://images.qloo.com/i/F283CE50-9AF1-45ED-B4C1-A660F0D38067-420x-auto.jpg",
+      "detail": "2020, Matt Ridley"
+     },
+     {
+      "name": "The Desert and the Sea: 977 Days Captive on the Somali Pirate Coast",
+      "id": "45034FCD-6CA7-4E8B-AD3A-92649FBE6677",
+      "type": "book",
+      "popularity": 0.936,
+      "affinity": 0.836,
+      "tags": [],
+      "image": "https://images.qloo.com/i/45034FCD-6CA7-4E8B-AD3A-92649FBE6677-420x-auto.jpg",
+      "detail": "2018, Michael Scott Moore"
+     },
+     {
+      "name": "The Hidden Habits of Genius: Beyond Talent, IQ, and Grit—Unlocking the Secrets of Greatness",
+      "id": "4E0752BC-43F4-47E7-ADA1-9AC5FDA71D86",
+      "type": "book",
+      "popularity": 0.777,
+      "affinity": 0.835,
+      "tags": [],
+      "image": "https://images.qloo.com/i/4E0752BC-43F4-47E7-ADA1-9AC5FDA71D86-420x-auto.jpg",
+      "detail": "2020, Craig Wright"
+     }
+    ],
+    "podcasts": [
+     {
+      "name": "All-In with Chamath, Jason, Sacks & Friedberg",
+      "id": "04E8A93C-0D3C-469F-9EC5-1456BBFF1BD5",
+      "type": "podcast",
+      "popularity": 0.96,
+      "affinity": 0.893,
+      "tags": [
+       "Podcasts",
+       "Entrepreneurship",
+       "Technology",
+       "Business"
+      ],
+      "image": "https://images.qloo.com/i/04E8A93C-0D3C-469F-9EC5-1456BBFF1BD5-420x-auto.jpg",
+      "detail": "Industry veterans discuss economic, tech, political, social issues, and poker insights."
+     },
+     {
+      "name": "My First Million",
+      "id": "EE464CF5-D545-4304-8671-68BDCFD46AC1",
+      "type": "podcast",
+      "popularity": 0.974,
+      "affinity": 0.892,
+      "tags": [
+       "Entrepreneurship",
+       "Investing",
+       "Podcasts",
+       "Business"
+      ],
+      "image": "https://images.qloo.com/i/EE464CF5-D545-4304-8671-68BDCFD46AC1-420x-auto.jpg",
+      "detail": "Sam Parr and Shaan Puri explore innovative business ideas and market trends, often featuring guest collaborations."
+     },
+     {
+      "name": "Masters of Scale",
+      "id": "2F65102F-5DEA-4D90-AECD-E124629B9807",
+      "type": "podcast",
+      "popularity": 0.978,
+      "affinity": 0.886,
+      "tags": [
+       "Podcasts",
+       "Entrepreneurship",
+       "Business",
+       "Management"
+      ],
+      "image": "https://images.qloo.com/i/2F65102F-5DEA-4D90-AECD-E124629B9807-420x-auto.jpg",
+      "detail": "Iconic business leaders share lessons and strategies for growing successful companies through candid conversations."
+     },
+     {
+      "name": "followHIM",
+      "id": "C91EF051-1E42-488A-A008-647F30BAD053",
+      "type": "podcast",
+      "popularity": 0.979,
+      "affinity": 0.884,
+      "tags": [
+       "Education",
+       "Courses",
+       "Religion & Spirituality",
+       "Christianity",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/C91EF051-1E42-488A-A008-647F30BAD053-420x-auto.jpg",
+      "detail": "Engaging discussions with experts to enhance your study of the Come, Follow Me course for Latter-day Saints."
+     },
+     {
+      "name": "Don't Miss This Study",
+      "id": "1B3338EF-0C83-41C9-915A-2FE084441E49",
+      "type": "podcast",
+      "popularity": 0.92,
+      "affinity": 0.882,
+      "tags": [
+       "Podcasts",
+       "Religion & Spirituality"
+      ],
+      "image": "https://images.qloo.com/i/1B3338EF-0C83-41C9-915A-2FE084441E49-420x-auto.jpg",
+      "detail": "A podcast exploring insights and discussions on scripture and faith to enhance personal study and understanding."
+     },
+     {
+      "name": "Disrupt Yourself Podcast with Whitney Johnson",
+      "id": "B133748B-8312-4BEC-BD37-CACB33E9593D",
+      "type": "podcast",
+      "popularity": 0.822,
+      "affinity": 0.882,
+      "tags": [
+       "Management",
+       "Business",
+       "Podcasts"
+      ],
+      "image": "https://images.qloo.com/i/B133748B-8312-4BEC-BD37-CACB33E9593D-420x-auto.jpg",
+      "detail": "Whitney Johnson explores personal disruption through engaging conversations with disruptors, revealing insights about work, learning, and life."
+     }
+    ],
+    "brands": [
+     {
+      "name": "Dollar Shave Club",
+      "id": "45BB2869-0A81-472B-A006-71BF290D38DD",
+      "type": "brand",
+      "popularity": 0.937,
+      "affinity": 0.916,
+      "tags": [
+       "2011 establishments in California",
+       "Unilever companies",
+       "American companies established in 2011",
+       "Male grooming brands",
+       "Razor brands",
+       "Personal care brands"
+      ],
+      "image": "https://images.qloo.com/i/45BB2869-0A81-472B-A006-71BF290D38DD-420x-auto.jpg",
+      "detail": "Dollar Shave Club is a grooming brand offering affordable razors, handles, and shaving products with a focus on quality and convenience."
+     },
+     {
+      "name": "Square",
+      "id": "376A66CE-AC37-4116-8965-DE0AABC672A9",
+      "type": "brand",
+      "popularity": 0.949,
+      "affinity": 0.902,
+      "tags": [
+       "Companies based in San Francisco",
+       "IOS software",
+       "American companies established in 2009",
+       "South of Market",
+       "Financial Services",
+       "Online payments"
+      ],
+      "image": "https://images.qloo.com/i/376A66CE-AC37-4116-8965-DE0AABC672A9-420x-auto.jpg",
+      "detail": "Square is a financial services and business management platform powering over 4 million businesses globally with payment processing, point of sale hardware, and business software solutions."
+     },
+     {
+      "name": "Soylent",
+      "id": "BED9714C-EB06-4A8B-9490-EC8DAA5BD9D5",
+      "type": "brand",
+      "popularity": 0.789,
+      "affinity": 0.9,
+      "tags": [
+       "Dietary supplements",
+       "Products introduced in 2013",
+       "Drinks",
+       "Juice",
+       "Vegetarian diets",
+       "Food"
+      ],
+      "image": "https://images.qloo.com/i/BED9714C-EB06-4A8B-9490-EC8DAA5BD9D5-420x-auto.jpg",
+      "detail": "Soylent is a science-backed meal replacement brand offering complete nutrition with protein, healthy fats, slow-burning carbs, and 28 essential vitamins and minerals, designed for convenience, health, and sustainability."
+     },
+     {
+      "name": "Untuckit",
+      "id": "C4438E6F-8EA9-463E-850E-43C5D72C4BDF",
+      "type": "brand",
+      "popularity": 0.805,
+      "affinity": 0.9,
+      "tags": [
+       "Retail companies established in 2015",
+       "Clothing companies based in New York City",
+       "2011 establishments in New York City",
+       "Casual",
+       "Fashion",
+       "American companies established in 2011"
+      ],
+      "image": "https://images.qloo.com/i/C4438E6F-8EA9-463E-850E-43C5D72C4BDF-420x-auto.jpg",
+      "detail": "UNTUCKit is a clothing brand specializing in shirts designed to be worn untucked, offering polos, button-downs, shorts, pants, and sport coats with a focus on perfect fit and casual style."
+     },
+     {
+      "name": "quip",
+      "id": "2A2B52AB-19A9-47EE-8091-63F9360A89D1",
+      "type": "brand",
+      "popularity": 0.821,
+      "affinity": 0.899,
+      "tags": [
+       "Household",
+       "Minimalist",
+       "Monochromatic",
+       "Sleek",
+       "Functional Design",
+       "Organized Living"
+      ],
+      "image": "https://images.qloo.com/i/2A2B52AB-19A9-47EE-8091-63F9360A89D1-420x-auto.jpg",
+      "detail": "quip is a brand offering award-winning oral wellness products, including sleek and effective sonic toothbrushes."
+     },
+     {
+      "name": "Bragi",
+      "id": "49FEBFB6-D8DE-4394-A1D3-71672D6D03D7",
+      "type": "brand",
+      "popularity": 0.521,
+      "affinity": 0.897,
+      "tags": [
+       "Electronics",
+       "Headphones",
+       "Minimalist",
+       "Clean",
+       "Functional",
+       "Technical"
+      ],
+      "image": "https://images.qloo.com/i/49FEBFB6-D8DE-4394-A1D3-71672D6D03D7-420x-auto.jpg",
+      "detail": "Bragi is a technology brand known for its wireless smart in-ear headphones and advanced AI-powered earphone software platform."
+     }
+    ]
+   },
+   "brief": {
+    "headline": "LAUNCH's focus on high-agency technical founders with early traction, plus a 71 fit score against his Qloo audience, makes Jason Calacanis a credible investor to pitch a live-events app that turns a concert ticket into a full night out.",
+    "angle": "Lead with traction and the technical edge behind fanbase-matched pre-show bars, merch and rides, since LAUNCH backs pre-Series A startups that already show some traction. Position the product as the layer that extends what Ticketmaster, Spotify and Uber each do for one part of the night.",
+    "name_drop": [
+     {
+      "company": "Thumbtack",
+      "line": "Your users already overlap strongly with Thumbtack's audience, so they are used to a marketplace that matches them to local services, which is the same pattern you use for bars and rides.",
+      "name": "Thumbtack",
+      "grounded": true
+     },
+     {
+      "company": "Robinhood",
+      "line": "Your customers show high affinity with Robinhood's audience, which tells us they are mobile-first and comfortable making repeat spending decisions in an app.",
+      "name": "Robinhood",
+      "grounded": true
+     },
+     {
+      "company": "Calm",
+      "line": "Calm's audience overlaps closely with yours, which supports building the product around a repeat, habit-driven ritual rather than a one-off event purchase.",
+      "name": "Calm",
+      "grounded": true
+     }
+    ],
+    "deck": [
+     "Lead with traction, such as nights booked, repeat attendance or revenue per ticket, because LAUNCH's accelerator targets pre-Series A startups that already show some traction.",
+     "Show the fanbase-matching logic and how the data is built, so the technical founder profile LAUNCH looks for is visible in the deck.",
+     "Use the Qloo overlap with Thumbtack, Robinhood and Calm as audience evidence, and state the affinity scores plainly.",
+     "Address the age gap directly: your core crowd is 25 to 29 while LAUNCH's portfolio audience skews 45 to 54, so explain why your segment is the one to build for.",
+     "Frame Ticketmaster, Spotify and Uber as clear reference points that show where your product fits in the night out."
+    ],
+    "openers": [
+     {
+      "line": "Masters of Scale covers how products scale fast, so how do you think about taking a live-events app from one city's fanbase to the next?",
+      "based_on": "Masters of Scale",
+      "name": "Masters of Scale",
+      "grounded": true
+     },
+     {
+      "line": "Dollar Shave Club built a subscription habit around a daily ritual, so where does a concert night fit into your users' routine?",
+      "based_on": "Dollar Shave Club",
+      "name": "Dollar Shave Club",
+      "grounded": true
+     },
+     {
+      "line": "Your bars, merch and rides look like a commerce layer on top of a ticket, so how do you think about payments and partner integrations for live events?",
+      "based_on": "Square",
+      "name": "Square",
+      "grounded": true
+     }
+    ],
+    "avoid": [
+     "Do not pitch this as a consumer app without traction, since LAUNCH's accelerator and syndicate look for startups with traction and $1M+ ARR.",
+     "Do not lead with the technology alone, because LAUNCH backs high-agency technical founders but still needs proof that the business works.",
+     "Do not present Qloo affinity scores as proof of demand or as a sign of his personal tastes, since they describe the audiences of his public interests and portfolio fit, not his preferences or your revenue."
+    ],
+    "questions": [
+     "What traction do you have today, such as nights booked, repeat attendance or ARR, and how is it growing month over month?",
+     "How do you keep 25 to 29 year old fans engaged after the show ends, and what does your retention look like?",
+     "Ticketmaster already owns the ticket, so why can you win the night out when venues and promoters control distribution?"
+    ]
+   },
+   "baseline": {
+    "picks": [
+     {
+      "company": "Uber",
+      "line": "Your customers already use Uber to get to and from shows, so we'd build rides into the night out rather than compete with that habit.",
+      "rank": null,
+      "of": 4,
+      "affinity": null
+     },
+     {
+      "company": "Thumbtack",
+      "line": "Thumbtack showed how a local marketplace can turn nearby demand into repeat bookings, and we're applying that loop to venues, fans, and bars around each show.",
+      "rank": 2,
+      "of": 4,
+      "affinity": 0.782
+     }
+    ],
+    "openers": [
+     {
+      "line": "Ticketmaster gets fans through the door, Spotify builds the playlist, and Uber gets them home, but nothing connects the night in between, and that's the gap we're filling."
+     },
+     {
+      "line": "Most concert fans spend more money before and after the show than on the ticket itself, and we built an app that organizes that whole night for each fanbase."
+     }
+    ]
+   }
+  },
+  {
+   "type": "done",
+   "qlooCalls": [
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Ticketmaster&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 397,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Spotify&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 397,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 402,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Uber&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 141,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Robinhood&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 146,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Calm&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 149,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Wealthfront&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 132,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Datastax&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 135,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Desktop+Metal&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 138,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Trello&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 123,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Superhuman&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 125,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Thumbtack&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 137,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Trello&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 149,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Superhuman&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 158,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Orreco&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 124,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Neurometric&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 139,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=8090+Solutions&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 379,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Recall&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 141,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Go.AI&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 141,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Secludy&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 145,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=All-In&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 122,
+     "ok": false,
+     "status": 429
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=This+Week+in+Startups&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 137,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=ANGEL&types=urn%3Aentity%3Abook&take=3",
+     "ms": 161,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=All-In&types=urn%3Aentity%3Apodcast&take=3",
+     "ms": 146,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=The+Syndicate&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 141,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Founder+University&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 147,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=LAUNCH+Festival&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 156,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB&filter.results.entities=117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09%2C03EE3F81-3946-4A11-AA9D-E3DFA828EC57%2CC97FAC3C-67C9-4158-A596-083ABDEC2CC7&take=4",
+     "ms": 150,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=177ABEBD-6662-4362-98A1-17257CA783C8%2C99CBD9B1-F023-4034-97E7-E95A4A85BDD2%2CDAA03219-916F-491D-9F1C-E780DFA8A5DB%2C117146D1-9BD1-4FEC-8243-D171D4E5AC9A%2C47DD40B2-E2BC-421A-9466-C229D9DFDA09%2C03EE3F81-3946-4A11-AA9D-E3DFA828EC57%2CC97FAC3C-67C9-4158-A596-083ABDEC2CC7",
+     "ms": 142,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C09DF7942-5B4F-464A-BA8B-FC4CA9B568D6%2CFB7F41EC-8005-486F-B806-43B6C788031C",
+     "ms": 248,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Apodcast&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C09DF7942-5B4F-464A-BA8B-FC4CA9B568D6%2CFB7F41EC-8005-486F-B806-43B6C788031C",
+     "ms": 439,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=6&signal.interests.entities=3F0EB23C-390B-4D2C-92AF-D1114FF3D67F%2C09DF7942-5B4F-464A-BA8B-FC4CA9B568D6%2CFB7F41EC-8005-486F-B806-43B6C788031C",
+     "ms": 590,
+     "ok": true
+    }
+   ]
+  }
+ ],
+ "renders": [],
+ "baseline": null,
+ "recorded": "2026-10-21T18:25:57.225Z"
+}

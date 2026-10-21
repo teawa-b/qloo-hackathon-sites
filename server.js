@@ -23,7 +23,7 @@ const files = {
   '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
   '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
   '/room': ['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'], '/room.css': ['room.css', 'text/css'],
-  '/pitch': ['pitch.html', 'text/html'], '/pitch.js': ['pitch.js', 'text/javascript'],
+  '/pitch': ['pitch.html', 'text/html'], '/pitch.js': ['pitch.js', 'text/javascript'], '/pitch.css': ['pitch.css', 'text/css'],
   '/talk': ['talk.html', 'text/html'], '/talk.js': ['talk.js', 'text/javascript'], '/talk-xr.js': ['talk-xr.js', 'text/javascript'],
   // Taste Lab, the raw Qloo explorer, mounted under /lab.
   '/lab': ['../lab/public/index.html', 'text/html'], '/lab/app.js': ['../lab/public/app.js', 'text/javascript'], '/lab/style.css': ['../lab/public/style.css', 'text/css']
@@ -34,7 +34,7 @@ const files = {
 export const sites = {
   openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
   room: { name: 'Taste Room', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/'] },
-  pitch: { name: 'Pitch Brief', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js'], api: ['/api/pitch'] },
+  pitch: { name: 'Pitchprep', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js', '/pitch.css', '/img/'], api: ['/api/pitch'] },
   talk: { name: 'Talk Coach', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
 };
@@ -53,7 +53,8 @@ const csp = {
   // The taste room plays its playlist through YouTube's search embed.
   room: "default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
-  pitch: "default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+  // Pitchprep loads the Phosphor icon font from jsDelivr.
+  pitch: `default-src 'self'; img-src 'self' https: data:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'`,
   // Talk loads three.js from jsDelivr only when entering AR/VR; the microphone stays on this origin.
   talk: `default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; connect-src 'self' ${cdn}; base-uri 'none'; frame-ancestors 'none'`
 };

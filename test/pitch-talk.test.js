@@ -65,6 +65,11 @@ test('pitch: cited web research, Qloo portfolio scoring with filter.results.enti
   assert.ok(final.fit.score > 0 && final.fit.score <= 100);
   assert.deepEqual(final.brief.name_drop.map(n => [n.company, n.grounded]), [['Uber', true], ['Made Up Co', false]], 'invented portfolio companies are flagged');
   assert.equal(final.brief.openers[0].grounded, true);
+  // Without Qloo: the LLM's own picks, each placed in Qloo's ranking (or marked as not found).
+  assert.deepEqual(final.baseline.picks.map(p => [p.company, p.rank]), [['Uber', 1], ['Made Up Co', null]]);
+  // The investor is never sent to Qloo: only their portfolio, public interests and your comparables.
+  assert.equal(log.some(l => JSON.stringify(l).includes('Jane')), false, 'no Qloo call names the investor');
+  assert.ok(ev.find(e => e.type === 'done').qlooCalls.length > 0, 'every Qloo call is listed for the UI');
   assert.equal(JSON.stringify(ev).includes(OKEY) || JSON.stringify(ev).includes(QKEY), false);
 });
 
