@@ -208,7 +208,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
           Object.assign(space, { details, photos: details.photos.length ? details.photos : [space.photo], rentText: details.rentText || space.rentText, sizeText: details.sizeText || space.sizeText, title: space.title });
           // Put usable interior shots first so the picker (and the default choice) starts with a real room.
           if (llm?.look && space.photos.length > 1) {
-            const { interiors } = await rankInteriors({ photos: space.photos, look: llm.look, fetcher }).catch(() => ({ interiors: [] }));
+            const { interiors } = await rankInteriors({ photos: space.photos, look: (llm.fast || llm).look, fetcher }).catch(() => ({ interiors: [] }));
             space.interiors = interiors;
             space.photos = [...interiors, ...space.photos.filter(p => !interiors.includes(p))];
           }
@@ -395,7 +395,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (body.consent !== true) return send(400, { error: 'Confirm the other person knows you are using a conversation assistant.' });
         if (!limit.take('talk', ip)) return send(429, { error: 'Too many conversations this hour. Try again later.' });
         const id = randomUUID();
-        const talk = createTalk({ qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }), llm });
+        const talk = createTalk({ qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }), llm: llm.fast || llm });
         const mine = (Array.isArray(body.mine) ? body.mine : String(body.mine || '').split(',')).map(s => String(s).trim().slice(0, 60)).filter(Boolean);
         if (mine.length) await talk.setMine(mine);
         talks.set(id, { talk, busy: Promise.resolve() });

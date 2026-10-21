@@ -43,7 +43,7 @@ npm run start:pitch
 | Variable | What it unlocks |
 |---|---|
 | `QLOO_API_KEY`, `QLOO_API_HOST` | Every live run. Hackathon keys use `https://hackathon.api.qloo.com` |
-| `OPENROUTER_API_KEY` (or `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`) | The agent, the briefs and web research (Claude Sonnet 5.5 by default) |
+| `OPENROUTER_API_KEY` (or `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`) | The agent, the briefs and web research. Cheap by default: Claude Haiku 5.5, plus Gemini 2.5 Flash Lite for Talk Coach's live turns. `LLM_MODEL` and `LLM_FAST_MODEL` take any OpenRouter model (OpenAI, Gemini, Claude) |
 | `FAL_KEY` | Redesigns and room paintings (GPT Image 2.5 Flare), the live walkthrough (Lingbot World 2), speech to text (ElevenLabs) |
 | `REALTYAPI_KEY` | Optional: live commercial listings near the clicked point in Openhere |
 | `PRUNAAI_KEY`, `WORLDLABS_API_KEY` | Optional fallbacks: Pruna image edits, World Labs splat worlds |

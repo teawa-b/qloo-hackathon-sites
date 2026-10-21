@@ -49,7 +49,7 @@ Every run has a panel that answers the same brief with no tools, then checks eac
 
 ## How the agent works
 
-The LLM (Claude Sonnet 5.5 through OpenRouter by default) runs a multi-step tool loop in [`lib/agent.js`](../lib/agent.js). It decides which Qloo questions to ask, reads the answers and adapts when a call comes back empty. Steps stream to the browser over server-sent events; **How the agent decided** opens the full reasoning, every tool call and the raw Qloo request log.
+The LLM (Claude Haiku 5.5 through OpenRouter by default, or any model set in `LLM_MODEL`) runs a multi-step tool loop in [`lib/agent.js`](../lib/agent.js). It decides which Qloo questions to ask, reads the answers and adapts when a call comes back empty. Steps stream to the browser over server-sent events; **How the agent decided** opens the full reasoning, every tool call and the raw Qloo request log.
 
 | Tool | What it calls |
 |---|---|
