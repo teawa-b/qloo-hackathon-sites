@@ -1,7 +1,7 @@
 {
   "name": "qloo-hackathon-sites",
   "version": "1.0.0",
-  "description": "Five Qloo-powered sites sharing one codebase: Openhere (venue redesign), Taste Room, Pitch Brief, Talk Coach and Taste Lab.",
+  "description": "Four Qloo-powered apps sharing one codebase: Openhere, Roomful, Pitchprep and SmallTalk.",
   "license": "MIT",
   "type": "module",
   "scripts": {
