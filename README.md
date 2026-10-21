@@ -8,7 +8,7 @@ Four small apps built on [Qloo](https://www.qloo.com)'s taste graph for the [Qlo
 |---|---|---|---|
 | **Pitchprep** | Research an investor with cited sources, then Qloo shows which of their companies your customers already love | `/?demo=boehly` | [docs/pitchprep.md](docs/pitchprep.md) |
 | **Openhere** | Pick a real space on the globe and say who it's for. An agent redesigns the photo from what those people love, then you walk inside | `/?demo=redbull-bridgers` | [docs/openhere.md](docs/openhere.md) |
-| **Roomful** | Name a few things you love and walk into the room they make, with the music on | `/?demo=rain` | [docs/taste-room.md](docs/taste-room.md) |
+| **Roomful** | Name a few things you love and walk into the room they make, with the music on | `/?demo=rain` | [docs/roomful.md](docs/roomful.md) |
 | **SmallTalk** | It hears what the other person mentions and tells you what to say next, on a phone, display glasses or a Quest headset | `/?demo=sample` | [docs/talk-coach.md](docs/talk-coach.md) |
 
 The repo also holds Taste Lab (`lab/`), the raw Qloo explorer the project started from. It is not part of the submission.

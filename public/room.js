@@ -33,7 +33,7 @@ async function build(text, demo = null) {
   try {
     const stall = new AbortController();
     let watchdog = setTimeout(() => stall.abort(), 50000);
-    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(demo ? { text, demo } : { text }), signal: stall.signal });
+    const res = await fetch('/api/room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(demo ? { text, demo, pace: new URLSearchParams(location.search).get('pace') } : { text }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The room could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';

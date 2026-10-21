@@ -1,0 +1,12 @@
+{
+  "seeds": ["Radiohead", "Blade Runner", "Haruki Murakami", "Muji"],
+  "outputs": [
+    ["Rooms", "Intimate, Japanese, Dark Wood"],
+    ["Mood", "Vintage, Homey"],
+    ["Playlist", "Sonic Youth, The Smiths, Pixies"],
+    ["Shelf", "Brave New World, The Illustrated Man"],
+    ["Screen", "Children of Men, Synecdoche, New York"],
+    ["Brands", "MoMA, The New Yorker"]
+  ],
+  "walkFrames": 46
+}

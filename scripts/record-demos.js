@@ -17,7 +17,7 @@ const demos = {
   room: [
     { slug: 'heartbreak', title: 'Velvet Bistro Bedroom', path: '/api/room', body: { text: 'Phoebe Bridgers, Fleabag, Sally Rooney, Glossier, Dr. Martens' } },
     { slug: 'courtside', title: 'Court Side Lounge', path: '/api/room', body: { text: 'Kendrick Lamar, Nike, Jordan Peele films, Issa Rae, Lakers' } },
-    { slug: 'rain', title: 'Rain Hour Study', path: '/api/room', body: { text: 'Radiohead, Blade Runner, Haruki Murakami, Muji, Monocle magazine' } }
+    { slug: 'rain', title: 'Rain Hour Study', path: '/api/room', body: { text: 'Radiohead, Blade Runner, Haruki Murakami, Muji' } }
   ],
   pitch: ['Jason Calacanis|LAUNCH', 'Todd Boehly|Eldridge', 'Michael Abrams|Live Nation'].map(s => {
     const [investor, firm] = s.split('|');

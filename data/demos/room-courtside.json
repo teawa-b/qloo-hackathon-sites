@@ -54,7 +54,7 @@
   {
    "type": "step_done",
    "id": "brief",
-   "summary": "Deco Court Lounge"
+   "summary": "Art Deco Court"
   },
   {
    "type": "step",
@@ -69,7 +69,7 @@
   {
    "type": "step_done",
    "id": "baseline",
-   "summary": "3 of 8 picks hold up for this taste"
+   "summary": "2 of 8 picks hold up for this taste"
   },
   {
    "type": "step_done",
@@ -79,21 +79,35 @@
   {
    "type": "final",
    "concept": {
-    "name": "Deco Court Lounge",
-    "tagline": "A posh, after-hours den where classic glamour meets street-level cool.",
-    "brief": "The room feels like a warm, velvet-lined lounge where polished Art Deco lines sit easily beside quiet Japanese restraint. Here you settle into the deep sectional, put on a record or a playlist, watch a film on the screen, and let the evening unwind.",
-    "image_prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
+    "name": "Art Deco Court",
+    "tagline": "Court-side calm with the bass turned low.",
+    "brief": "This is a room for unwinding after a game or a long week, with warm light and a deep, plush sofa. You sink into the sectional, pick a record, and talk through the film you just watched.",
+    "image_prompt": "Photoreal interior photograph at eye level of a private lounge with Art Deco influence. Walls in deep espresso lacquer with brushed brass reveal lines and a fluted walnut panel. A low charcoal velvet sectional sits on a cream wool rug, with a tall brass floor lamp casting warm amber light and recessed warm-white spotlights overhead. On a low walnut sideboard stands a vintage turntable beside a neat stack of record sleeves, a framed film poster in a matte black frame, and a pair of white and red basketball sneakers displayed under a glass dome. A small paper lantern hangs in the corner beside a ceramic vase. Soft evening light, clean lines, polished oak floorboards.",
     "design_choices": [
      {
       "element": "Lighting",
-      "choice": "Warm amber pendant lamps on a dimmer over a brass floor lamp keep the room glowing low and intimate after dark.",
+      "choice": "Brushed brass sconces and a tall amber floor lamp keep the room at a low, late-night glow.",
       "signals": [
        {
-        "name": "Cozy",
+        "name": "Art Deco",
         "grounded": true
        },
        {
         "name": "Chill",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Seating",
+      "choice": "A low charcoal velvet sectional with rounded arms gives a plush, relaxed place to sit.",
+      "signals": [
+       {
+        "name": "Posh",
+        "grounded": true
+       },
+       {
+        "name": "Cozy",
         "grounded": true
        },
        {
@@ -103,51 +117,15 @@
       ]
      },
      {
-      "element": "Seating",
-      "choice": "A deep emerald velvet sectional with geometric Art Deco stitching anchors the room as the main place to sit, lounge, and linger.",
+      "element": "Objects",
+      "choice": "A vintage turntable and a glass-domed display of sneakers sit side by side as the room's centrepiece.",
       "signals": [
        {
-        "name": "Posh",
-        "grounded": true
-       },
-       {
-        "name": "Art Deco (decor)",
-        "grounded": false
-       },
-       {
-        "name": "Chic",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Walls",
-      "choice": "Walnut paneling on one wall paired with cream lacquer on the others blends Traditional Japanese calm with an eclectic mix of finishes.",
-      "signals": [
-       {
-        "name": "Traditional Japanese",
-        "grounded": true
-       },
-       {
-        "name": "Eclectic",
+        "name": "Air Jordan Product Line",
         "grounded": true
        },
        {
         "name": "Vintage",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Objects",
-      "choice": "A vinyl record player and a Beats Electronics headphone set on the credenza, with a sneaker displayed like a collectible, give the room a personal, sneaker-culture edge.",
-      "signals": [
-       {
-        "name": "Beats Electronics",
-        "grounded": true
-       },
-       {
-        "name": "Air Jordan Product Line",
         "grounded": true
        },
        {
@@ -157,11 +135,33 @@
       ]
      },
      {
-      "element": "Soundtrack",
-      "choice": "A rotating playlist of J. Cole, Mac Miller, and Vince Staples plays through a hidden speaker system at a moderate, conversational volume.",
+      "element": "Shelf",
+      "choice": "A walnut shelf holds LeBron, Inc. and The Sixth Man beside a paper lantern and a ceramic vase.",
       "signals": [
        {
-        "name": "J. Cole",
+        "name": "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
+        "grounded": true
+       },
+       {
+        "name": "The Sixth Man",
+        "grounded": true
+       },
+       {
+        "name": "Traditional Japanese",
+        "grounded": true
+       },
+       {
+        "name": "Eclectic",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Soundtrack",
+      "choice": "Speakers tuned for low bass keep the playlist at a conversational volume, with the mix moving from Mac Miller to Vince Staples.",
+      "signals": [
+       {
+        "name": "Beats Electronics",
         "grounded": true
        },
        {
@@ -179,28 +179,28 @@
       ]
      }
     ],
-    "first_track": "J. Cole"
+    "first_track": "Mac Miller"
    },
    "render": {
-    "id": "769beb48-7ddf-493c-ac7f-54657ed6977f",
+    "id": "9f618f46-6568-457a-a991-a1e6e48cc375",
     "url": "/img/demo-room-courtside-1.jpg",
     "model": "gpt-image-2.5/flare",
-    "prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
+    "prompt": "Photoreal interior photograph at eye level of a private lounge with Art Deco influence. Walls in deep espresso lacquer with brushed brass reveal lines and a fluted walnut panel. A low charcoal velvet sectional sits on a cream wool rug, with a tall brass floor lamp casting warm amber light and recessed warm-white spotlights overhead. On a low walnut sideboard stands a vintage turntable beside a neat stack of record sleeves, a framed film poster in a matte black frame, and a pair of white and red basketball sneakers displayed under a glass dome. A small paper lantern hangs in the corner beside a ceramic vase. Soft evening light, clean lines, polished oak floorboards.",
     "aspect": "3:2",
     "signals": [
-     "Cozy",
+     "Art Deco",
      "Chill",
-     "Inviting",
      "Posh",
-     "Art Deco (decor)",
-     "Chic",
+     "Cozy",
+     "Inviting",
+     "Air Jordan Product Line",
+     "Vintage",
+     "Hip",
+     "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
+     "The Sixth Man",
      "Traditional Japanese",
      "Eclectic",
-     "Vintage",
      "Beats Electronics",
-     "Air Jordan Product Line",
-     "Hip",
-     "J. Cole",
      "Mac Miller",
      "Vince Staples",
      "Lively"
@@ -1118,21 +1118,21 @@
     "picks": [
      {
       "kind": "decor",
-      "name": "Lakers Purple and Gold",
-      "verdict": "unknown",
-      "match": null
+      "name": "Moody Neon",
+      "verdict": "known",
+      "match": "Moody"
      },
      {
       "kind": "decor",
-      "name": "Street Art Gallery Wall",
+      "name": "Gallery Wall",
       "verdict": "known",
-      "match": "Art gallery"
+      "match": "Gallery Wall"
      },
      {
       "kind": "decor",
-      "name": "Urban Modern Cozy",
+      "name": "Warm Minimalism",
       "verdict": "known",
-      "match": "Urban Modern"
+      "match": "Warm Minimalism"
      },
      {
       "kind": "artist",
@@ -1142,9 +1142,9 @@
      },
      {
       "kind": "artist",
-      "name": "J. Cole",
-      "verdict": "ranked",
-      "match": "J. Cole"
+      "name": "Anderson .Paak",
+      "verdict": "known",
+      "match": "Anderson Paak"
      },
      {
       "kind": "artist",
@@ -1166,9 +1166,9 @@
      }
     ],
     "counts": {
-     "ranked": 3,
-     "known": 4,
-     "unknown": 1
+     "ranked": 2,
+     "known": 6,
+     "unknown": 0
     },
     "total": 8
    }
@@ -1178,92 +1178,97 @@
    "qlooCalls": [
     {
      "url": "https://hackathon.api.qloo.com/search?query=Kendrick+Lamar&take=3",
-     "ms": 538,
+     "ms": 490,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Nike&take=3",
-     "ms": 174,
+     "ms": 156,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Jordan+Peele+films&take=3",
-     "ms": 248,
+     "ms": 212,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Issa+Rae&take=3",
-     "ms": 259,
+     "ms": 247,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Lakers&take=3",
-     "ms": 147,
+     "ms": 148,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=10",
-     "ms": 890,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=10",
-     "ms": 1193,
+     "ms": 904,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=8",
-     "ms": 1196,
+     "ms": 1176,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91&take=10",
+     "ms": 1176,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 360,
+     "ms": 363,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 1386,
+     "ms": 838,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 2299,
+     "ms": 1666,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 3246,
+     "ms": 3357,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=C915A918-39C5-47A3-A101-D9FA1DECBD9C%2CC70CE2B8-0AD1-4150-BF18-5A6347F2E860%2C5A9C8BCE-EAB2-46E1-B41A-8FF4042EE95F%2C6156038F-ADDE-4496-9BD1-7251B999A876%2C9EA0A171-B6E8-49BE-A216-739460F6FC91",
-     "ms": 137,
+     "ms": 150,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Tyler%2C+The+Creator&types=urn%3Aentity%3Aartist&take=3",
-     "ms": 399,
+     "ms": 429,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Warm+Minimalism&take=8",
+     "ms": 430,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/search?query=Anderson+.Paak&types=urn%3Aentity%3Aartist&take=3",
+     "ms": 436,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Gallery+Wall&take=8",
+     "ms": 466,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Moody+Neon&take=8",
+     "ms": 503,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Air+Jordan&types=urn%3Aentity%3Abrand&take=3",
-     "ms": 406,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Lakers+Purple+and+Gold&take=8",
-     "ms": 423,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Urban+Modern+Cozy&take=8",
-     "ms": 444,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Street+Art+Gallery+Wall&take=8",
-     "ms": 603,
+     "ms": 501,
      "ok": true
     }
    ]
@@ -1271,26 +1276,26 @@
  ],
  "renders": [
   {
-   "id": "769beb48-7ddf-493c-ac7f-54657ed6977f",
+   "id": "9f618f46-6568-457a-a991-a1e6e48cc375",
    "url": "/img/demo-room-courtside-1.jpg",
-   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4dee/B6l_nAxSp-4ZTf3dqJ10a_DvRalZ8U.jpg",
-   "prompt": "Photoreal interior photograph at eye level of a private lounge with warm walnut wall paneling and a cream lacquered wall. A brass sunburst mirror hangs above a low walnut credenza. A deep emerald velvet sectional with geometric stitching sits on a cream wool rug over polished concrete. A translucent shoji-style screen softens a tall window. Warm amber pendant lamps and a brass floor lamp cast golden pools of light. On the credenza, a vinyl record player rests beside a stack of records, a framed abstract film poster in brushed brass, and a red and black basketball sneaker displayed on tissue paper in an open box. Soft, inviting, lived-in atmosphere, rich natural textures, unoccupied room.",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4e04/q9RZ5B13VgjKmbfxyf_CO_nMWKCsOh.jpg",
+   "prompt": "Photoreal interior photograph at eye level of a private lounge with Art Deco influence. Walls in deep espresso lacquer with brushed brass reveal lines and a fluted walnut panel. A low charcoal velvet sectional sits on a cream wool rug, with a tall brass floor lamp casting warm amber light and recessed warm-white spotlights overhead. On a low walnut sideboard stands a vintage turntable beside a neat stack of record sleeves, a framed film poster in a matte black frame, and a pair of white and red basketball sneakers displayed under a glass dome. A small paper lantern hangs in the corner beside a ceramic vase. Soft evening light, clean lines, polished oak floorboards.",
    "aspect": "3:2",
    "model": "gpt-image-2.5/flare",
    "signals": [
-    "Cozy",
+    "Art Deco",
     "Chill",
-    "Inviting",
     "Posh",
-    "Art Deco (decor)",
-    "Chic",
+    "Cozy",
+    "Inviting",
+    "Air Jordan Product Line",
+    "Vintage",
+    "Hip",
+    "LeBron, Inc.: The Making of a Billion-Dollar Athlete",
+    "The Sixth Man",
     "Traditional Japanese",
     "Eclectic",
-    "Vintage",
     "Beats Electronics",
-    "Air Jordan Product Line",
-    "Hip",
-    "J. Cole",
     "Mac Miller",
     "Vince Staples",
     "Lively"
@@ -1298,5 +1303,5 @@
   }
  ],
  "baseline": null,
- "recorded": "2026-10-21T18:58:42.068Z"
+ "recorded": "2026-10-21T19:02:16.179Z"
 }

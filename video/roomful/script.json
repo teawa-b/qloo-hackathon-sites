@@ -1,0 +1,16 @@
+{
+  "app": "roomful",
+  "voice": "Sarah",
+  "data": "data.json",
+  "scenes": [
+    { "id": "title", "say": "Roomful. Name a few things you love, and walk into the room they make.", "caption": "" },
+    { "id": "form", "say": "Type your favourites. Here: Radiohead, Blade Runner, Haruki Murakami and Muji.", "caption": "Name a few things you love" },
+    { "id": "build", "say": "Qloo finds each one, then answers a question no search engine can: what rooms do people with this taste love? Intimate, Japanese, dark wood.", "caption": "Qloo reads the taste" },
+    { "id": "qloo", "say": "From the same favourites, Qloo builds the playlist, the shelf and the screen: Sonic Youth and The Smiths, Brave New World, Children of Men. Twenty Qloo calls in all.", "caption": "Playlist, shelf and screen, from Qloo" },
+    { "id": "reveal", "say": "An agent writes the room from those answers alone, and paints it. This is the Quiet Signal Room.", "caption": "The room, painted" },
+    { "id": "choices", "say": "Every choice names the Qloo result behind it. Anything Qloo did not return is marked unverified, like this one.", "caption": "Every choice cites Qloo" },
+    { "id": "compare", "say": "Give the same favourites to a language model alone, and none of its eight picks hold up for this taste.", "caption": "Without Qloo, 0 of 8 hold up" },
+    { "id": "walk", "say": "Then step inside. A live world model turns the painting into a room you can walk around.", "caption": "Walk inside" },
+    { "id": "end", "say": "Roomful. A room full of what you love.", "caption": "" }
+  ]
+}

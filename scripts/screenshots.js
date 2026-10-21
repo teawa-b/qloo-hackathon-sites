@@ -8,8 +8,8 @@ const shots = [
   ['openhere-home', 'http://127.0.0.1:3300/', 1440, 900, 9000],
   ['openhere-studio', 'http://127.0.0.1:3300/?demo=redbull-bridgers', 1440, 900, 12000],
   ['openhere-studio-detail', 'http://127.0.0.1:3300/?demo=live-music-parkdale', 1440, 1400, 12000],
-  ['room-home', 'http://127.0.0.1:3301/', 1440, 900, 4000],
-  ['room-result', 'http://127.0.0.1:3301/?demo=rain', 1440, 1000, 12000],
+  ['roomful-home', 'http://127.0.0.1:3301/', 1440, 900, 4000],
+  ['roomful-result', 'http://127.0.0.1:3301/?demo=rain', 1440, 1000, 12000],
   ['pitchprep-home', 'http://127.0.0.1:3302/', 1440, 900, 3000],
   ['pitchprep-brief', 'http://127.0.0.1:3302/?demo=boehly', 1440, 1700, 12000],
   // The hero image on Pitchprep's own home page (saved into public/img, light mode).

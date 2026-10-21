@@ -16,9 +16,11 @@ export async function launch({ port = 9334 } = {}) {
   const send = (method, params = {}, sessionId) => new Promise(r => { const n = ++id; pending.set(n, r); socket.send(JSON.stringify({ id: n, method, params, sessionId })); });
 
   // Open a page at a given viewport; returns helpers bound to that tab.
-  async function page({ width, height, scale = 1, scheme = 'light' }) {
+  async function page({ width, height, scale = 1, scheme = 'light', ua }) {
     const { result: { targetId } } = await send('Target.createTarget', { url: 'about:blank' });
     const { result: { sessionId } } = await send('Target.attachToTarget', { targetId, flatten: true });
+    // Some embeds (YouTube) refuse headless browsers; a regular desktop user agent lets them load.
+    if (ua) await send('Network.setUserAgentOverride', { userAgent: ua }, sessionId);
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: scale, mobile: false }, sessionId);
     await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: scheme }] }, sessionId);
     const evaluate = async expression => (await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }, sessionId)).result?.result?.value;

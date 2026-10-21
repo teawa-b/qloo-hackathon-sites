@@ -54,7 +54,7 @@
   {
    "type": "step_done",
    "id": "brief",
-   "summary": "Late Night Bistro"
+   "summary": "Velvet Speakeasy Lounge"
   },
   {
    "type": "step",
@@ -79,32 +79,36 @@
   {
    "type": "final",
    "concept": {
-    "name": "Late Night Bistro",
-    "tagline": "A velvet corner for slow evenings, old records and unsent messages.",
-    "brief": "This is a small, candlelit room that feels like a Left Bank bistro after closing, with brass, walnut and deep green velvet holding you close. Spend your time reading on the banquette, flipping through Polaroids, and putting on one record after another while the city hums outside.",
-    "image_prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
+    "name": "Velvet Speakeasy Lounge",
+    "tagline": "A low-lit room for reading, records and rewatching the same film twice.",
+    "brief": "The room feels like a candlelit Art Deco bar after closing, warm and a little melancholy, with polished surfaces softened by velvet and amber light. You spend evenings here reading on the banquette, putting a record on the turntable, and watching Lady Bird on a small projected screen.",
+    "image_prompt": "Photoreal interior photograph at eye level of a small private lounge. A deep emerald velvet banquette runs along a cream plaster wall, with two black lacquer bistro chairs and a round marble-topped table. Brass art deco sconces with frosted glass cast a warm amber glow. The floor is cream and grey terrazzo, and the walls have fluted walnut panelling below a picture rail. On a walnut credenza sits a turntable beside a stack of vinyl sleeves. A framed film still hangs above, with no text. A Kanken backpack rests on a brass hook, and a Polaroid print is pinned to a cork board. Soft, dim, intimate evening light.",
     "design_choices": [
      {
       "element": "Lighting",
-      "choice": "Two amber wall sconces on a dimmer and a low opaline pendant keep the light warm and close to the table.",
+      "choice": "Brass art deco sconces on a dimmer keep the room low and amber after dark.",
       "signals": [
        {
-        "name": "Speakeasy (decor)",
-        "grounded": false
-       },
-       {
-        "name": "Romantic",
+        "name": "High End",
         "grounded": true
        },
        {
-        "name": "Intimate",
+        "name": "Speakeasy",
+        "grounded": true
+       },
+       {
+        "name": "Art Deco",
+        "grounded": true
+       },
+       {
+        "name": "Romantic",
         "grounded": true
        }
       ]
      },
      {
       "element": "Seating",
-      "choice": "A deep emerald velvet banquette with bolsters runs along one wall, paired with a round bistro table for two.",
+      "choice": "A deep emerald velvet banquette along one wall, paired with two bistro chairs for company.",
       "signals": [
        {
         "name": "Parisian Bistro",
@@ -112,20 +116,6 @@
        },
        {
         "name": "Cozy",
-        "grounded": true
-       }
-      ]
-     },
-     {
-      "element": "Materials",
-      "choice": "Fluted walnut panelling, a marble tabletop and black and white hexagon tiles give the room a polished, Art Deco structure.",
-      "signals": [
-       {
-        "name": "Art Deco",
-        "grounded": true
-       },
-       {
-        "name": "Polished",
         "grounded": true
        },
        {
@@ -135,15 +125,33 @@
       ]
      },
      {
-      "element": "Objects",
-      "choice": "Polaroid prints pinned to a cork board and a Kanken backpack on a brass hook make the room feel personal and lived in.",
+      "element": "Materials",
+      "choice": "Fluted walnut panelling and a terrazzo floor add polished texture without feeling cold.",
       "signals": [
        {
-        "name": "Polaroid",
+        "name": "Polished",
         "grounded": true
        },
        {
-        "name": "Kanken",
+        "name": "Vintage",
+        "grounded": true
+       },
+       {
+        "name": "Professional",
+        "grounded": true
+       }
+      ]
+     },
+     {
+      "element": "Soundtrack",
+      "choice": "A walnut-cased turntable beside the sofa, with Lucy Dacus and Mitski records within reach.",
+      "signals": [
+       {
+        "name": "Lucy Dacus",
+        "grounded": true
+       },
+       {
+        "name": "Mitski",
         "grounded": true
        },
        {
@@ -154,10 +162,14 @@
      },
      {
       "element": "Shelf",
-      "choice": "A short oak shelf holds well-worn copies of Shuggie Bain and Conversations on Love beside a small vinyl stack.",
+      "choice": "Open shelves hold Shuggie Bain, Mayflies and Conversations on Love, with a Kanken hanging by the door.",
       "signals": [
        {
         "name": "Shuggie Bain",
+        "grounded": true
+       },
+       {
+        "name": "Mayflies",
         "grounded": true
        },
        {
@@ -165,7 +177,7 @@
         "grounded": true
        },
        {
-        "name": "Vintage",
+        "name": "Kanken",
         "grounded": true
        }
       ]
@@ -174,26 +186,29 @@
     "first_track": "Julien Baker"
    },
    "render": {
-    "id": "b37e61b3-306c-4097-9a77-9c7920b96803",
+    "id": "6aebe653-95c5-4e43-b332-3093bb23214c",
     "url": "/img/demo-room-heartbreak-1.jpg",
     "model": "gpt-image-2.5/flare",
-    "prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
+    "prompt": "Photoreal interior photograph at eye level of a small private lounge. A deep emerald velvet banquette runs along a cream plaster wall, with two black lacquer bistro chairs and a round marble-topped table. Brass art deco sconces with frosted glass cast a warm amber glow. The floor is cream and grey terrazzo, and the walls have fluted walnut panelling below a picture rail. On a walnut credenza sits a turntable beside a stack of vinyl sleeves. A framed film still hangs above, with no text. A Kanken backpack rests on a brass hook, and a Polaroid print is pinned to a cork board. Soft, dim, intimate evening light.",
     "aspect": "3:2",
     "signals": [
-     "Speakeasy (decor)",
+     "High End",
+     "Speakeasy",
+     "Art Deco",
      "Romantic",
-     "Intimate",
      "Parisian Bistro",
      "Cozy",
-     "Art Deco",
-     "Polished",
      "Luxury",
-     "Polaroid",
-     "Kanken",
+     "Polished",
+     "Vintage",
+     "Professional",
+     "Lucy Dacus",
+     "Mitski",
      "Artistic",
      "Shuggie Bain",
+     "Mayflies",
      "Conversations on Love",
-     "Vintage"
+     "Kanken"
     ]
    },
    "taste": {
@@ -1112,27 +1127,27 @@
     "picks": [
      {
       "kind": "decor",
-      "name": "Moody Warm Lighting",
+      "name": "Moody Dim Lighting",
       "verdict": "known",
-      "match": "Warm Lighting"
+      "match": "Dim Lighting"
      },
      {
       "kind": "decor",
-      "name": "Overstuffed Bookshelf",
-      "verdict": "unknown",
-      "match": null
+      "name": "Cozy Clutter",
+      "verdict": "known",
+      "match": "Cozy"
      },
      {
       "kind": "decor",
-      "name": "Rumpled Linen Bedding",
+      "name": "Vintage Thrift Finds",
       "verdict": "unknown",
       "match": null
      },
      {
       "kind": "artist",
-      "name": "Lucy Dacus",
+      "name": "Phoebe Bridgers",
       "verdict": "ranked",
-      "match": "Lucy Dacus"
+      "match": "Phoebe Bridgers"
      },
      {
       "kind": "artist",
@@ -1142,27 +1157,27 @@
      },
      {
       "kind": "artist",
-      "name": "Julien Baker",
+      "name": "Lucy Dacus",
       "verdict": "ranked",
-      "match": "Julien Baker"
-     },
-     {
-      "kind": "brand",
-      "name": "Glossier Products",
-      "verdict": "known",
-      "match": "Glossier"
+      "match": "Lucy Dacus"
      },
      {
       "kind": "brand",
       "name": "Dr. Martens Boots",
       "verdict": "known",
       "match": "Dr. Martens"
+     },
+     {
+      "kind": "brand",
+      "name": "Glossier Perfume",
+      "verdict": "known",
+      "match": "Glossier"
      }
     ],
     "counts": {
      "ranked": 3,
-     "known": 3,
-     "unknown": 2
+     "known": 4,
+     "unknown": 1
     },
     "total": 8
    }
@@ -1172,92 +1187,92 @@
    "qlooCalls": [
     {
      "url": "https://hackathon.api.qloo.com/search?query=Phoebe+Bridgers&take=3",
-     "ms": 494,
+     "ms": 511,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Fleabag&take=3",
-     "ms": 154,
+     "ms": 135,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Sally+Rooney&take=3",
-     "ms": 158,
+     "ms": 230,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Glossier&take=3",
-     "ms": 178,
+     "ms": 143,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Dr.+Martens&take=3",
-     "ms": 302,
+     "ms": 242,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Adecor%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=10",
-     "ms": 880,
+     "ms": 889,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Ainterests%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=8",
-     "ms": 1152,
+     "ms": 1149,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Atag&filter.parents.types=urn%3Aentity%3Aplace&filter.tag.types=urn%3Atag%3Aambience%3Aqloo&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348&take=10",
-     "ms": 1154,
+     "ms": 1156,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abrand&take=6&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 371,
+     "ms": 341,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Abook&take=4&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 832,
+     "ms": 826,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Amovie&take=4&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 1660,
+     "ms": 1646,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aartist&take=8&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 3372,
+     "ms": 3271,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Ademographics&signal.interests.entities=AFBC71A7-9439-4AB0-AB68-D14B11AAF836%2C878680F2-2C8D-4D7A-8288-BEA75D38A843%2CAFBD8046-4EAC-4C0B-8348-955B033A8573%2C742FBE1B-B70F-471F-AD07-A55C9A903628%2CF59D6DB5-5A85-48C6-A2EC-CAAE334D4348",
-     "ms": 141,
+     "ms": 149,
      "ok": true
     },
     {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Rumpled+Linen+Bedding&take=8",
-     "ms": 410,
+     "url": "https://hackathon.api.qloo.com/search?query=Glossier+Perfume&types=urn%3Aentity%3Abrand&take=3",
+     "ms": 411,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Vintage+Thrift+Finds&take=8",
+     "ms": 429,
+     "ok": true
+    },
+    {
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Cozy+Clutter&take=8",
+     "ms": 430,
      "ok": true
     },
     {
      "url": "https://hackathon.api.qloo.com/search?query=Dr.+Martens+Boots&types=urn%3Aentity%3Abrand&take=3",
-     "ms": 427,
+     "ms": 434,
      "ok": true
     },
     {
-     "url": "https://hackathon.api.qloo.com/search?query=Glossier+Products&types=urn%3Aentity%3Abrand&take=3",
-     "ms": 428,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Overstuffed+Bookshelf&take=8",
-     "ms": 444,
-     "ok": true
-    },
-    {
-     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Moody+Warm+Lighting&take=8",
-     "ms": 469,
+     "url": "https://hackathon.api.qloo.com/v2/tags?filter.query=Moody+Dim+Lighting&take=8",
+     "ms": 449,
      "ok": true
     }
    ]
@@ -1265,30 +1280,33 @@
  ],
  "renders": [
   {
-   "id": "b37e61b3-306c-4097-9a77-9c7920b96803",
+   "id": "6aebe653-95c5-4e43-b332-3093bb23214c",
    "url": "/img/demo-room-heartbreak-1.jpg",
-   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4dea/ADpMyzclLJlHSdYqb2jzS_m7bl4Kde.jpg",
-   "prompt": "Photoreal interior photograph at eye level of a small private room with fluted walnut wall panelling and a deep emerald velvet banquette beneath a brass sunburst mirror. A marble-topped round bistro table sits on black and white hexagon tiles, lit by two warm amber wall sconces and a low opaline pendant. On an oak sideboard, a turntable rests beside a stack of vinyl sleeves. A framed vintage film poster hangs on the wall with blank, unlettered artwork. On a brass hook, a navy Kanken backpack hangs near black leather Dr. Martens boots. Pinned to a cork board, Polaroid prints overlap. Soft evening light, cream linen curtains, muted jewel tones, shallow depth of field.",
+   "remoteUrl": "https://v3b.fal.media/files/b/0aaf4e01/zJMR4fK7n17tJsRVqjDuI_OtXekVer.jpg",
+   "prompt": "Photoreal interior photograph at eye level of a small private lounge. A deep emerald velvet banquette runs along a cream plaster wall, with two black lacquer bistro chairs and a round marble-topped table. Brass art deco sconces with frosted glass cast a warm amber glow. The floor is cream and grey terrazzo, and the walls have fluted walnut panelling below a picture rail. On a walnut credenza sits a turntable beside a stack of vinyl sleeves. A framed film still hangs above, with no text. A Kanken backpack rests on a brass hook, and a Polaroid print is pinned to a cork board. Soft, dim, intimate evening light.",
    "aspect": "3:2",
    "model": "gpt-image-2.5/flare",
    "signals": [
-    "Speakeasy (decor)",
+    "High End",
+    "Speakeasy",
+    "Art Deco",
     "Romantic",
-    "Intimate",
     "Parisian Bistro",
     "Cozy",
-    "Art Deco",
-    "Polished",
     "Luxury",
-    "Polaroid",
-    "Kanken",
+    "Polished",
+    "Vintage",
+    "Professional",
+    "Lucy Dacus",
+    "Mitski",
     "Artistic",
     "Shuggie Bain",
+    "Mayflies",
     "Conversations on Love",
-    "Vintage"
+    "Kanken"
    ]
   }
  ],
  "baseline": null,
- "recorded": "2026-10-21T18:58:01.802Z"
+ "recorded": "2026-10-21T19:01:46.796Z"
 }

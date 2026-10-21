@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Roomful explainer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=block">
+<style>
+  :root { --bg: #f4f4f1; --surface: #fff; --ink: #17171a; --muted: #5d5d64; --line: #dcdcd6; --accent: #c42d61; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); font-family: Geist, system-ui, sans-serif; color: var(--ink); }
+  .layer { position: absolute; inset: 0; opacity: 0; }
+  .browser { position: absolute; left: 240px; top: 56px; width: 1440px; height: 838px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 2px 4px rgba(23,23,26,.06), 0 24px 64px rgba(23,23,26,.14); overflow: hidden; }
+  .bar { height: 28px; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 14px; }
+  .bar span { flex: 1; height: 16px; max-width: 360px; margin: 0 auto; border-radius: 8px; background: var(--bg); font: 500 11px/16px 'Geist Mono', monospace; color: var(--muted); text-align: center; }
+  .viewport { position: absolute; left: 0; top: 28px; width: 1440px; height: 810px; overflow: hidden; background: #111; }
+  .page { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+  .page img { display: block; width: 1440px; }
+  .spot { position: absolute; border-radius: 16px; box-shadow: 0 0 0 4000px rgba(18, 18, 20, .45), 0 0 0 3px var(--accent); pointer-events: none; opacity: 0; }
+  .caption { position: absolute; left: 240px; right: 240px; bottom: 54px; font-size: 52px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
+  .caption .w { display: inline-block; opacity: 0; transform: translateY(14px); margin-right: .24em; }
+  .caption .w.q { color: var(--accent); }
+  .card { display: grid; place-items: center; text-align: center; }
+  .card .inner { display: grid; justify-items: center; gap: 28px; }
+  .card img { width: 160px; height: 160px; border-radius: 36px; box-shadow: 0 24px 60px rgba(196,45,97,.25); }
+  .card h1 { font-size: 112px; font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+  .card p { font-size: 40px; color: var(--muted); letter-spacing: -0.02em; }
+  .card .url { font: 500 30px 'Geist Mono', monospace; color: var(--accent); }
+  .card .by { font-size: 26px; color: var(--muted); }
+  .dia { display: grid; grid-template-columns: 400px 320px 1fr; align-items: center; gap: 70px; padding: 120px 150px 220px; }
+  .col h3 { font-size: 26px; font-weight: 600; color: var(--muted); margin-bottom: 18px; }
+  .chip { display: inline-flex; align-items: center; height: 60px; padding: 0 24px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 28px; font-weight: 600; margin: 0 10px 12px 0; opacity: 0; }
+  .qbox { height: 300px; border-radius: 24px; background: var(--accent); color: #fff; display: grid; place-items: center; text-align: center; padding: 24px; opacity: 0; }
+  .qbox b { font-size: 64px; letter-spacing: -0.04em; }
+  .qbox code { display: block; margin-top: 12px; font: 500 16px/1.6 'Geist Mono', monospace; color: rgba(255,255,255,.92); }
+  .rows { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 150px 1fr; align-items: center; height: 58px; padding: 0 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-size: 24px; opacity: 0; }
+  .row span { color: var(--muted); font-size: 20px; }
+  .row b { font-weight: 600; }
+  .flow { position: absolute; height: 4px; background: var(--accent); border-radius: 2px; transform-origin: 0 50%; }
+</style>
+</head>
+<body>
+  <div id="cardTitle" class="layer card"><div class="inner"><img src="../../public/img/roomful-512.png" alt=""><h1>Roomful</h1><p>A room full of what you love.</p></div></div>
+  <div id="app" class="layer">
+    <div class="browser"><div class="bar"><span>roomful</span></div>
+      <div class="viewport"><div id="page" class="page"><img id="shot" alt=""></div><div id="spot" class="spot"></div></div>
+    </div>
+  </div>
+  <div id="dia" class="layer dia">
+    <div class="col"><h3>You love</h3><div id="chips"></div></div>
+    <div class="qbox" id="qbox"><div><b>Qloo</b><code>signal.interests.entities<br>urn:tag (decor, ambience)<br>urn:entity: artist, book,<br>movie, brand</code></div></div>
+    <div class="col"><h3>People with that taste love</h3><div id="rows" class="rows"></div></div>
+    <div id="flowA" class="flow"></div><div id="flowB" class="flow"></div>
+  </div>
+  <div id="cardEnd" class="layer card"><div class="inner"><img src="../../public/img/roomful-512.png" alt=""><h1>Roomful</h1><p>A room full of what you love.</p><div class="url" id="endUrl"></div><div class="by">Built on Qloo's taste graph</div></div></div>
+  <div id="caption" class="caption"></div>
+  <script src="timeline.js"></script>
+  <script src="compose.js"></script>
+</body>
+</html>
