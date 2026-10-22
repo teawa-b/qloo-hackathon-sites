@@ -116,6 +116,7 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-so
 .ranked .co small { display: block; font-weight: 400; color: var(--muted); margin-top: 2px; }
 .ranked .aff { font: 500 15px 'Geist Mono', ui-monospace, monospace; color: var(--accent); }
 .ranked li:nth-child(n+4) .aff { color: var(--muted); }
+.ranked li.empty { display: block; color: var(--muted); }
 .unverified { font-size: 12px; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; padding: 2px 6px; margin-left: 6px; font-weight: 400; }
 
 .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }

@@ -78,7 +78,7 @@ function show(data) {
     if (drop?.line) co.append(el('small', '', drop.line));
     li.append(el('span', 'n', String(i + 1)), co, el('span', 'aff', (r.affinity ?? 0).toFixed(2)));
     return li;
-  }) : [el('li', 'small', 'None of their portfolio companies are in Qloo yet, so there is no ranking for this investor.')]));
+  }) : [el('li', 'small empty', 'None of their portfolio companies are in Qloo yet, so there is no ranking for this investor.')]));
   const extra = drops.filter(d => !d.grounded);
   if (extra.length) extra.forEach(d => { const li = el('li'), co = el('span', 'co', d.company); co.append(el('span', 'unverified', 'not from Qloo')); li.append(el('span', 'n', ''), co, el('span', 'aff', '')); $('o-portfolio').append(li); });
   const unresolved = (dossier.portfolio || []).filter(n => !(resolved?.portfolio || []).some(p => p.name.toLowerCase().includes(n.toLowerCase().split(' ')[0])));
