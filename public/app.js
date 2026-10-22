@@ -634,7 +634,8 @@ $('walk').addEventListener('click', async () => {
   if (!render) return;
   // Real-time world model (fal Lingbot World 2) when available; World Labs splats otherwise.
   if (config.liveWorld) {
-    const q = new URLSearchParams({ render: render.id, name: concept?.name || '', tagline: concept?.tagline || '' });
+    // The painting's own link too, so any server instance can start the walk (see /api/live/start).
+    const q = new URLSearchParams({ render: render.id, name: concept?.name || '', tagline: concept?.tagline || '', ...(/^https:/.test(render.url) ? { img: render.url } : {}) });
     return window.open(`/live?${q}`, '_blank', 'noopener');
   }
   $('walk').disabled = true;

@@ -14,7 +14,7 @@ Run it with `npm run start:openhere` (port 3300), or deploy with `SITE=openhere`
 2. Drag the wipe across the photo: the real empty room on the left, the redesign on the right.
 3. Read **With and without Qloo** under the concept: an LLM's picks for the same brief, checked against what Qloo ranks for this crowd.
 4. Scroll to **Why it looks like this**: every design choice names the Qloo signal behind it. Unverified names are flagged.
-5. Click **Walk inside** to explore the redesign live (fal's real-time world model).
+5. Click **Walk inside** to explore the redesign live (fal's real-time world model), or **In 3D or VR** to step into the redesign itself, lifted into 3D, with WASD or a headset.
 6. Open **How the agent decided** for every tool call and Qloo request.
 
 [Watch the explainer](video/openhere.mp4)

@@ -38,7 +38,7 @@ $('enter').addEventListener('click', async () => {
 
 async function connect() {
   status('Reserving a world-model GPU…');
-  const start = await post('/api/live/start', { renderId, concept });
+  const start = await post('/api/live/start', { renderId, image: params.get('img') || undefined, concept });
   ({ liveId, world } = start);
   $('poster').src = world.url;
   pc = new RTCPeerConnection({ iceServers: start.iceServers });

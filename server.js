@@ -14,7 +14,7 @@ import { nearbyListings, listingDetails, rankInteriors } from './lib/realty.js';
 import { createLive } from './lib/live.js';
 import { createDepth3d } from './lib/depth3d.js';
 import { buildRoom } from './lib/room.js';
-import { loadDemo, listDemos, replay } from './lib/demos.js';
+import { loadDemo, listDemos, replay, demoRender } from './lib/demos.js';
 import { buildPitch } from './lib/pitch.js';
 import { createTalk, transcribe, compareWithout } from './lib/talk.js';
 import { parseInterests, entityList as labEntities, insightParams } from './lab/lib.js';
@@ -113,6 +113,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
     return render;
   }
   const renderImage = r => r.remoteUrl ? { url: r.remoteUrl } : { bytes: r.bytes, type: r.type };
+  // A render made on this instance, or one from a recorded example (any instance can serve those).
+  const getRender = async id => renders.get(String(id || '')) || (await demoRender(id).then(r => r && renders.set(r.id, { ...r })));
 
   return async function handle(req, res) {
     const send = (status, value, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(value)); };
@@ -235,7 +237,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       }
       match = path.match(/^\/api\/render\/([\w-]+)$/);
       if (req.method === 'GET' && match) {
-        const render = renders.get(match[1]);
+        const render = await getRender(match[1]);
         if (!render) return send(404, { error: 'This render has expired.' });
         if (render.remoteUrl) { res.writeHead(302, { Location: render.remoteUrl }); return res.end(); }
         res.writeHead(200, { 'Content-Type': render.type, 'Cache-Control': 'private, max-age=3600' });
@@ -498,7 +500,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       // Time-of-day variants of a render. The studio requests all three as soon as a redesign lands,
       // so they are usually ready before anyone clicks; results are cached per render.
       if (path === '/api/relight') {
-        const render = renders.get(String(body.renderId || ''));
+        const render = await getRender(body.renderId);
         const tod = String(body.tod || '');
         if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
         if (!timesOfDay[tod]) return send(400, { error: 'Unknown time of day.' });
@@ -516,7 +518,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       }
 
       if (path === '/api/refine') {
-        const render = renders.get(String(body.renderId || ''));
+        const render = await getRender(body.renderId);
         const instruction = String(body.instruction || '').trim().slice(0, 400);
         if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
         if (!instruction) return send(400, { error: 'Describe the change.' });
@@ -532,7 +534,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         if (!live) return send(503, { error: 'Live walkthroughs need a fal key on the server.' });
         const liveId = String(body.liveId || '');
         if (path === '/api/live/start') {
-          const render = renders.get(String(body.renderId || ''));
+          const image = /^https:\/\/[\w.-]+\.fal\.media\/[\w./-]+$/.test(String(body.image || '')) ? body.image : null;
+          const render = (await getRender(body.renderId)) || (image && { remoteUrl: image, prompt: '' });
           if (!render?.remoteUrl) return send(404, { error: 'That render has expired. Run the agent again.' });
           if (!limit.take('live', ip) || !limit.take('liveIpDaily', ip) || !limit.take('liveDaily', 'all')) return send(429, { error: 'Live walkthrough limit reached. Try again later.' });
           const concept = body.concept && typeof body.concept === 'object' ? { name: String(body.concept.name || '').slice(0, 80), tagline: String(body.concept.tagline || '').slice(0, 160) } : {};
@@ -553,7 +556,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         let image = null;
         const local = src.match(/^\/img\/([a-z0-9-]+)\.(jpg|png)$/), made = src.match(/^\/api\/render\/([\w-]+)$/);
         if (local) { const bytes = await readFile(new URL(`./public/img/${local[1]}.${local[2]}`, import.meta.url)).catch(() => null); if (bytes) image = `data:image/${local[2] === 'jpg' ? 'jpeg' : 'png'};base64,${bytes.toString('base64')}`; }
-        else if (made) { const r = renders.get(made[1]); image = r?.remoteUrl || (r?.bytes ? `data:${r.type};base64,${Buffer.from(r.bytes).toString('base64')}` : null); }
+        else if (made) { const r = await getRender(made[1]); image = r?.remoteUrl || (r?.bytes ? `data:${r.type};base64,${Buffer.from(r.bytes).toString('base64')}` : null); }
         else if (/^https:\/\/[\w.-]+\.fal\.media\/[\w./-]+$/.test(src)) image = src;
         if (!image) return send(404, { error: 'That painting has expired. Build the room again.' });
         if (!limit.take('room3d', ip) || !limit.take('room3dDaily', 'all')) return send(429, { error: '3D room limit reached. Try again later.' });
@@ -568,7 +571,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
 
       if (path === '/api/world') {
         if (!worldClient) return send(503, { error: 'This server has no World Labs key, so 3D walkthroughs are off.' });
-        const render = renders.get(String(body.renderId || ''));
+        const render = await getRender(body.renderId);
         if (!render) return send(404, { error: 'That render has expired. Run the agent again.' });
         if (render.worldOp) return send(200, { worldId: render.worldOp });
         if (!limit.take('world', ip) || !limit.take('worldDaily', 'all')) return send(429, { error: '3D walkthrough limit reached. Try again later.' });
