@@ -12,8 +12,8 @@ Know your investor before you pitch. Pitchprep researches them on the web, then 
 
 ## Try it out links
 
-- Live site: (Railway link, added once deploys resume)
-- Code: https://github.com/teawa-b/qloo-hackathon-sites
+- Live site: https://pitchprep-seven.vercel.app
+- Code: https://github.com/teawa-b/pitchprep
 
 ## Video demo link
 

@@ -11,7 +11,7 @@ Name a few things you love. Qloo reads the taste behind them, an agent designs a
 ## Try it out links
 
 - Live site: https://roomful-ten.vercel.app
-- Code: https://github.com/teawa-b/qloo-hackathon-sites
+- Code: https://github.com/teawa-b/roomful
 
 ## Built with
 

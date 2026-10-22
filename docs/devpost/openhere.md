@@ -11,7 +11,7 @@ Pick a real empty space on the map. An agent asks Qloo what the people around it
 ## Try it out links
 
 - Live site: https://openhere-cyan.vercel.app
-- Code: https://github.com/teawa-b/qloo-hackathon-sites
+- Code: https://github.com/teawa-b/openhere
 
 ## Video
 
