@@ -86,8 +86,10 @@ test('roomful: a painting becomes a 3D room through MoGe-2, streamed back throug
   assert.equal(bad.status, 400);
   const res = await fetch(`${base}/api/room3d`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: 'data:image/jpeg;base64,/9j/AAAA' }) });
   const data = await res.json();
-  assert.equal(res.status, 200); assert.match(data.glb, /^\/api\/room3d\/[\w-]+\.glb$/);
-  assert.ok(!JSON.stringify(data).includes(FKEY) && !JSON.stringify(data).includes('fal.media'));
+  assert.equal(res.status, 200); assert.match(data.glb, /^\/api\/room3d\/mesh\?u=/);
+  assert.ok(!JSON.stringify(data).includes(FKEY));
+  // The mesh proxy only ever fetches fal's media host.
+  assert.equal((await fetch(`${base}/api/room3d/mesh?u=${encodeURIComponent('https://evil.example/x.glb')}`)).status, 404);
   const glb = await fetch(base + data.glb);
   assert.equal(glb.headers.get('content-type'), 'model/gltf-binary');
   assert.equal(Buffer.from(await glb.arrayBuffer()).toString(), 'glTF');

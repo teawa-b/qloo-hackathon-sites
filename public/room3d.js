@@ -49,7 +49,8 @@ const post = async (url, body) => {
   if (!res.ok) throw new Error(data.error || 'The 3D room could not be built.');
   return data;
 };
-const loadImage = async src => { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; await img.decode(); return img; };
+// onload rather than decode(): decode() can wait forever in a tab that is in the background.
+const loadImage = src => new Promise((resolve, reject) => { const img = new Image(); img.crossOrigin = 'anonymous'; img.onload = () => resolve(img); img.onerror = () => reject(new Error('The painting could not be loaded.')); img.src = src; });
 // Put the full painting on a mesh that was built from a small copy of it.
 function sharpen(gltf, img) {
   const tex = new THREE.Texture(img); tex.flipY = false; tex.colorSpace = THREE.SRGBColorSpace; tex.needsUpdate = true;

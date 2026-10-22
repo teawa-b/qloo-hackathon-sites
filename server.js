@@ -78,7 +78,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
   const custom = boundedMap(200), renders = boundedMap(300), worlds = boundedMap(200), runs = boundedMap(100), videos = new Map(), talks = boundedMap(100);
   const llm = chooseLlm(env, fetcher), imageModel = chooseImageModel(env, fetcher);
   const worldClient = env.WORLDLABS_API_KEY ? createWorlds({ key: env.WORLDLABS_API_KEY, model: env.WORLDLABS_MODEL || undefined, fetcher }) : null;
-  const depth3d = env.FAL_KEY ? createDepth3d({ key: env.FAL_KEY, fetcher }) : null, rooms3d = boundedMap(100);
+  const depth3d = env.FAL_KEY ? createDepth3d({ key: env.FAL_KEY, fetcher }) : null;
   const live = env.FAL_KEY ? createLive({ key: env.FAL_KEY, model: env.FAL_WORLD_MODEL || undefined, maxSeconds: Number(env.LIVE_MAX_SECONDS || 180), fetcher }) : null;
   const qlooHost = qlooHosts.includes(env.QLOO_API_HOST) ? env.QLOO_API_HOST : qlooHosts[0];
   const siteKey = sites[env.SITE] ? env.SITE : null, site = siteKey ? sites[siteKey] : null;
@@ -241,13 +241,13 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         res.writeHead(200, { 'Content-Type': render.type, 'Cache-Control': 'private, max-age=3600' });
         return res.end(render.bytes);
       }
-      // A room's 3D mesh, streamed from fal (see lib/depth3d.js).
-      match = path.match(/^\/api\/room3d\/([\w-]+)\.glb$/);
-      if (req.method === 'GET' && match) {
-        const room = rooms3d.get(match[1]);
-        if (!room) return send(404, { error: 'This 3D room has expired. Open it again from the room.' });
-        const upstream = await depth3d.open(room.url);
-        res.writeHead(200, { 'Content-Type': 'model/gltf-binary', 'Cache-Control': 'private, max-age=3600' });
+      // A room's 3D mesh, streamed from fal (see lib/depth3d.js). The link carries the fal file itself, so any
+      // server instance can answer it; only fal's own media host is ever fetched.
+      if (req.method === 'GET' && path === '/api/room3d/mesh') {
+        const src = url.searchParams.get('u') || '';
+        if (!depth3d || !/^https:\/\/[\w.-]+\.fal\.media\/[\w./-]+\.glb$/.test(src)) return send(404, { error: 'Not found' });
+        const upstream = await depth3d.open(src);
+        res.writeHead(200, { 'Content-Type': 'model/gltf-binary', 'Cache-Control': 'public, max-age=86400' });
         for await (const chunk of upstream.body) res.write(chunk);
         return res.end();
       }
@@ -562,9 +562,8 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       if (path === '/api/room3d') {
         if (!depth3d) return send(503, { error: '3D rooms need a fal key on the server.' });
         if (!limit.take('room3d', ip) || !limit.take('room3dDaily', 'all')) return send(429, { error: '3D room limit reached. Try again later.' });
-        const id = randomUUID();
-        rooms3d.set(id, await depth3d.build(body.image));
-        return send(200, { id, glb: `/api/room3d/${id}.glb`, fovX: rooms3d.get(id).fovX });
+        const room = await depth3d.build(body.image);
+        return send(200, { glb: `/api/room3d/mesh?${new URLSearchParams({ u: room.url })}`, fovX: room.fovX });
       }
 
       if (path === '/api/world') {

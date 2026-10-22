@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.claude/
+node_modules/
+outputs/
+video/
+docs/
+scripts/
+test/
+*.log

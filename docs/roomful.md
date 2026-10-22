@@ -14,7 +14,7 @@ Run it with `npm run start:room` (port 3301), or deploy with `SITE=room`.
 2. Look at the room: the painting, the name, and the first track playing from the room's Qloo playlist.
 3. Scroll to **Every choice, and the taste behind it**: each design choice names the Qloo result behind it. Anything Qloo did not return is marked unverified.
 4. Read **With and without Qloo**: the same favourites given to an LLM alone, each of its picks checked against Qloo.
-5. Click **Walk inside**. On the rain example this opens a real 3D room built from the painting by Hunyuan World (on fal): walk with W, A, S and D, look with the arrow keys or by dragging, or press Enter VR on a headset. Other rooms open fal's real-time world model instead.
+5. Click **Walk inside in 3D**. Roomful paints the room out to 21:9 (Luma Photon Reframe on fal), then lifts it into 3D (MoGe-2 on fal). Walk in with W, A, S and D, look with the arrow keys or by dragging, or press Enter VR on a headset. Every room gets one, in about 30 seconds, for about 2 cents.
 
 [Watch the explainer](video/roomful.mp4)
 
@@ -77,7 +77,7 @@ npm test
 ## Known limitations
 
 - The painting is a generated image of a room that doesn't exist; the walkthrough improvises beyond it.
-- The 3D room is reconstructed around the spot the painting was seen from, so walking is kept to a small circle there. Building one costs about $0.30 and 10 to 15 minutes, so only the rain example ships with one.
+- The 3D room is the painting with depth, seen from the front: you can step about a metre into it and look around a little, not turn all the way round. Furniture edges stretch when you move far sideways.
 - Favourites Qloo doesn't know (or only knows as something else) are skipped rather than guessed.
 - Music plays through YouTube embeds, found on the server without an API key; a track can occasionally be unavailable.
 

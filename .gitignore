@@ -15,3 +15,7 @@ video/*/sheet-*.png
 video/voices/
 video/*/sheet-*.png
 video/livetest/
+.vercel/
+
+.vercel
+.env*
