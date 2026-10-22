@@ -36,7 +36,7 @@ Tick that the other person knows you're using a conversation assistant, then let
 - **Steer clear.** Things they dislike are kept apart. "I can't stand superhero films" becomes a Qloo genre tag, never a film that happens to share a word.
 - **Say next.** Three short things you could say, each tied to a Qloo result for their taste. Anything that isn't from Qloo is marked.
 - **With and without Qloo.** The same conversation goes to an LLM alone. In the recorded sample, 1 of its 6 suggestions fits their taste (Aftersun). The rest are real but not what people with this taste rate.
-- **Three ways to see it.** The full view on a phone or laptop, a glasses view (one nudge, huge, white on black, for display glasses) and an AR/VR view where the nudges float in front of you in a Quest headset.
+- **Three ways to see it.** The full view on a phone or laptop, a glasses view (one nudge, huge, white on black, for display glasses) and an AR/VR view: a thin bar just below your eye line, like a subtitle, showing the one thing to say next as the conversation goes. On Quest it sits over the real room through passthrough.
 
 A recorded first coffee replays line by line, with no keys needed, so anyone can try it in seconds.
 
@@ -49,7 +49,7 @@ A Node 22 server with no build step. The browser records 6-second chunks of audi
 3. Qloo `/search` finds each one (a hit only counts if it shares a real word with what was said), and `/v2/tags` handles genres.
 4. Qloo `/v2/insights` with `signal.interests.entities` set to their taste returns what people like them also love, across music, film, TV, books, podcasts, brands and places. With your favourites added and `feature.explainability=true`, a pick counts as shared when both of you drive at least a quarter of it.
 5. The model writes three nudges using only names Qloo returned; a check flags anything else.
-6. The AR/VR view uses three.js and WebXR, with passthrough on Quest.
+6. The AR/VR view is a subtitle-style bar drawn with three.js and WebXR. It eases after your gaze so it stays readable, and sits over the real room through passthrough on Quest.
 
 On a serverless host each turn can land on a fresh instance, so the page sends the conversation's state back with each line. Tests run against a fake Qloo, LLM and speech service, and every paid call has per-visitor limits.
 
