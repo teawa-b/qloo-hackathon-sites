@@ -300,6 +300,8 @@ async function photoData(src) {
   try {
     const url = new URL(src, location.href);
     if (url.origin === location.origin || url.protocol !== 'https:') return null;
+    // The thumbnail on the page was cached without CORS, and that copy can't be read back: ask for a fresh one.
+    url.searchParams.set('cors', '1');
     const img = new Image(); img.crossOrigin = 'anonymous';
     await new Promise((ok, no) => { img.onload = ok; img.onerror = no; img.src = url.href; });
     const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
