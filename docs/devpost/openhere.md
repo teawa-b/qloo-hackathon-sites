@@ -67,7 +67,7 @@ You can point at an empty shop anywhere in the world and, in about a minute, see
 
 ## What we learned
 
-Location is a strong signal. The same café brief comes out completely differently in Parkdale and in Chelsea, and Qloo explains why.
+Location and audience change everything. The same emptied Dollarama becomes an indie music room for the people of Parkdale and a very different pop-up for Red Bull and Phoebe Bridgers fans, and Qloo explains each choice.
 
 ## What's next for Openhere
 

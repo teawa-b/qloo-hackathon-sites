@@ -53,7 +53,7 @@ const csp = {
   live: "default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   walk: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn} 'sha256-${importMapHash}' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${cdn} data: blob:; base-uri 'none'; frame-ancestors 'none'`,
   // Roomful plays its playlist through YouTube's search embed; its 3D room loads three.js from jsDelivr.
-  room: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' ${cdn}; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' blob: ${cdn}; base-uri 'none'; frame-ancestors 'none'`,
+  room: `default-src 'self'; img-src 'self' https: data: blob:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self' ${cdn}; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' blob: ${cdn}; base-uri 'none'; frame-ancestors 'none'`,
   lab: "default-src 'self'; img-src 'self' https:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'",
   // Pitchprep loads the Phosphor icon font from jsDelivr.
   pitch: `default-src 'self'; img-src 'self' https: data:; style-src 'self' ${cdn} https://fonts.googleapis.com; font-src https://fonts.gstatic.com ${cdn}; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'`,
@@ -277,7 +277,7 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       const origin = req.headers.origin;
       if (origin) { let host; try { host = new URL(origin).host; } catch {} if (host !== req.headers.host) return send(403, { error: 'Requests must come from this app.' }); }
       // Uploads and SmallTalk's audio chunks (6 s of speech, base64) need more room than the JSON endpoints.
-      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : path === '/api/talk/hear' ? 4_200_000 : path === '/api/room3d' ? 600_000 : 32_000);
+      const body = await readBody(req, path === '/api/spaces/custom' ? 9_000_000 : path === '/api/talk/hear' || path === '/api/agent' ? 4_800_000 : path === '/api/room3d' ? 600_000 : 32_000);
 
       // Instant demos: replay a recorded real run (no live calls, no run limit). See lib/demos.js.
       const demoSite = { '/api/agent': 'openhere', '/api/room': 'room', '/api/pitch': 'pitch' }[path];
@@ -315,7 +315,15 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
       }
 
       if (path === '/api/agent') {
-        const found = findSpace(String(body.spaceId || ''));
+        // A live listing found by another server instance is sent back by the page; only its plain details are kept.
+        const sent = body.space && typeof body.space === 'object' && /^loopnet-[\w-]{1,40}$/.test(String(body.space.id || '')) && Number.isFinite(body.space.lat) && Number.isFinite(body.space.lng)
+          ? Object.fromEntries(Object.entries({ id: body.space.id, kind: 'live', title: body.space.title, address: body.space.address, city: body.space.city, neighborhood: body.space.neighborhood, rentText: body.space.rentText, sizeText: body.space.sizeText, formerUse: body.space.formerUse, photo: body.space.photo, lat: body.space.lat, lng: body.space.lng }).map(([k, v]) => [k, typeof v === 'string' ? v.slice(0, 300) : v]))
+          : null;
+        let found = findSpace(String(body.spaceId || '')) || (sent?.id === body.spaceId ? sent : null);
+        // Listing sites (LoopNet) refuse downloads from cloud servers, fal's included, but the visitor's browser can
+        // read the photo; the page sends it, and the redesign edits those exact pixels.
+        const sentPhoto = String(body.photoData || '').match(/^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/);
+        if (found && sentPhoto) { const bytes = Buffer.from(sentPhoto[1], 'base64'); if (bytes.length <= 3_500_000) found = { ...found, photoBytes: bytes, photoType: 'image/jpeg' }; }
         // A live listing has a gallery; the user picks which room to redesign (only photos from that listing).
         const chosen = found && body.photo && found.photos?.includes(body.photo) ? { ...found, photo: body.photo } : found;
         const space = chosen && aspectRatios.includes(body.aspect) ? { ...chosen, aspect: body.aspect } : chosen;
@@ -424,10 +432,19 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
         const mine = (Array.isArray(body.mine) ? body.mine : String(body.mine || '').split(',')).map(s => String(s).trim().slice(0, 60)).filter(Boolean);
         if (mine.length) await talk.setMine(mine);
         talks.set(id, { talk, busy: Promise.resolve(), qloo: createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher }) });
-        return send(200, { id, view: talk.view(), stt: Boolean(env.FAL_KEY) });
+        return send(200, { id, view: talk.view(), state: talk.snapshot(), stt: Boolean(env.FAL_KEY) });
       }
+      // The page sends the conversation's snapshot back with each turn, so an instance that has not seen this
+      // conversation yet can pick it up.
+      const findTalk = () => {
+        const id = String(body.id || '');
+        if (talks.get(id)) return talks.get(id);
+        if (!/^[\w-]{8,64}$/.test(id) || !body.state || typeof body.state !== 'object' || !llm || !env.QLOO_API_KEY) return null;
+        const qloo = createQloo({ key: env.QLOO_API_KEY, host: qlooHost, fetcher });
+        return talks.set(id, { talk: createTalk({ qloo, llm: llm.fast || llm, saved: body.state }), busy: Promise.resolve(), qloo });
+      };
       if (path === '/api/talk/hear') {
-        const entry = talks.get(String(body.id || ''));
+        const entry = findTalk();
         if (!entry) return send(404, { error: 'That conversation has ended. Start a new one.' });
         if (!limit.take('talkTurn', ip)) return send(429, { error: 'Slow down a little.' });
         const who = body.who === 'me' ? 'me' : 'them';
@@ -437,17 +454,17 @@ export function createApp({ env = process.env, fetcher = fetch } = {}) {
           if (String(body.audio).length > 4_000_000) return send(413, { error: 'Audio chunk too large.' });
           text = await transcribe({ key: env.FAL_KEY, audio: body.audio, fetcher });
         }
-        if (!text) return send(200, { heard: '', view: entry.talk.view() });
+        if (!text) return send(200, { heard: '', view: entry.talk.view(), state: entry.talk.snapshot() });
         // One turn at a time per conversation, so mentions and suggestions stay in order.
         const turn = entry.busy.then(() => entry.talk.hear(text, who));
         entry.busy = turn.catch(() => {});
         await turn;
-        return send(200, { heard: text, who, view: entry.talk.view() });
+        return send(200, { heard: text, who, view: entry.talk.view(), state: entry.talk.snapshot() });
       }
 
       // With and without Qloo for a conversation so far: the main model alone, checked against Qloo's results.
       if (path === '/api/talk/compare') {
-        const entry = talks.get(String(body.id || ''));
+        const entry = findTalk();
         if (!entry) return send(404, { error: 'That conversation has ended. Start a new one.' });
         if (!entry.talk.state.them.size) return send(400, { error: 'Wait until they have mentioned something they love.' });
         if (!limit.take('baseline', ip)) return send(429, { error: 'Comparison limit reached. Try again later.' });

@@ -294,6 +294,23 @@ async function openDemo(slug) {
   } catch (error) { toast(error.message); }
 }
 
+// Listing sites refuse photo downloads from cloud servers, but this page can read the photo, so it sends the pixels
+// along with the run (resized to at most 1600 px). Returns null when the photo can't be read here.
+async function photoData(src) {
+  try {
+    const url = new URL(src, location.href);
+    if (url.origin === location.origin || url.protocol !== 'https:') return null;
+    const img = new Image(); img.crossOrigin = 'anonymous';
+    await new Promise((ok, no) => { img.onload = ok; img.onerror = no; img.src = url.href; });
+    const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', 0.88);
+  } catch { return null; }
+}
+// The words under the hourglass while the room is being made.
+const painting = text => { $('shimmer-text').textContent = text; };
+
 async function openStudio(space, photo = null, demo = null) {
   if (running) return;
   if (!demo && !config.qloo) return toast('This server has no Qloo key yet, so the agent cannot run.');
@@ -304,7 +321,7 @@ async function openStudio(space, photo = null, demo = null) {
   const studio = $('studio'); studio.hidden = false; studio.classList.remove('enter'); void studio.offsetWidth; studio.classList.add('enter');
   $('studio-place').textContent = `${activation ? 'Activation: ' : ''}${bizLabel()}, ${space.neighborhood || space.city}`;
   $('c-name').textContent = activation ? 'Reading the fans…' : 'Reading the neighborhood…'; $('c-tag').textContent = space.title; $('c-body').hidden = true;
-  $('before').src = safeUrl(photo || space.photo); $('after-wrap').hidden = true; $('slider').hidden = true; $('l-after').hidden = true; $('shimmer').hidden = false;
+  $('before').src = safeUrl(photo || space.photo); $('after-wrap').hidden = true; $('slider').hidden = true; $('l-after').hidden = true; $('shimmer').hidden = false; painting(activation ? 'Reading the fans…' : 'Reading the neighbourhood…');
   $('live').className = 'live'; $('live-text').textContent = 'Starting the agent…'; $('steps').replaceChildren(); $('log').replaceChildren(); $('walk-status').hidden = true;
   const pending = new Map();
   try {
@@ -312,7 +329,7 @@ async function openStudio(space, photo = null, demo = null) {
     // Image edits can take a minute; the server pings every 15 s, so three missed pings means the stream is dead.
     const stall = new AbortController();
     let watchdog = setTimeout(() => stall.abort(), 50000);
-    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}), ...(demo ? { demo, pace: new URLSearchParams(location.search).get('pace') } : {}) }), signal: stall.signal });
+    const res = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ spaceId: space.id, business, aspect, ...(activation ? { activation } : {}), ...(photo ? { photo } : {}), ...(demo ? { demo, pace: new URLSearchParams(location.search).get('pace') } : { photoData: await photoData(photo || space.photo), space: space.kind === 'live' ? space : undefined }) }), signal: stall.signal });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'The agent could not start.');
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buffer = '';
@@ -347,6 +364,7 @@ function handle(ev, pending) {
   else if (ev.type === 'thought') { logItem('thought', ev.text); }
   else if (ev.type === 'tool_call') {
     $('live-text').textContent = (say[ev.name] || (() => ev.name))(ev.input || {}) + '…';
+    if (ev.name === 'render_redesign') painting(activation ? 'Building the activation into the room…' : 'Painting your redesign. About 30 seconds…');
     const dot = el('i'); $('steps').append(dot);
     const li = logItem('tool', ''); li.querySelector('p').remove();
     li.append(el('div', 't', ev.name + (ev.input?.facet ? ` · ${ev.input.facet}` : ev.input?.type ? ` · ${ev.input.type}` : '')), el('p', '', '…'));
@@ -362,7 +380,7 @@ function handle(ev, pending) {
   } else if (ev.type === 'final') {
     concept = ev.concept; if (ev.render && !render) showRender(ev.render, { sweep: true }); showConcept(ev.concept); renderCharts();
     if (ev.concept.heatmap) paintHeat(ev.concept.heatmap);
-    $('live').className = 'live done'; $('live-text').textContent = render ? 'Done. Drag the image to compare.' : 'Done (no image model on this server)';
+    $('live').className = 'live done'; $('live-text').textContent = render ? 'Done. Drag the image to compare.' : 'Done, but the room could not be painted this time. Run it again, or pick another photo.';
   } else if (ev.type === 'error') { fail(ev.message); logItem('err', ev.message); }
   else if (ev.type === 'done') { logItem('', `${ev.qlooCalls?.length || 0} Qloo API calls`); runId = ev.runId || null; if (concept && (demoSlug || (runId && config.llm))) offerBaseline(); }
 }
@@ -620,7 +638,7 @@ function showConcept(c) {
 $('refine').addEventListener('submit', async e => {
   e.preventDefault();
   const instruction = $('refine-input').value.trim(); if (!instruction || !render) return;
-  $('shimmer').hidden = false; $('live').className = 'live'; $('live-text').textContent = 'Applying your change…';
+  $('shimmer').hidden = false; painting('Applying your change…'); $('live').className = 'live'; $('live-text').textContent = 'Applying your change…';
   try { const { render: next } = await api('/api/refine', { renderId: render.id, instruction }); showRender(next); $('refine-input').value = ''; $('live').className = 'live done'; $('live-text').textContent = 'Updated. Drag to compare.'; }
   catch (error) { $('live').className = 'live fail'; $('live-text').textContent = error.message; }
   finally { $('shimmer').hidden = true; }

@@ -14,8 +14,8 @@ async function api(path, body) {
 
 async function start() {
   if (!$('consent').checked) { toast('Tick the box first: the other person should know.'); $('consent').focus(); return false; }
-  const { id, view: v } = await api('/api/talk/start', { consent: true, mine: $('mine').value });
-  session = id; render(v);
+  const { id, view: v, state } = await api('/api/talk/start', { consent: true, mine: $('mine').value });
+  session = id; saved = state; render(v);
   $('setup').hidden = true; $('hud').hidden = false; $('compare').hidden = false;
   if (navigator.xr) navigator.xr.isSessionSupported('immersive-ar').then(ar => ar || navigator.xr.isSessionSupported('immersive-vr')).then(ok => { $('xr').hidden = !ok; }).catch(() => {});
   return true;
@@ -49,11 +49,14 @@ async function loop() {
 const dataUri = blob => new Promise(r => { const f = new FileReader(); f.onload = () => r(String(f.result).replace(/^data:audio\/webm;codecs=opus;/, 'data:audio/webm;')); f.readAsDataURL(blob); });
 
 // Turns are sent in order; the server answers with the whole updated view.
+// The conversation so far, as the server last described it; sent back with each turn so any server instance can
+// carry on (the server is stateless between turns when hosted on Vercel).
+let saved = null;
 let queue = Promise.resolve();
 function send(body) {
   queue = queue.then(async () => {
     status('Thinking', true);
-    try { const r = await api('/api/talk/hear', { id: session, ...body }); if (r.heard) line(r.who, r.heard); render(r.view); }
+    try { const r = await api('/api/talk/hear', { id: session, state: saved, ...body }); if (r.state) saved = r.state; if (r.heard) line(r.who, r.heard); render(r.view); }
     catch (error) { toast(error.message); }
     finally { status(recording ? 'Listening' : demoTimer ? 'Sample conversation' : 'Paused'); }
   });
@@ -65,7 +68,7 @@ function line(who, text) { const li = el('li', who); li.append(el('b', '', who =
 // against what Qloo returned for their taste. The sample carries a recorded comparison; a live one asks the server.
 $('compare').addEventListener('click', async () => {
   $('compare').disabled = true;
-  try { showCompare(sample?.compare && !session ? sample.compare : await api('/api/talk/compare', { id: session })); }
+  try { showCompare(sample?.compare && !session ? sample.compare : await api('/api/talk/compare', { id: session, state: saved })); }
   catch (error) { toast(error.message); }
   finally { $('compare').disabled = false; }
 });

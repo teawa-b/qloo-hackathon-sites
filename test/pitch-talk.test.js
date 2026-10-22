@@ -121,4 +121,11 @@ test('talk: consent first, typed or transcribed lines become a Qloo taste profil
   assert.deepEqual(cmp.picks.map(p => [p.name, p.verdict]), [['Lucy Dacus', 'ranked'], ['Uber', 'known'], ['Imaginary Band', 'unknown']]);
   assert.equal((await post(base, '/api/talk/hear', { id, audio: 'data:text/html;base64,PGI+' })).status, 400);
   assert.equal((await post(base, '/api/talk/hear', { id: 'nope', text: 'hi' })).status, 404);
+  // On a serverless host the next turn may reach a fresh instance: the page sends the snapshot back and the
+  // conversation carries on there.
+  const fresh = await serve(t, { QLOO_API_KEY: QKEY, OPENROUTER_API_KEY: OKEY, FAL_KEY: FKEY }, fetcher);
+  const resumed = await post(fresh, '/api/talk/hear', { id, state: genre.state, text: 'Anyway, how was your week?', who: 'them' }).then(r => r.json());
+  assert.deepEqual(resumed.view.them.map(e => e.name), ['Sally Rooney', 'Past Lives']);
+  assert.deepEqual(resumed.view.avoid.map(e => e.name), ['Marvel', 'Superhero']);
+  assert.ok(resumed.view.lines.some(l => /Sally Rooney/.test(l.text)), 'the transcript comes along too');
 });

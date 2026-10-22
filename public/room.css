@@ -86,7 +86,11 @@ label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
 .stage.ready img { opacity: 1; transform: none; }
 /* Skeleton: the shape of the picture, with a light sweep while it is being made. */
 .skeleton { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--surface) 70%, transparent) 50%, transparent 70%) 0 0 / 250% 100%, var(--raised); animation: sweep 1.8s linear infinite; }
-.skeleton::after { content: "Your room is being designed"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 17px; font-weight: 500; color: var(--muted); letter-spacing: -.01em; }
+/* While the room is being made: an hourglass and a line saying what is happening. */
+.skeleton .painting { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--surface); color: var(--text); box-shadow: 0 6px 24px #00000014; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.skeleton .painting i { font-size: 22px; color: var(--accent); animation: hourglass 1.6s ease-in-out infinite; }
+@keyframes hourglass { 0%, 40% { transform: rotate(0deg); } 50%, 90% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .skeleton .painting i { animation: none; } }
 .panel { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 20px; animation: enter .7s var(--ease) both; }
 .status { margin: 0; font-size: 14px; color: var(--accent); font-weight: 500; }
 .panel h1 { font-size: clamp(32px, 3.2vw, 44px); line-height: 1.05; }

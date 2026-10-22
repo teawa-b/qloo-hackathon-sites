@@ -32,7 +32,7 @@ async function build(text, demo = null) {
   $('intro').hidden = true; $('build').hidden = false; $('build').classList.remove('complete');
   scrollTo({ top: 0 });
   $('steps').replaceChildren(); $('r-body').hidden = true; $('hero-actions').hidden = true; $('refine').hidden = true;
-  $('hero-img').removeAttribute('src'); $('hero').classList.remove('ready'); $('hero-shimmer').hidden = false;
+  $('hero-img').removeAttribute('src'); $('hero').classList.remove('ready'); $('hero-shimmer').hidden = false; $('hero-shimmer-text').textContent = 'Reading your taste…';
   $('r-kicker').textContent = 'Reading your taste'; $('r-name').textContent = text.split(',').slice(0, 3).join(', '); $('r-tag').textContent = '';
   const pending = new Map();
   try {
@@ -64,7 +64,7 @@ function failed(message) {
 }
 
 function handle(ev, pending) {
-  if (ev.type === 'step') { const li = el('li', 'busy'); li.append(el('span', 'dot'), el('span', '', ev.label)); $('steps').append(li); pending.set(ev.id, li); $('r-kicker').textContent = ev.label; }
+  if (ev.type === 'step') { const li = el('li', 'busy'); li.append(el('span', 'dot'), el('span', '', ev.label)); $('steps').append(li); pending.set(ev.id, li); $('r-kicker').textContent = ev.label; $('hero-shimmer-text').textContent = ev.id === 'paint' ? 'Painting your room. About 30 seconds…' : 'Reading your taste…'; }
   else if (ev.type === 'step_done') { const li = pending.get(ev.id); if (li) { li.className = 'done'; if (ev.summary) li.append(el('small', '', ev.summary)); } }
   else if (ev.type === 'step_error') { const li = pending.get(ev.id); if (li) { li.className = 'err'; li.append(el('small', '', ev.message)); } }
   else if (ev.type === 'final') show(ev);
@@ -178,7 +178,7 @@ $('refine').addEventListener('submit', async e => {
   e.preventDefault();
   const instruction = $('refine-input').value.trim(); if (!instruction || !render) return;
   const button = $('refine').querySelector('button'); button.disabled = true; button.textContent = 'Repainting…';
-  $('hero').classList.remove('ready'); $('hero-shimmer').hidden = false;
+  $('hero').classList.remove('ready'); $('hero-shimmer').hidden = false; $('hero-shimmer-text').textContent = 'Repainting your room…';
   try {
     const { render: next } = await api('/api/refine', { renderId: render.id, instruction });
     render = next; const img = $('hero-img'); img.src = safeUrl(next.url);
