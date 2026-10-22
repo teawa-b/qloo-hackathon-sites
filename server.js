@@ -21,7 +21,7 @@ import { parseInterests, entityList as labEntities, insightParams } from './lab/
 
 const files = {
   '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'], '/openhere.css': ['openhere.css', 'text/css'],
-  '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'],
+  '/walk': ['walk.html', 'text/html'], '/walk.js': ['walk.js', 'text/javascript'], '/favicon.svg': ['favicon.svg', 'image/svg+xml'], '/sound.js': ['sound.js', 'text/javascript'],
   '/live': ['live.html', 'text/html'], '/live.js': ['live.js', 'text/javascript'],
   '/room3d': ['room3d.html', 'text/html'], '/room3d.js': ['room3d.js', 'text/javascript'],
   '/room':['room.html', 'text/html'], '/room.js': ['room.js', 'text/javascript'], '/room.css': ['room.css', 'text/css'],
@@ -40,7 +40,7 @@ export const sites = {
   talk: { name: 'SmallTalk', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js', '/talk.css', '/img/'], api: ['/api/talk/'] },
   lab: { name: 'Taste Lab', home: '../lab/public/index.html', csp: 'lab', port: 3304, pages: ['/lab/app.js', '/lab/style.css'], api: ['/api/lab/'] }
 };
-const sharedPages = ['/style.css', '/favicon.svg'], sharedApi = ['/api/config', '/api/health', '/api/demos'];
+const sharedPages = ['/style.css', '/favicon.svg', '/sound.js'], sharedApi = ['/api/config', '/api/health', '/api/demos'];
 const cdn = 'https://cdn.jsdelivr.net';
 // The walkthrough's import map is inline, so it is allowed by hash rather than 'unsafe-inline'.
 const walkHtml = await readFile(new URL('./public/walk.html', import.meta.url), 'utf8');
