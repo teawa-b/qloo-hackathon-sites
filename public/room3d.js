@@ -106,10 +106,11 @@ $('w3-load').hidden = true;
 // Keys: walking and looking; the matching on-screen key lights up.
 const held = new Set();
 const key = (k, on) => { const el = document.querySelector(`[data-k="${k}"]`); if (el) el.classList.toggle('on', on); on ? held.add(k) : held.delete(k); };
-addEventListener('keydown', e => { const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowleft', 'arrowright', 'arrowup', 'arrowdown'].includes(k)) { e.preventDefault(); key(k, true); } });
+// A real key or drag always hands the clock back to the person, even after a filming script has driven it.
+addEventListener('keydown', e => { const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowleft', 'arrowright', 'arrowup', 'arrowdown'].includes(k)) { e.preventDefault(); manual = false; key(k, true); } });
 addEventListener('keyup', e => key(e.key.toLowerCase(), false));
 let drag = null;
-canvas.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointerdown', e => { manual = false; drag = [e.clientX, e.clientY]; canvas.setPointerCapture(e.pointerId); });
 canvas.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX - drag[0]) * 0.004; pitch = pitch - (e.clientY - drag[1]) * 0.004; drag = [e.clientX, e.clientY]; });
 canvas.addEventListener('pointerup', () => { drag = null; });
 
