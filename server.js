@@ -34,7 +34,7 @@ const files = {
 // home page at "/", its own pages and only its own API routes. Without SITE (tests, quick local runs)
 // every page is served at its own path and "/" is Openhere.
 export const sites = {
-  openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/'] },
+  openhere: { name: 'Openhere', home: 'index.html', csp: 'app', port: 3300, pages: ['/app.js', '/openhere.css', '/img/', '/walk', '/walk.js', '/live', '/live.js', '/room3d', '/room3d.js', '/room.css'], api: ['/api/spaces', '/api/geocode', '/api/reverse', '/api/photo/', '/api/agent', '/api/baseline', '/api/relight', '/api/refine', '/api/render/', '/api/world', '/api/live/', '/api/room3d'] },
   room: { name: 'Roomful', home: 'room.html', csp: 'room', port: 3301, pages: ['/room.js', '/room.css', '/img/', '/live', '/live.js', '/room3d', '/room3d.js'], api: ['/api/room', '/api/yt', '/api/refine', '/api/render/', '/api/live/', '/api/room3d'] },
   pitch: { name: 'Pitchprep', home: 'pitch.html', csp: 'pitch', port: 3302, pages: ['/pitch.js', '/pitch.css', '/img/'], api: ['/api/pitch'] },
   talk: { name: 'SmallTalk', home: 'talk.html', csp: 'talk', port: 3303, pages: ['/talk.js', '/talk-xr.js', '/talk.css', '/img/'], api: ['/api/talk/'] },

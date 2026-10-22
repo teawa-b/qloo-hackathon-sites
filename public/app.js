@@ -393,7 +393,7 @@ function offerBaseline() {
       box.append(el('p', 'baseline-foot', `LLM alone: ${b.model}. "Holds up" means the exact name appeared in Qloo's top results for this crowd during the run. Everything Openhere picked above came from those results.`));
     } catch (error) { run.disabled = false; run.textContent = 'Run the check'; toast(error.message); }
   });
-  $('walk').after(box);
+  $('walk').closest('.walk-row').after(box);
   if (demoSlug) run.click();
 }
 function logItem(cls, text) { const li = el('li', cls); li.append(el('p', '', text)); $('log').append(li); return li; }
@@ -611,9 +611,10 @@ function showConcept(c) {
     placed.slate = slate;
   }
   // Most important first: the fit, then the programme, then partners.
-  $('walk').after(...[placed.fit, placed.slate, placed.partners].filter(Boolean));
+  $('walk').closest('.walk-row').after(...[placed.fit, placed.slate, placed.partners].filter(Boolean));
   $('c-body').hidden = false;
   $('refine').hidden = !render; $('walk').hidden = !render || !(config.liveWorld || config.world);
+  $('walk3d').hidden = !render || !config.room3d;
 }
 
 $('refine').addEventListener('submit', async e => {
@@ -625,6 +626,10 @@ $('refine').addEventListener('submit', async e => {
   finally { $('shimmer').hidden = true; }
 });
 
+// The redesign lifted into 3D (widened, then given depth; see lib/depth3d.js): walk it with WASD or on a headset.
+$('walk3d').addEventListener('click', () => {
+  if (render) window.open(`/room3d?${new URLSearchParams({ img: render.url, name: concept?.name || '' })}`, '_blank', 'noopener');
+});
 $('walk').addEventListener('click', async () => {
   if (!render) return;
   // Real-time world model (fal Lingbot World 2) when available; World Labs splats otherwise.

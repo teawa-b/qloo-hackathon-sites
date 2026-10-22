@@ -13,6 +13,12 @@ const name = params.get('room') || '';
 const painting = (() => { try { const u = new URL(params.get('img'), location.origin); return params.has('img') && (u.origin === location.origin || /\.fal\.media$/.test(u.hostname)) ? u.href : null; } catch { return null; } })();
 const file = /^[a-z0-9-]{1,60}$/.test(name) ? `/img/${name}.glb` : null;
 $('w3-name').textContent = params.get('name') || '';
+// The same viewer serves Openhere's redesigns: show whichever app opened it.
+fetch('/api/config').then(r => r.json()).then(c => {
+  if (c.site !== 'openhere') return;
+  const mark = document.querySelector('.wordmark'); mark.querySelector('img').src = '/img/openhere-180.png'; mark.querySelector('span').textContent = 'Openhere';
+  document.title = 'Walk inside, Openhere'; document.querySelector('link[rel=icon]').href = '/img/openhere-32.png';
+}).catch(() => {});
 $('w3-note').textContent = painting || name.endsWith('-depth') ? 'The painting, lifted into 3D. Step in with W and look around the furniture.' : 'A 3D room built from the painting by Hunyuan World. It looks best near where you start.';
 
 const canvas = $('view');

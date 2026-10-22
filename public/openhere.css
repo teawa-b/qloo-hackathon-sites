@@ -186,6 +186,8 @@ img { display: block; }
 .cta:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-1px); }
 .cta:active:not(:disabled) { transform: translateY(1px) scale(.98); }
 .cta.ghost { background: var(--raised); color: var(--text); font-size: 15px; padding: 11px 18px; align-self: flex-start; }
+.walk-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.walk-row .cta.ghost { align-self: center; }
 .walk-status { margin: -6px 0 0; font-size: 13px; color: var(--accent); }
 .refine { display: flex; gap: 6px; padding: 5px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
 .refine:focus-within { border-color: var(--accent); }
